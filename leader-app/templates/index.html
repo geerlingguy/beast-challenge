@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>{% block title %} Votes {% endblock %}</h1>
+    {% for vote in votes %}
+        <div class='vote'>
+            <p>{{ vote['created'] }}</p>
+            <p>Station value: {{ vote['station'] }}</p>
+            <p>Vote value: {{ vote['button'] }}</p>
+        </div>
+    {% endfor %}
+{% endblock %}
