@@ -4,13 +4,21 @@ from flask import Flask, json, jsonify, render_template
 app = Flask(__name__)
 
 def get_db_connection():
-    conn = sqlite3.connect('database.db')
+    conn = sqlite3.connect('database.sqlite')
     conn.row_factory = sqlite3.Row
     return conn
 
-# TODO REWRITE THIS FOR RETRIEVING DATA FROM SQLite.
-votes = [{'Item': 'Rice', 'Price': 10},{'Item': 'Chicken','Price': 20},{'Item':'Fish', 'Price': 20}]
+# TODO REMOVE THIS ONCE COMPLETE
+totals = [{'yes': 92, 'no': 10}]
 rounds = []
+
+def get_totals_for_round(round = ''):
+    # TODO: Get round metadata (including start and end time)
+    # If no end time, set end time as 'now'
+    # Get all votes that have CREATED between start end end time
+    # Tally up count of 1 and count of 0
+    # Return those to tallies
+    totals = [{'yes': 92, 'no': 10}]
 
 # Default route.
 @app.route('/')
@@ -19,6 +27,15 @@ def index():
     votes = conn.execute('SELECT * FROM votes').fetchall()
     conn.close()
     return render_template('index.html', votes=votes)
+
+# Tally of all votes displayed on a web page.
+@app.route('/tally')
+def tally():
+    conn = get_db_connection()
+    # TODO: Need to select the MOST RECENT vote for each station in current round
+    votes = conn.execute('SELECT * FROM votes ORDER BY created DESC').fetchall()
+    conn.close()
+    return render_template('tally.html', votes=votes)
 
 # Vote route.
 @app.route('/votes',methods = ['GET', 'PUT'])
