@@ -9,7 +9,10 @@ with open('schema.sql') as f:
 
 cur = connection.cursor()
 
-# Populate the database with some values.
+# Populate the rounds table with some values.
+cur.execute("INSERT INTO rounds (name) VALUES (?)", ('round_1',))
+
+# Populate the votes table with some values.
 cur.execute("INSERT INTO votes (station, button) VALUES (?,?)", (1,1,))
 time.sleep(0.001)
 cur.execute("INSERT INTO votes (station, button) VALUES (?,?)", (2,1,))
@@ -29,7 +32,9 @@ time.sleep(0.001)
 cur.execute("INSERT INTO votes (station, button) VALUES (?,?)", (2,1,))
 time.sleep(0.005)
 cur.execute("INSERT INTO votes (station, button) VALUES (?,?)", (2,0,))
-cur.execute("INSERT INTO rounds (name) VALUES (?)", ('round_1',))
+
+# TODO: Populate the current_round table with the current round.
+# TODO: Populate the stations table with MAC addresses and station IDs for all the Potatoes.
 
 connection.commit()
 connection.close()

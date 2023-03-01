@@ -21,3 +21,20 @@ To develop it locally, run:
   5. Run app: `FLASK_APP=app FLASK_DEBUG=true flask run`
 
 Visit the app at http://127.0.0.1:5000
+
+## Station app
+
+The Station app runs on every one of the 100x rooms where SBCs are set up to run the room controls.
+
+The app controls the following:
+
+  1. Yes / No buttons (GPIO digital inputs)
+  2. RGBW LED light strip control (GPIO digital outputs)
+
+TODO: Build the app
+
+## Automation for Controlling the Stations
+
+The `automation` directory contains Ansible configuration for managing the fleet of 100 station nodes. We have to use something like Ansible because managing 100 nodes by hand would be insane.
+
+TODO: Build the automation

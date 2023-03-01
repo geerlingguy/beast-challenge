@@ -14,3 +14,6 @@ CREATE TABLE rounds (
     closed TIMESTAMP DATETIME,
     name TEXT NOT NULL
 );
+
+--- TODO: create table current_round to track what round we are currently in
+--- TODO: create table stations to track stations (maybe associate MAC address to station ID?)
