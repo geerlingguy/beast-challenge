@@ -6,13 +6,15 @@
             <thead style="text-align: left;">
                 <th>Created</th>
                 <th>Station</th>
+                <th>Round</th>
                 <th>Value</th>
             </thead>
             {% for vote in votes %}
                 <tr>
                     <td>{{ vote['created'] }}</td>
-                    <td>{{ vote['station'] }}</td>
-                    <td>{{ vote['button'] }}</td>
+                    <td>{{ vote['station_id'] }}</td>
+                    <td>{{ vote['round_id'] }}</td>
+                    <td>{{ vote['value'] }}</td>
                 </div>
             {% endfor %}
         </table>

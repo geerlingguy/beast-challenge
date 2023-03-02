@@ -32,9 +32,16 @@ def index():
 @app.route('/tally')
 def tally():
     conn = get_db_connection()
+    current_round = conn.execute('SELECT * FROM rounds WHERE is_current = 1').fetchone()
     # TODO: Need to select the MOST RECENT vote for each station in current round
-    votes = conn.execute('SELECT * FROM votes ORDER BY created DESC').fetchall()
+    votes = conn.execute('SELECT * FROM votes WHERE round_id = ? ORDER BY created DESC', (2,)).fetchall()
+    # TODO: Sum how many voted 0 and how many voted 1
     conn.close()
+    # TODO: This is for demo only.
+    votes = [
+        {'label': current_round['value_0'], 'value': 13},
+        {'label': current_round['value_1'], 'value': 42}
+    ]
     return render_template('tally.html', votes=votes)
 
 # Vote route.
@@ -73,21 +80,5 @@ def rounds():
             response.status_code = 404
         else :
             response = jsonify({'Rounds': rounds})
-            response.status_code = 200
-        return response
-
-    # POST Method to add a round
-    elif request.method == 'POST':
-        response = {}
-        payload = request.get_json()
-        id1 = int(payload['id'])
-        if id1 == len(votes):
-            response = jsonify({'Status': 'Not in rounds'})
-            response.status_code = 404
-        elif votes[id1] in rounds:
-            for i in rounds:
-                if i['Item'] == votes[id1]['Item']:
-                    i['Quantity'] += 1
-            response = jsonify({'Status': 'Updated quantity', 'Item': votes[id1]})
             response.status_code = 200
         return response
