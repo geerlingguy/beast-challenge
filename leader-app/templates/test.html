@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container mt-2 test-display">
+        <h2>Latest Vote</h2>
+            <table class="latest-vote">
+                <tr>
+                    <td style="width: 50%;">
+                        <span class="label">Room</span><br>
+                        <span class="value">{{ votes[0].room_id }}</span>
+                    </td>
+                    <td style="width: 50%;">
+                        <span class="label">Button</span><br>
+                        <span class="value">{{ votes[0].value }}</span>
+                    </td>
+                </div>
+            </table>
+        <h2 class="mt-2">Recent Votes</h2>
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Room</th>
+              <th scope="col">Time</th>
+              <th scope="col">Value</th>
+              <th scope="col">Round</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for vote in votes %}
+                <tr>
+                    <th scope="row">{{ vote.room_id }}</th>
+                    <td>{{ vote.created }}</td>
+                    <td>{{ vote.value }}</td>
+                    <td>{{ vote.round_id }}</td>
+                </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        <p>TODO: Table of recent vote data goes here.</p>
+    </div>
+    <!-- Refresh page every 5 seconds -->
+    <script type="text/javascript">
+        setTimeout(function () { location.reload(1); }, 5000);
+    </script>
+{% endblock %}

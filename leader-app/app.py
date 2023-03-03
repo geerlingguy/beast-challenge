@@ -24,6 +24,14 @@ def index():
     conn.close()
     return render_template('index.html', votes=votes)
 
+# Test mode page.
+@app.route('/test')
+def test():
+    conn = get_db_connection()
+    votes = conn.execute('SELECT * FROM votes ORDER BY created DESC LIMIT 10').fetchall()
+    conn.close()
+    return render_template('test.html', votes=votes)
+
 # Tally of all votes displayed on a web page.
 @app.route('/tally')
 def tally():
