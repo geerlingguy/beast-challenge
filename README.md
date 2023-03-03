@@ -28,7 +28,7 @@ The Room app runs on every one of the 100x rooms where SBCs are set up to run th
 
 The app controls the following:
 
-  1. Yes / No buttons (GPIO digital inputs)
+  1. Buttons and Button LEDs (GPIO digital inputs)
   2. RGBW LED light strip control (GPIO digital outputs)
 
 TODO: Build the app
@@ -38,3 +38,11 @@ TODO: Build the app
 The `automation` directory contains Ansible configuration for managing the fleet of 100 room nodes. We have to use something like Ansible because managing 100 nodes by hand would be insane.
 
 TODO: Build the automation
+
+## Screenshots
+
+![Tally Page Example](/resources/screenshots/tally-example.png)
+
+![Round Control UI](/resources/screenshots/round-control-example.png)
+
+![Testing Page UI](/resources/screenshots/testing-page-example.png)
