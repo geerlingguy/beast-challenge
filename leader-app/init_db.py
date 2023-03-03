@@ -23,8 +23,9 @@ cur.execute("INSERT INTO rooms (room_id, mac_address) VALUES (?,?)", (10,"b8:27:
 
 # Populate the rounds table with some values.
 time_now = time.strftime("%Y-%m-%d %H:%M:%f", time.gmtime())
-cur.execute("INSERT INTO rounds (round_id, start_time, close_time, is_accepting_votes, is_current, value_0, value_1) VALUES (?,?,?,?,?,?,?)", (1,"2023-03-01 23:36:37.171","2023-03-01 23:38:23.249",0,0,"No","Yes"))
-cur.execute("INSERT INTO rounds (round_id, start_time, is_accepting_votes, is_current, value_0, value_1) VALUES (?,?,?,?,?,?)", (2,time_now,1,1,"Chicken","Egg"))
+cur.execute("INSERT INTO rounds (round_id, start_time, close_time, is_accepting_votes, is_current, value_0, value_1, value_2) VALUES (?,?,?,?,?,?,?,?)", (1,"2023-03-01 23:36:37.171","2023-03-01 23:38:23.249",0,0,"No","Yes","Maybe"))
+cur.execute("INSERT INTO rounds (round_id, start_time, close_time, is_accepting_votes, is_current, value_0, value_1) VALUES (?,?,?,?,?,?,?)", (2,"2023-03-01 23:39:23.249","2023-03-01 23:42:23.249",1,1,"Yes","No"))
+cur.execute("INSERT INTO rounds (round_id, start_time, is_accepting_votes, is_current, is_allowing_multiple_votes, value_0, value_1, value_2) VALUES (?,?,?,?,?,?,?,?)", (3,time_now,1,1,1,"Chicken","Steak","Oatmeal"))
 
 # Populate the votes table with some values.
 cur.execute("INSERT INTO votes (room_id, value, round_id) VALUES (?,?,?)", (1,1,1,))
@@ -41,11 +42,11 @@ cur.execute("INSERT INTO votes (room_id, value, round_id) VALUES (?,?,?)", (9,0,
 time.sleep(0.001)
 cur.execute("INSERT INTO votes (room_id, value, round_id) VALUES (?,?,?)", (10,1,1,))
 time.sleep(0.001)
-cur.execute("INSERT INTO votes (room_id, value, round_id) VALUES (?,?,?)", (1,0,2,))
+cur.execute("INSERT INTO votes (room_id, value, round_id) VALUES (?,?,?)", (1,0,3,))
 time.sleep(0.001)
-cur.execute("INSERT INTO votes (room_id, value, round_id) VALUES (?,?,?)", (2,1,2,))
+cur.execute("INSERT INTO votes (room_id, value, round_id) VALUES (?,?,?)", (2,1,3,))
 time.sleep(0.005)
-cur.execute("INSERT INTO votes (room_id, value, round_id) VALUES (?,?,?)", (2,0,2,))
+cur.execute("INSERT INTO votes (room_id, value, round_id) VALUES (?,?,?)", (2,0,3,))
 
 connection.commit()
 connection.close()
