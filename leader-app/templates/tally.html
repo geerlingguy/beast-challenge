@@ -3,14 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Tally</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='custom.css') }}">
     <style>
-        @font-face {
-            font-family: 'komika_axisregular';
-            src: url("{{ url_for('static', filename='komika_axis-webfont.woff2') }}") format('woff2'),
-                 url("{{ url_for('static', filename='komika_axis-webfont.woff') }}") format('woff');
-            font-weight: normal;
-            font-style: normal;
-        }
         body,html {
             background-color: #E3447C;
             font-family: komika_axisregular, Arial;
@@ -19,23 +13,10 @@
             text-shadow: 0 0 10px #000;
             height: 98.7%;
         }
-        .content {
-            height: 100%;
-        }
-        .results {
-            width: 100%;
-            text-align: center;
-            vertical-align: middle;
-            height: 100%;
-            font-weight: bold;
-        }
-        .results .value {
-            font-size: 150px;
-        }
     </style>
 </head>
 <body>
-    <div class="content">
+    <div class="tally-page">
         <table class="results">
             <tr>
                 <td style="width: 50%;">
