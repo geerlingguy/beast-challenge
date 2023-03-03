@@ -22,9 +22,9 @@ To develop it locally, run:
 
 Visit the app at http://127.0.0.1:5000
 
-## Station app
+## Room app
 
-The Station app runs on every one of the 100x rooms where SBCs are set up to run the room controls.
+The Room app runs on every one of the 100x rooms where SBCs are set up to run the room controls.
 
 The app controls the following:
 
@@ -33,8 +33,8 @@ The app controls the following:
 
 TODO: Build the app
 
-## Automation for Controlling the Stations
+## Automation for Controlling the Rooms
 
-The `automation` directory contains Ansible configuration for managing the fleet of 100 station nodes. We have to use something like Ansible because managing 100 nodes by hand would be insane.
+The `automation` directory contains Ansible configuration for managing the fleet of 100 room nodes. We have to use something like Ansible because managing 100 nodes by hand would be insane.
 
 TODO: Build the automation

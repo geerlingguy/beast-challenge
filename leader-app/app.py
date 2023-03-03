@@ -8,10 +8,6 @@ def get_db_connection():
     conn.row_factory = sqlite3.Row
     return conn
 
-# TODO REMOVE THIS ONCE COMPLETE
-totals = [{'yes': 92, 'no': 10}]
-rounds = []
-
 def get_totals_for_round(round = ''):
     # TODO: Get round metadata (including start and end time)
     # If no end time, set end time as 'now'
@@ -33,7 +29,7 @@ def index():
 def tally():
     conn = get_db_connection()
     current_round = conn.execute('SELECT * FROM rounds WHERE is_current = 1').fetchone()
-    # TODO: Need to select the MOST RECENT vote for each station in current round
+    # TODO: Need to select the MOST RECENT vote for each room in current round
     votes = conn.execute('SELECT * FROM votes WHERE round_id = ? ORDER BY created DESC', (2,)).fetchall()
     # TODO: Sum how many voted 0 and how many voted 1
     conn.close()

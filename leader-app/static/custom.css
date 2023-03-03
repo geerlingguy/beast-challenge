@@ -1,0 +1,5 @@
+/* Custom CSS */
+
+.round-overview input[type="text"] {
+  width: 8em;
+}

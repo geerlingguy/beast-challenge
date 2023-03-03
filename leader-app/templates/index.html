@@ -1,21 +1,115 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>{% block title %} Votes {% endblock %}</h1>
-        <table style="width: 100%;">
-            <thead style="text-align: left;">
-                <th>Created</th>
-                <th>Station</th>
-                <th>Round</th>
-                <th>Value</th>
-            </thead>
-            {% for vote in votes %}
-                <tr>
-                    <td>{{ vote['created'] }}</td>
-                    <td>{{ vote['station_id'] }}</td>
-                    <td>{{ vote['round_id'] }}</td>
-                    <td>{{ vote['value'] }}</td>
+    <div class="container mt-2">
+        <h1>Round Control</h1>
+        <table class="table round-overview">
+          <thead class="thead-light">
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Option 1</th>
+              <th scope="col">Option 2</th>
+              <th scope="col">Option 3</th>
+              <th scope="col">Is current?</th>
+              <th scope="col">Is accepting votes?</th>
+              <th scope="col">Is allowing multiple votes?</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">1</th>
+              <td>
+                <input class="form-control form-control-sm" type="text" value="Yes" aria-label=".form-control-sm example">
+              </td>
+              <td>
+                <input class="form-control form-control-sm" type="text" value="No" aria-label=".form-control-sm example">
+              </td>
+              <td>
+                <input class="form-control form-control-sm" type="text" value="Maybe" aria-label=".form-control-sm example">
+              </td>
+              <td>
+                <div class="form-check form-switch">
+                  <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+                  <label class="form-check-label" for="flexSwitchCheckDefault">Round is Active</label>
                 </div>
-            {% endfor %}
+              </td>
+              <td>
+                <div class="form-check form-switch">
+                  <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+                  <label class="form-check-label" for="flexSwitchCheckDefault">Accepting Votes</label>
+                </div>
+              </td>
+              <td>
+                <div class="form-check form-switch">
+                  <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+                  <label class="form-check-label" for="flexSwitchCheckDefault">Allow vote changes</label>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">2</th>
+              <td>
+                <input class="form-control form-control-sm" type="text" value="Yes" aria-label=".form-control-sm example">
+              </td>
+              <td>
+                <input class="form-control form-control-sm" type="text" value="No" aria-label=".form-control-sm example">
+              </td>
+              <td>
+                <input class="form-control form-control-sm" type="text" value="" aria-label=".form-control-sm example">
+              </td>
+              <td>
+                <div class="form-check form-switch">
+                  <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+                  <label class="form-check-label" for="flexSwitchCheckDefault">Round is Active</label>
+                </div>
+              </td>
+              <td>
+                <div class="form-check form-switch">
+                  <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+                  <label class="form-check-label" for="flexSwitchCheckDefault">Accepting Votes</label>
+                </div>
+              </td>
+              <td>
+                <div class="form-check form-switch">
+                  <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+                  <label class="form-check-label" for="flexSwitchCheckDefault">Allow vote changes</label>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">3</th>
+              <td>
+                <input class="form-control form-control-sm" type="text" value="Chicken" aria-label=".form-control-sm example">
+              </td>
+              <td>
+                <input class="form-control form-control-sm" type="text" value="Steak" aria-label=".form-control-sm example">
+              </td>
+              <td>
+                <input class="form-control form-control-sm" type="text" value="Oatmeal" aria-label=".form-control-sm example">
+              </td>
+              <td>
+                <div class="form-check form-switch">
+                  <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" checked>
+                  <label class="form-check-label" for="flexSwitchCheckDefault">Round is Active</label>
+                </div>
+              </td>
+              <td>
+                <div class="form-check form-switch">
+                  <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" checked>
+                  <label class="form-check-label" for="flexSwitchCheckDefault">Accepting Votes</label>
+                </div>
+              </td>
+              <td>
+                <div class="form-check form-switch">
+                  <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+                  <label class="form-check-label" for="flexSwitchCheckDefault">Allow vote changes</label>
+                </div>
+              </td>
+            </tr>
+          </tbody>
         </table>
+        <div class="container">
+          <button type="submit" class="btn btn-primary">Save Changes</button>
+        </div>
+    </div>
 {% endblock %}
