@@ -8,15 +8,29 @@ def get_db_connection():
     conn.row_factory = sqlite3.Row
     return conn
 
-def get_totals_for_round(round = ''):
-    # TODO: Get round metadata (including start and end time)
+def get_totals_for_round(round_id):
+    votes = []
+    conn = get_db_connection()
+    # Get current round metadata (including start and end time)
+    current_round = conn.execute('SELECT * FROM rounds WHERE round_id = ?', (round_id,)).fetchone()
     # If no end time, set end time as 'now'
-    # Get all votes that have CREATED between start end end time
-    # Tally up count of 1 and count of 0
-    # Return those to tallies
-    totals = [{'yes': 92, 'no': 10}]
 
-# Default route.
+    # Get all votes that have CREATED between start end end time
+    # TODO: Need to select the MOST RECENT vote for each room in current round
+    votes = conn.execute('SELECT * FROM votes WHERE round_id = ? ORDER BY created DESC', (2,)).fetchall()
+    # TODO: Return the label and tally for each option (0, 1, 2).
+    # TODO: only return an element for each result that has a corresponding
+    # 'value' in the round (e.g. if only value_0, don't return 1 or 2).
+    votes = [
+        {'label': current_round['value_0'], 'value': 13},
+        {'label': current_round['value_1'], 'value': 42}
+    ]
+
+    # Close DB connection and return vote tally.
+    conn.close()
+    return votes
+
+# Default route - overview.
 @app.route('/')
 def index():
     conn = get_db_connection()
@@ -36,16 +50,8 @@ def test():
 @app.route('/tally')
 def tally():
     conn = get_db_connection()
-    current_round = conn.execute('SELECT * FROM rounds WHERE is_current = 1').fetchone()
-    # TODO: Need to select the MOST RECENT vote for each room in current round
-    votes = conn.execute('SELECT * FROM votes WHERE round_id = ? ORDER BY created DESC', (2,)).fetchall()
-    # TODO: Sum how many voted 0 and how many voted 1
-    conn.close()
-    # TODO: This is for demo only.
-    votes = [
-        {'label': current_round['value_0'], 'value': 13},
-        {'label': current_round['value_1'], 'value': 42}
-    ]
+    current_round = conn.execute('SELECT round_id FROM rounds WHERE is_current = 1').fetchone()
+    votes = get_totals_for_round(current_round['round_id'])
     return render_template('tally.html', votes=votes)
 
 # Vote route.
