@@ -1,2 +1,26 @@
 ---
-# TODO.
+- name: Someone set us up the Potatoes
+  hosts: potatoes
+  gather_facts: true
+  become: true
+
+  tasks:
+    - name: Install required packages
+      ansible.builtin.package:
+        name:
+          - gpiod
+          - python3-libgpiod
+          - python3-smbus
+        state: present
+
+    # TODO see https://github.com/geerlingguy/beast-game/issues/1#issuecomment-1454380799
+    - name: Configure I2C overlay on Armbian.
+      noop:
+
+    # TODO - admin user with our pubkey in authorized_keys, add user to sudo and
+    # i2c groups (create sudo group if needed)
+    - name: Configure admin user.
+      noop:
+
+    # TODO - copy station-app scripts (startup, main, etc.)
+    # TODO - make sure everything set to run on boot
