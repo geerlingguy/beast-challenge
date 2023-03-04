@@ -1,12 +1,21 @@
 import sqlite3
-from flask import Flask, json, jsonify, render_template
+from flask import Flask, json, jsonify, request, render_template
 
 app = Flask(__name__)
+
 
 def get_db_connection():
     conn = sqlite3.connect('database.sqlite')
     conn.row_factory = sqlite3.Row
     return conn
+
+
+def get_current_round():
+    conn = get_db_connection()
+    current_round = conn.execute('SELECT * FROM rounds WHERE is_current = 1').fetchone()
+    conn.close()
+    return current_round
+
 
 def get_totals_for_round(round_id):
     votes = []
@@ -30,6 +39,7 @@ def get_totals_for_round(round_id):
     conn.close()
     return votes
 
+
 # Default route - overview.
 @app.route('/')
 def index():
@@ -37,6 +47,7 @@ def index():
     votes = conn.execute('SELECT * FROM votes').fetchall()
     conn.close()
     return render_template('index.html', votes=votes)
+
 
 # Test mode page.
 @app.route('/test')
@@ -46,49 +57,47 @@ def test():
     conn.close()
     return render_template('test.html', votes=votes)
 
+
 # Tally of all votes displayed on a web page.
 @app.route('/tally')
 def tally():
-    conn = get_db_connection()
-    current_round = conn.execute('SELECT round_id FROM rounds WHERE is_current = 1').fetchone()
+    current_round = get_current_round()
     votes = get_totals_for_round(current_round['round_id'])
     return render_template('tally.html', votes=votes)
 
-# Vote route.
-@app.route('/votes',methods = ['GET', 'PUT'])
-def votes():
-    if request.method == 'GET':
-        response = jsonify({'Votes': votes})
-        response.status_code = 200
-        return response
 
-    # PUT Method to add a vote
-    elif request.method == 'PUT':
+# Vote route.
+@app.route('/votes', methods = ['POST'])
+def votes():
+    # POST Method to add a vote
+    if request.method == 'POST':
         response = {}
         payload = request.get_json()
-        item = payload["item1"]
-        f = False
-        for i in votes:
-            if i == item:
-                f = True
-        if not f:
-            votes.append(item)
-            response = jsonify({'Status': 'Added', 'Item': item})
-            response.status_code =201
+        room_id = payload['room_id']
+        value = payload['value']
+
+        # Get current round information.
+        current_round = get_current_round()
+
+        # If we're accepting votes, save vote and return success.
+        if current_round['is_accepting_votes']:
+            # TODO: Save vote in database.
+            response.status_code = 201
+        # Otherwise, I'm sorry, but I'm a Teapot and you can't send me a vote.
         else:
-            response = jsonify({'Status': 'Already There', 'Item': item})
-            response.status_code =400
+            response.status_code = 418
         return response
+
 
 @app.route('/rounds', methods = ['GET', 'POST'])
 def rounds():
     # GET Method for obtaining the list of rounds
     if request.method == 'GET':
-        response = ' '
-        if len(rounds) == 0:
-            response = jsonify({'Rounds': 'No rounds yet.'} )
-            response.status_code = 404
-        else :
-            response = jsonify({'Rounds': rounds})
-            response.status_code = 200
+        response = jsonify({'Rounds': 'This route has not yet been implemented.'} )
+        response.status_code = 501
+        return response
+
+    elif request.method == 'POST':
+        response = jsonify({'Rounds': 'This route has not yet been implemented.'} )
+        response.status_code = 501
         return response
