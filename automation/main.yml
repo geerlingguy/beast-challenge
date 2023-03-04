@@ -4,6 +4,11 @@
   gather_facts: true
   become: true
 
+  pre_tasks: []
+    # TODO: Update apt caches, apt upgrade all the things, reboot if required
+    # Have the parts that require Internet be tagged so we can avoid them if
+    # we run the playbook in sandboxed environment!
+
   tasks:
     - name: Install required packages
       ansible.builtin.package:
