@@ -11,9 +11,12 @@ import gpiod
 import sys
 import time
 
-# Button 1 Switch: "7J1 Header Pin38"
-# Button 1 LED: "7J1 Header Pin40"
+# Button 1 Switch: "7J1 Header Pin40"
+# Button 1 LED: "7J1 Header Pin38"
 # Button 2 Switch: "7J1 Header Pin36"
+# Button 2 LED: "7J1 Header Pin35"
+# Button 3 Switch: "7J1 Header Pin37"
+# Button 3 LED: "7J1 Header Pin33"
 
 bounce_timer = time.perf_counter_ns()
 bounce_limit = (5 * 1000000)  # 5ms converted to ns
@@ -44,12 +47,16 @@ if __name__ == '__main__':
         offsets = []
 
         # Button 1
-        button1 = gpiod.find_line("7J1 Header Pin38")
+        button1 = gpiod.find_line("7J1 Header Pin40")
         offsets.append(button1.offset())
 
         # Button 2
         button2 = gpiod.find_line("7J1 Header Pin36")
         offsets.append(button2.offset())
+
+        # Button 3
+        button3 = gpiod.find_line("7J1 Header Pin37")
+        offsets.append(button3.offset())
 
         lines = chip.get_lines(offsets)
         print(lines)
