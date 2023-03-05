@@ -45,6 +45,11 @@ def get_totals_for_round(round_id):
             vote_tallies.append({'label': current_round['value_' + str(i)],'total': 0})
 
     # Get all votes for the current round.
+    # TODO: The rest of the tabulation logic here is probably like O(3) or
+    # something insane. Could get slow with tens of thousands of votes. It would
+    # be nice to use a DISTINCT and do all the logic via SQL but with SQLite I
+    # was having problems getting a SELECT DISTINCT working with an ORDER BY so
+    # I decited to grab ALL the votes, then iterate through to tally votes.
     vote_data = conn.execute('SELECT * FROM votes WHERE round_id = ? ORDER BY created DESC', (round_id,)).fetchall()
     latest_votes = []
 
