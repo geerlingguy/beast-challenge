@@ -47,7 +47,8 @@ def get_totals_for_round(round_id):
     # 'value' in the round (e.g. if only value_0, don't return 1 or 2).
     votes = [
         {'label': current_round['value_0'], 'value': 13},
-        {'label': current_round['value_1'], 'value': 42}
+        {'label': current_round['value_1'], 'value': 35},
+        {'label': current_round['value_2'], 'value': 7}
     ]
 
     # Close DB connection and return vote tally.

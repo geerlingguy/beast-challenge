@@ -21,7 +21,12 @@ nav.navbar-beast {
 /* Tally page */
 .tally-page {
     height: 100%;
+    font-family: komika_axisregular, Arial;
+    color: #fff;
+    font-size: 100px;
+    text-shadow: 0 0 10px #000;
 }
+
 .tally-page .results {
     width: 100%;
     text-align: center;
@@ -29,6 +34,11 @@ nav.navbar-beast {
     height: 100%;
     font-weight: bold;
 }
+
+.tally-page .width-3 {
+    font-size: 80px;
+}
+
 .tally-page .results .value {
     font-size: 150px;
 }

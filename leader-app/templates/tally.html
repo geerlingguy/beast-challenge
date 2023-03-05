@@ -7,28 +7,28 @@
     <style>
         body,html {
             background-color: #E3447C;
-            font-family: komika_axisregular, Arial;
-            color: #fff;
-            font-size: 100px;
-            text-shadow: 0 0 10px #000;
             height: 98.7%;
         }
     </style>
 </head>
 <body>
     <div class="tally-page">
-        <table class="results">
+        <table class="results width-{{ (votes | length ) }}">
             <tr>
-                <td style="width: 50%;">
-                    <span class="label">{{ votes[0].label }}</span><br>
-                    <span class="value">{{ votes[0].value }}</span>
+{% set cell_width = (100 / (votes | length)) | int %}
+{% for vote in votes %}
+                <td style="width: {{ cell_width }}%;">
+                    <span class="label">{{ vote.label }}</span><br>
+                    <span class="value">{{ vote.value }}</span>
                 </td>
-                <td style="width: 50%;">
-                    <span class="label">{{ votes[1].label }}</span><br>
-                    <span class="value">{{ votes[1].value }}</span>
-                </td>
+{% endfor %}
             </div>
         </table>
     </div>
+    <!-- Refresh page every 5 seconds -->
+    <!-- TODO: Use more intelligent refresh (e.g. javascript / ajax refresh) -->
+    <script type="text/javascript">
+        setTimeout(function () { location.reload(1); }, 5000);
+    </script>
 </body>
 </html>
