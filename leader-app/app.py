@@ -18,6 +18,20 @@ def get_current_round():
     return current_round
 
 
+def room_submitted_vote_for_round(room_id, round_id):
+    conn = get_db_connection()
+    vote = conn.execute('SELECT * FROM votes WHERE room_id = ? AND round_id = ?', (room_id, round_id)).fetchone()
+    conn.close()
+    return vote
+
+
+def save_vote(room_id, value, round_id):
+    conn = get_db_connection()
+    conn.execute('INSERT INTO votes (room_id, value, round_id) VALUES (?,?,?)', (room_id, value, round_id))
+    conn.commit()
+    conn.close()
+
+
 def get_totals_for_round(round_id):
     votes = []
     conn = get_db_connection()
@@ -82,15 +96,21 @@ def vote():
 
         # If we're accepting votes, save vote and return success.
         if current_round['is_accepting_votes']:
-            conn = get_db_connection()
-            conn.execute('INSERT INTO votes (room_id, value, round_id) VALUES (?,?,?)', (room_id, value, current_round['round_id']))
-            conn.commit()
-            conn.close()
-            # TODO: Save vote in database.
-            response.status = 201
-        # Otherwise, I'm sorry, but I'm a Teapot and you can't send me a vote.
+            # If the current round allows multiple votes, save the vote.
+            if current_round['is_allowing_multiple_votes']:
+                save_vote(room_id, value, current_round['round_id'])
+                response.status = 201  # Created
+            else:
+                # A vote was already submitted for this room; deny the vote.
+                if room_submitted_vote_for_round(room_id, current_round['round_id']):
+                    response.status = 423  # Locked
+                # No vote submitted yet; save the vote.
+                else:
+                    save_vote(room_id, value, current_round['round_id'])
+                    response.status = 201  # Created
+        # Not accepting votes right now; deny the vote.
         else:
-            response.status = 418
+            response.status = 418  # I'm a Teapot
         return response
 
 
@@ -110,9 +130,7 @@ def before_request():
 @app.after_request
 def after_request(response):
     if app.debug:
-        diff = (time.time() - g.start) * 1000
-        print(diff)
-        diff_string = format(diff, '.3f')
+        diff_string = format((time.time() - g.start) * 1000, '.3f')
         if ((response.response) and
             (200 <= response.status_code < 300) and
             (response.content_type.startswith('text/html'))):
