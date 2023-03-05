@@ -2,7 +2,7 @@
 
 {% block content %}
     <div class="container mt-2">
-        <h1>Round Control</h1>
+        <h1>Overview</h1>
         <table class="table round-overview">
           <thead class="thead-light">
             <tr>
@@ -16,96 +16,38 @@
             </tr>
           </thead>
           <tbody>
+{% for round in rounds %}
             <tr>
-              <th scope="row">1</th>
+              <th scope="row">{{ round['round_id'] }}</th>
               <td>
-                <input class="form-control form-control-sm" type="text" value="Yes" aria-label=".form-control-sm example">
+                <input class="form-control form-control-sm" type="text" value="{{ round['value_0'] }}" aria-label=".form-control-sm example">
               </td>
               <td>
-                <input class="form-control form-control-sm" type="text" value="No" aria-label=".form-control-sm example">
+                <input class="form-control form-control-sm" type="text" value="{{ round['value_1'] }}" aria-label=".form-control-sm example">
               </td>
               <td>
-                <input class="form-control form-control-sm" type="text" value="Maybe" aria-label=".form-control-sm example">
+                <input class="form-control form-control-sm" type="text" value="{{ round['value_2'] }}" aria-label=".form-control-sm example">
               </td>
               <td>
                 <div class="form-check form-switch">
-                  <input class="form-check-input" type="checkbox" role="switch" id="round-active-1">
-                  <label class="form-check-label" for="round-active-1">Round is Active</label>
+                  <input class="form-check-input" type="checkbox" {{ 'checked' if round['is_current'] }} role="switch" id="round-active-{{ round['round_id'] }}">
+                  <label class="form-check-label" for="round-active-{{ round['round_id'] }}">Round is Active</label>
                 </div>
               </td>
               <td>
                 <div class="form-check form-switch">
-                  <input class="form-check-input" type="checkbox" role="switch" id="round-accepting-1">
-                  <label class="form-check-label" for="round-accepting-1">Accepting Votes</label>
+                  <input class="form-check-input" type="checkbox" {{ 'checked' if round['is_accepting_votes'] }} role="switch" id="round-accepting-{{ round['round_id'] }}">
+                  <label class="form-check-label" for="round-accepting-{{ round['round_id'] }}">Accepting Votes</label>
                 </div>
               </td>
               <td>
                 <div class="form-check form-switch">
-                  <input class="form-check-input" type="checkbox" role="switch" id="round-changes-1">
-                  <label class="form-check-label" for="round-changes-1">Allow vote changes</label>
+                  <input class="form-check-input" type="checkbox" {{ 'checked' if round['is_allowing_multiple_votes'] }} role="switch" id="round-changes-{{ round['round_id'] }}">
+                  <label class="form-check-label" for="round-changes-{{ round['round_id'] }}">Allow vote changes</label>
                 </div>
               </td>
             </tr>
-            <tr>
-              <th scope="row">2</th>
-              <td>
-                <input class="form-control form-control-sm" type="text" value="Yes" aria-label=".form-control-sm example">
-              </td>
-              <td>
-                <input class="form-control form-control-sm" type="text" value="No" aria-label=".form-control-sm example">
-              </td>
-              <td>
-                <input class="form-control form-control-sm" type="text" value="" aria-label=".form-control-sm example">
-              </td>
-              <td>
-                <div class="form-check form-switch">
-                  <input class="form-check-input" type="checkbox" role="switch" id="round-active-2">
-                  <label class="form-check-label" for="round-active-2">Round is Active</label>
-                </div>
-              </td>
-              <td>
-                <div class="form-check form-switch">
-                  <input class="form-check-input" type="checkbox" role="switch" id="round-accepting-2">
-                  <label class="form-check-label" for="round-accepting-2">Accepting Votes</label>
-                </div>
-              </td>
-              <td>
-                <div class="form-check form-switch">
-                  <input class="form-check-input" type="checkbox" role="switch" id="round-changes-2">
-                  <label class="form-check-label" for="round-changes-2">Allow vote changes</label>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">3</th>
-              <td>
-                <input class="form-control form-control-sm" type="text" value="Chicken" aria-label=".form-control-sm example">
-              </td>
-              <td>
-                <input class="form-control form-control-sm" type="text" value="Steak" aria-label=".form-control-sm example">
-              </td>
-              <td>
-                <input class="form-control form-control-sm" type="text" value="Oatmeal" aria-label=".form-control-sm example">
-              </td>
-              <td>
-                <div class="form-check form-switch">
-                  <input class="form-check-input" type="checkbox" role="switch" id="round-active-3" checked>
-                  <label class="form-check-label" for="round-active-3">Round is Active</label>
-                </div>
-              </td>
-              <td>
-                <div class="form-check form-switch">
-                  <input class="form-check-input" type="checkbox" role="switch" id="round-accepting-3" checked>
-                  <label class="form-check-label" for="round-accepting-3">Accepting Votes</label>
-                </div>
-              </td>
-              <td>
-                <div class="form-check form-switch">
-                  <input class="form-check-input" type="checkbox" role="switch" id="round-changes-3">
-                  <label class="form-check-label" for="round-changes-3">Allow vote changes</label>
-                </div>
-              </td>
-            </tr>
+{% endfor %}
           </tbody>
         </table>
         <div class="container">

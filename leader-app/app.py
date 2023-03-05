@@ -44,9 +44,9 @@ def get_totals_for_round(round_id):
 @app.route('/')
 def index():
     conn = get_db_connection()
-    votes = conn.execute('SELECT * FROM votes').fetchall()
+    rounds = conn.execute('SELECT * FROM rounds').fetchall()
     conn.close()
-    return render_template('index.html', votes=votes)
+    return render_template('index.html', rounds=rounds)
 
 
 # Test mode page.
