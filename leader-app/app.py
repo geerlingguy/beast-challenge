@@ -1,5 +1,6 @@
 import sqlite3
-from flask import Flask, json, jsonify, request, make_response, render_template
+import time
+from flask import Flask, json, jsonify, request, make_response, render_template, g
 
 app = Flask(__name__)
 
@@ -98,3 +99,24 @@ def round():
     if request.method == 'POST':
         response = make_response(jsonify({'Rounds': 'This route has not yet been implemented.'}), 501)
         return response
+
+
+@app.before_request
+def before_request():
+    if app.debug:
+        g.start = time.time()
+
+
+@app.after_request
+def after_request(response):
+    if app.debug:
+        diff = (time.time() - g.start) * 1000
+        print(diff)
+        diff_string = format(diff, '.3f')
+        if ((response.response) and
+            (200 <= response.status_code < 300) and
+            (response.content_type.startswith('text/html'))):
+            replacement_text = 'Page rendered in ' + diff_string + ' ms'
+            response.set_data(response.get_data().replace(
+                b'__EXECUTION_TIME__', replacement_text.encode()))
+    return response

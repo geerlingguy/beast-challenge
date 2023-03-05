@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='custom.css') }}">
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark navbar-beast">
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-beast">
       <div class="container">
         <a class="navbar-brand" href="{{ url_for('index') }}">Beast Game</a>
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -22,13 +22,16 @@
                 <a class="nav-link{{ ' active' if page == 'tally' }}" href="/tally">Vote Display</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link{{ ' active' if page == 'test' }}" href="/test">Testing</a>
+                <a class="nav-link{{ ' active' if page == 'test' }}" href="/test">Test Mode</a>
             </li>
         </ul>
       </div>
     </nav>
     <main role="main" class="container">
         {% block content %} {% endblock %}
+        <footer class="py-3 my-4 border-top">
+            <p class="text-end text-muted">__EXECUTION_TIME__</p>
+        </footer>
     </main>
     <!-- Bootstrap JS -->
     <!-- TODO SWITCH TO LOCAL (non-CDN) COPY! -->

@@ -43,6 +43,6 @@ TODO: Build the automation
 
 ![Tally Page Example](/resources/screenshots/tally-example.png)
 
-![Round Control UI](/resources/screenshots/round-control-example.png)
+![Overview UI](/resources/screenshots/overview-example.png)
 
-![Testing Page UI](/resources/screenshots/testing-page-example.png)
+![Test Mode UI](/resources/screenshots/test-mode-example.png)

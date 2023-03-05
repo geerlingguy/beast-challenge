@@ -9,8 +9,8 @@
     font-style: normal;
 }
 
-.navbar-beast {
-    background-color: #0992f9;
+nav.navbar-beast {
+    background-color: #03497d;
 }
 
 /* Home page */
@@ -33,19 +33,28 @@
     font-size: 150px;
 }
 
-/* Testing Page */
-table.latest-vote {
+/* Test Mode Page */
+.latest-vote {
     width: 100%;
     background-color: #E3447C;
-    font-family: komika_axisregular, Arial;
     color: #fff;
-    font-size: 100px;
-    text-shadow: 0 0 10px #000;
-    text-align: center;
-    vertical-align: middle;
-    font-weight: bold;
 }
 
-table.latest-vote .value {
+.latest-vote table {
+    font-size: 100px;
+    font-family: komika_axisregular, Arial;
+    font-weight: bold;
+    text-shadow: 0 0 10px #000;
+    vertical-align: middle;
+    text-align: center;
+    width: 100%;
+}
+
+.latest-vote .value {
     font-size: 150px;
+}
+
+.latest-vote .vote-metadata {
+    font-size: 20px;
+    opacity: .4;
 }
