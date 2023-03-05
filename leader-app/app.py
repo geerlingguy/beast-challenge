@@ -81,6 +81,13 @@ def tally():
     return render_template('tally.html', votes=votes, page='tally')
 
 
+# Room vote status displayed on a web page.
+@app.route('/room-votes')
+def room_votes():
+    rooms = list(range(1, 101))  # TODO Get actual data here.
+    return render_template('room_votes.html', rooms=rooms, page='room-votes')
+
+
 # Room light status displayed on a web page.
 @app.route('/room-lights')
 def room_lights():

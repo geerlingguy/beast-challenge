@@ -45,6 +45,8 @@ TODO: Build the automation
 
 ![Overview UI](/resources/screenshots/overview-example.png)
 
+![Room Votes UI](/resources/screenshots/room-votes-example.png)
+
 ![Room Lights UI](/resources/screenshots/room-lights-example.png)
 
 ![Test Mode UI](/resources/screenshots/test-mode-example.png)
