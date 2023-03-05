@@ -1,12 +1,18 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h2>Room Lights</h2>
+    <h2>Room Votes - Round {{ round.round_id }}</h2>
     <div class="room-grid d-flex flex-wrap">
         {% for room in rooms %}
-            <!-- TODO bg-dark should be dynamic based on room 'color' -->
-            <div class="room m-1 p-0 bg-light text-dark text-center">
-                <h2 class="room-id">{{ room }}</h2>
+            <!-- TODO bg-light should be dynamic based on room 'color' -->
+            <div class="room m-1 p-0 text-dark text-center{{ ' has-voted' if room.most_recent_vote }}">
+                <h2 class="room-id">{{ room.room_id }}</h2>
+                <div class="vote-data">
+                    <div class="number-of-votes">
+                        <span class="vote-count">{{ room.votes_this_round }} votes</span><br>
+                        <span class="vote-value">{{ room.most_recent_vote }}</span>
+                    </div>
+                </div>
             </div>
         {% endfor %}
     </div>

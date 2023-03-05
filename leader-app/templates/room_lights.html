@@ -5,10 +5,29 @@
     <div class="room-grid d-flex flex-wrap">
         {% for room in rooms %}
             <!-- TODO bg-dark should be dynamic based on room 'color' -->
-            <div class="room m-1 p-0 bg-dark text-light text-center">
-                <h2 class="room-id">{{ room }}</h2>
+            <div class="room m-1 p-0 bg-{{ room.color }} text-light text-center">
+                <h2 class="room-id">{{ room.room_id }}</h2>
             </div>
         {% endfor %}
+    </div>
+    <div class="card mt-3" style="width: 50rem;">
+      <div class="card-body">
+        <h5 class="card-title">Bulk Change Room Lights</h5>
+        <p class="card-text">Select a color to apply to all rooms.</p>
+        <div class="d-inline-flex w-50">
+            <select class="form-select">
+                <option selected>-- Choose a color --</option>
+                <option value="off">off</option>
+                <option value="white">white</option>
+                <option value="red">red</option>
+                <option value="green">green</option>
+                <option value="blue">blue</option>
+            </select>
+        </div>
+        <div class="d-inline-flex w-25">
+            <a href="#" class="btn btn-primary">Save Color</a>
+        </div>
+      </div>
     </div>
     <!-- Refresh page every 5 seconds -->
     <script type="text/javascript">

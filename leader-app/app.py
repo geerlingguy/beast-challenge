@@ -1,5 +1,6 @@
 import sqlite3
 import time
+import random
 from flask import Flask, json, jsonify, request, make_response, render_template, g
 
 app = Flask(__name__)
@@ -13,14 +14,35 @@ def get_db_connection():
 
 def get_current_round():
     conn = get_db_connection()
-    current_round = conn.execute('SELECT * FROM rounds WHERE is_current = 1').fetchone()
+    current_round = conn.execute('SELECT * FROM rounds WHERE is_current = 1 ORDER BY start_time DESC').fetchone()
     conn.close()
     return current_round
+
+
+def get_rooms():
+    conn = get_db_connection()
+    rooms = conn.execute('SELECT * FROM rooms').fetchall()
+    conn.close()
+    return rooms
 
 
 def room_submitted_vote_for_round(room_id, round_id):
     conn = get_db_connection()
     vote = conn.execute('SELECT * FROM votes WHERE room_id = ? AND round_id = ?', (room_id, round_id)).fetchone()
+    conn.close()
+    return vote
+
+
+def room_vote_count_for_round(room_id, round_id):
+    conn = get_db_connection()
+    count = conn.execute('SELECT COUNT(*) FROM votes WHERE room_id = ? AND round_id = ?', (room_id, round_id)).fetchone()
+    conn.close()
+    return count[0]
+
+
+def room_vote_latest_for_round(room_id, round_id):
+    conn = get_db_connection()
+    vote = conn.execute('SELECT * FROM votes WHERE room_id = ? AND round_id = ? ORDER BY created DESC', (room_id, round_id)).fetchone()
     conn.close()
     return vote
 
@@ -101,14 +123,41 @@ def tally():
 # Room vote status displayed on a web page.
 @app.route('/room-votes')
 def room_votes():
-    rooms = list(range(1, 101))  # TODO Get actual data here.
-    return render_template('room_votes.html', rooms=rooms, page='room-votes')
+    # TODO: Current round is hardcoded here. Might want to allow looking at
+    # vote data for other rounds (for reference). Maybe a query string param?
+    current_round = get_current_round()
+
+    # Build list of rooms and vote data.
+    rooms_with_vote_data = []
+    rooms = get_rooms()
+    for room in rooms:
+        room_copy = dict(zip(room.keys(), room))
+
+        # Add a count of total votes submitted this round.
+        room_copy['votes_this_round'] = room_vote_count_for_round(room['room_id'], current_round['round_id'])
+
+        # Add the most recent vote.
+        latest_vote = room_vote_latest_for_round(room['room_id'], current_round['round_id'])
+        vote_label = ''
+        if latest_vote is not None:
+            match latest_vote['value']:
+                case 0:
+                    vote_label = current_round['value_0']
+                case 1:
+                    vote_label = current_round['value_1']
+                case 2:
+                    vote_label = current_round['value_2']
+        room_copy['most_recent_vote'] = vote_label
+
+        # Add the data to our list of rooms.
+        rooms_with_vote_data.append(room_copy)
+    return render_template('room_votes.html', rooms=rooms_with_vote_data, round=current_round, page='room-votes')
 
 
 # Room light status displayed on a web page.
 @app.route('/room-lights')
 def room_lights():
-    rooms = list(range(1, 101))  # TODO Get actual data here.
+    rooms = get_rooms()
     return render_template('room_lights.html', rooms=rooms, page='room-lights')
 
 

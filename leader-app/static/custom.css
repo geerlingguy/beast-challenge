@@ -63,8 +63,41 @@ nav.navbar-beast {
     height: 100px;
 }
 
+.room-grid .room {
+    background-color: #eeeeee;
+}
+
+.room-grid .has-voted {
+    background-color: #0992f9;
+}
+
+.room-grid .vote-count {
+    opacity: .5;
+}
+
+.room-grid .has-voted h2 {
+    color: #ffffff;
+}
+
 .room-grid .room h2 {
     padding-top: 30px;
+    margin-bottom: 0;
+}
+
+.room-grid .bg-red { background-color: #ff0000; }
+.room-grid .bg-green { background-color: #00ff00; }
+.room-grid .bg-blue { background-color: #0000ff; }
+.room-grid .bg-white {
+    color: #000 !important;
+    background-color: #ffffff !important;
+}
+.room-grid .bg-off {
+    color: #dddddd;
+    background-color: #eeeeee;
+}
+
+.room-grid .number-of-votes {
+    font-size: .2em;
 }
 
 /* Test Mode Page */
