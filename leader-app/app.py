@@ -46,7 +46,7 @@ def index():
     conn = get_db_connection()
     rounds = conn.execute('SELECT * FROM rounds').fetchall()
     conn.close()
-    return render_template('index.html', rounds=rounds)
+    return render_template('index.html', rounds=rounds, page='index')
 
 
 # Test mode page.
@@ -55,7 +55,7 @@ def test():
     conn = get_db_connection()
     votes = conn.execute('SELECT * FROM votes ORDER BY created DESC LIMIT 10').fetchall()
     conn.close()
-    return render_template('test.html', votes=votes)
+    return render_template('test.html', votes=votes, page='test')
 
 
 # Tally of all votes displayed on a web page.
@@ -63,12 +63,12 @@ def test():
 def tally():
     current_round = get_current_round()
     votes = get_totals_for_round(current_round['round_id'])
-    return render_template('tally.html', votes=votes)
+    return render_template('tally.html', votes=votes, page='tally')
 
 
 # Vote route.
 @app.route('/vote', methods = ['POST'])
-def votes():
+def vote():
     # POST Method to add a vote
     if request.method == 'POST':
         response = make_response()
@@ -93,13 +93,8 @@ def votes():
         return response
 
 
-@app.route('/rounds', methods = ['GET', 'POST'])
-def rounds():
-    # GET Method for obtaining the list of rounds
-    if request.method == 'GET':
-        response = make_response(jsonify({'Rounds': 'This route has not yet been implemented.'}), 501)
-        return response
-
-    elif request.method == 'POST':
+@app.route('/round', methods = ['POST'])
+def round():
+    if request.method == 'POST':
         response = make_response(jsonify({'Rounds': 'This route has not yet been implemented.'}), 501)
         return response

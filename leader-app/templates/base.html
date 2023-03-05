@@ -16,16 +16,13 @@
         <a class="navbar-brand" href="{{ url_for('index') }}">Beast Game</a>
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-                <a class="nav-link" href="/">Overview</a>
+                <a class="nav-link{{ ' active' if page == 'index' }}" href="/">Overview</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/tally">Vote Display</a>
+                <a class="nav-link{{ ' active' if page == 'tally' }}" href="/tally">Vote Display</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/rounds">Round Manager</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/test">Testing</a>
+                <a class="nav-link{{ ' active' if page == 'test' }}" href="/test">Testing</a>
             </li>
         </ul>
       </div>
