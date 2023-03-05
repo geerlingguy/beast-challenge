@@ -9,6 +9,10 @@
     font-style: normal;
 }
 
+.navbar-beast {
+    background-color: #0992f9;
+}
+
 /* Home page */
 .round-overview input[type="text"] {
     width: 8em;
