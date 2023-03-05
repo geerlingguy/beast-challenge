@@ -1,5 +1,5 @@
 import sqlite3
-from flask import Flask, json, jsonify, request, render_template
+from flask import Flask, json, jsonify, request, make_response, render_template
 
 app = Flask(__name__)
 
@@ -67,11 +67,11 @@ def tally():
 
 
 # Vote route.
-@app.route('/votes', methods = ['POST'])
+@app.route('/vote', methods = ['POST'])
 def votes():
     # POST Method to add a vote
     if request.method == 'POST':
-        response = {}
+        response = make_response()
         payload = request.get_json()
         room_id = payload['room_id']
         value = payload['value']
@@ -81,11 +81,15 @@ def votes():
 
         # If we're accepting votes, save vote and return success.
         if current_round['is_accepting_votes']:
+            conn = get_db_connection()
+            conn.execute('INSERT INTO votes (room_id, value, round_id) VALUES (?,?,?)', (room_id, value, current_round['round_id']))
+            conn.commit()
+            conn.close()
             # TODO: Save vote in database.
-            response.status_code = 201
+            response.status = 201
         # Otherwise, I'm sorry, but I'm a Teapot and you can't send me a vote.
         else:
-            response.status_code = 418
+            response.status = 418
         return response
 
 
@@ -93,11 +97,9 @@ def votes():
 def rounds():
     # GET Method for obtaining the list of rounds
     if request.method == 'GET':
-        response = jsonify({'Rounds': 'This route has not yet been implemented.'} )
-        response.status_code = 501
+        response = make_response(jsonify({'Rounds': 'This route has not yet been implemented.'}), 501)
         return response
 
     elif request.method == 'POST':
-        response = jsonify({'Rounds': 'This route has not yet been implemented.'} )
-        response.status_code = 501
+        response = make_response(jsonify({'Rounds': 'This route has not yet been implemented.'}), 501)
         return response
