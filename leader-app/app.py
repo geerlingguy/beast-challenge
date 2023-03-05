@@ -58,11 +58,8 @@ def get_totals_for_round(round_id):
         if not any(vote['room_id'] in d for d in latest_votes):
             latest_votes.append({vote['room_id']: vote['value']})
 
-    print(latest_votes)
-    # Total the count of each tally. (TODO: This is probably like O^3 lol)
+    # Total the count of each tally.
     for index, option in enumerate(vote_tallies):
-        print('index option is: ' + str(index))
-        print(option)
         for vote in latest_votes:
             # If the current option matches the vote, add one to the tally.
             if index == next(iter(vote.values())):
