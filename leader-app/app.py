@@ -35,25 +35,37 @@ def save_vote(room_id, value, round_id):
 def get_totals_for_round(round_id):
     votes = []
     conn = get_db_connection()
-    # Get current round metadata (including start and end time)
+    # Get current round metadata.
     current_round = conn.execute('SELECT * FROM rounds WHERE round_id = ?', (round_id,)).fetchone()
-    # If no end time, set end time as 'now'
 
-    # Get all votes that have CREATED between start end end time
-    # TODO: Need to select the MOST RECENT vote for each room in current round
-    votes = conn.execute('SELECT * FROM votes WHERE round_id = ? ORDER BY created DESC', (2,)).fetchall()
-    # TODO: Return the label and tally for each option (0, 1, 2).
-    # TODO: only return an element for each result that has a corresponding
-    # 'value' in the round (e.g. if only value_0, don't return 1 or 2).
-    votes = [
-        {'label': current_round['value_0'], 'value': 13},
-        {'label': current_round['value_1'], 'value': 35},
-        {'label': current_round['value_2'], 'value': 7}
-    ]
+    # Build list of up to three vote options.
+    vote_tallies = []
+    for i in range(3):
+        if current_round['value_' + str(i)]:
+            vote_tallies.append({'label': current_round['value_' + str(i)],'total': 0})
+
+    # Get all votes for the current round.
+    vote_data = conn.execute('SELECT * FROM votes WHERE round_id = ? ORDER BY created DESC', (round_id,)).fetchall()
+    latest_votes = []
+
+    # Filter this list only include the first vote for each room.
+    for vote in vote_data:
+        if not any(vote['room_id'] in d for d in latest_votes):
+            latest_votes.append({vote['room_id']: vote['value']})
+
+    print(latest_votes)
+    # Total the count of each tally. (TODO: This is probably like O^3 lol)
+    for index, option in enumerate(vote_tallies):
+        print('index option is: ' + str(index))
+        print(option)
+        for vote in latest_votes:
+            # If the current option matches the vote, add one to the tally.
+            if index == next(iter(vote.values())):
+                vote_tallies[index]['total'] += 1
 
     # Close DB connection and return vote tally.
     conn.close()
-    return votes
+    return vote_tallies
 
 
 # Default route - overview.

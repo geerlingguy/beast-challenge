@@ -19,7 +19,7 @@
 {% for vote in votes %}
                 <td style="width: {{ cell_width }}%;">
                     <span class="label">{{ vote.label }}</span><br>
-                    <span class="value">{{ vote.value }}</span>
+                    <span class="value">{{ vote.total }}</span>
                 </td>
 {% endfor %}
             </div>
