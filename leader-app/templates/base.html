@@ -22,13 +22,18 @@
                 <a class="nav-link{{ ' active' if page == 'tally' }}" href="/tally">Vote Display</a>
             </li>
             <li class="nav-item">
+                <a class="nav-link{{ ' active' if page == 'room-lights' }}" href="/room-lights">Room Lights</a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link{{ ' active' if page == 'test' }}" href="/test">Test Mode</a>
             </li>
         </ul>
       </div>
     </nav>
     <main role="main" class="container">
-        {% block content %} {% endblock %}
+        <div class="container mt-2">
+            {% block content %} {% endblock %}
+        </div>
         <footer class="py-3 my-4 border-top">
             <p class="text-end text-muted">__EXECUTION_TIME__</p>
         </footer>

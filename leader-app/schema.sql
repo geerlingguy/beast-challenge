@@ -17,7 +17,7 @@ CREATE TABLE rounds (
     is_allowing_multiple_votes INTEGER NOT NULL DEFAULT(1),
     value_0 TEXT DEFAULT('No'),
     value_1 TEXT DEFAULT('Yes'),
-    value_2 TEXT DEFAULT('Maybe')
+    value_2 TEXT
 );
 
 CREATE TABLE votes (

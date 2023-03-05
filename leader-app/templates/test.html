@@ -1,46 +1,44 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div class="container mt-2 test-display">
-        <h2>Last Vote</h2>
-            <div class="latest-vote">
-                <table>
-                    <tr>
-                        <td class="pt-4 pb-5" style="width: 50%;">
-                            <span class="label">Room</span><br>
-                            <span class="value">{{ votes[0].room_id }}</span>
-                        </td>
-                        <td class="pt-4 pb-5" style="width: 50%;">
-                            <span class="label">Button</span><br>
-                            <span class="value">{{ votes[0].value }}</span>
-                        </td>
-                    </tr>
-                </table>
-                <div class="text-center vote-metadata pb-2">Button Pushed at: {{ votes[0].created }} for round {{ votes[0].round_id }}</div>
-            </div>
-        <h2 class="mt-2">Recent Votes</h2>
-        <table class="table">
-            <thead>
+    <h2>Last Vote</h2>
+        <div class="latest-vote">
+            <table>
                 <tr>
-                    <th scope="col">Room</th>
-                    <th scope="col">Time</th>
-                    <th scope="col">Value</th>
-                    <th scope="col">Round</th>
+                    <td class="pt-4 pb-5" style="width: 50%;">
+                        <span class="label">Room</span><br>
+                        <span class="value">{{ votes[0].room_id }}</span>
+                    </td>
+                    <td class="pt-4 pb-5" style="width: 50%;">
+                        <span class="label">Button</span><br>
+                        <span class="value">{{ votes[0].value }}</span>
+                    </td>
                 </tr>
-            </thead>
-            <tbody>
-                {% set _votes = votes.pop(0) %}
-                {% for vote in votes %}
-                <tr>
-                    <th scope="row">{{ vote.room_id }}</th>
-                    <td>{{ vote.created }}</td>
-                    <td>{{ vote.value }}</td>
-                    <td>{{ vote.round_id }}</td>
-                </tr>
-                {% endfor %}
-              </tbody>
-        </table>
-    </div>
+            </table>
+            <div class="text-center vote-metadata pb-2">Button Pushed at: {{ votes[0].created }} for round {{ votes[0].round_id }}</div>
+        </div>
+    <h2 class="mt-2">Recent Votes</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Room</th>
+                <th scope="col">Time</th>
+                <th scope="col">Value</th>
+                <th scope="col">Round</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% set _votes = votes.pop(0) %}
+            {% for vote in votes %}
+            <tr>
+                <th scope="row">{{ vote.room_id }}</th>
+                <td>{{ vote.created }}</td>
+                <td>{{ vote.value }}</td>
+                <td>{{ vote.round_id }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+    </table>
     <!-- Refresh page every 5 seconds -->
     <script type="text/javascript">
         setTimeout(function () { location.reload(1); }, 5000);

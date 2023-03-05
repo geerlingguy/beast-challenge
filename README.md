@@ -45,4 +45,12 @@ TODO: Build the automation
 
 ![Overview UI](/resources/screenshots/overview-example.png)
 
+![Room Lights UI](/resources/screenshots/room-lights-example.png)
+
 ![Test Mode UI](/resources/screenshots/test-mode-example.png)
+
+## Critical Test Scenarios
+
+  1. Active round is open, accepts multiple votes, make sure multiple votes can be made per room.
+  2. Active round is open, doesn't accept multiple votes, make sure only first vote is accepted.
+  3. Active round is closed, make sure no votes are accepted.

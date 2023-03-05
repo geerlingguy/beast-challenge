@@ -33,6 +33,20 @@ nav.navbar-beast {
     font-size: 150px;
 }
 
+/* Room Pages */
+.room-grid {
+    width: 100%;
+}
+
+.room-grid .room {
+    width: 100px;
+    height: 100px;
+}
+
+.room-grid .room h2 {
+    padding-top: 30px;
+}
+
 /* Test Mode Page */
 .latest-vote {
     width: 100%;

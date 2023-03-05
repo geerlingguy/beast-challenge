@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Room Lights</h2>
+    <div class="room-grid d-flex flex-wrap">
+        {% for room in rooms %}
+            <!-- TODO bg-dark should be dynamic based on room 'color' -->
+            <div class="room m-1 p-0 bg-dark text-light text-center">
+                <h2 class="room-id">{{ room }}</h2>
+            </div>
+        {% endfor %}
+    </div>
+    <!-- Refresh page every 5 seconds -->
+    <script type="text/javascript">
+        setTimeout(function () { location.reload(1); }, 5000);
+    </script>
+{% endblock %}
