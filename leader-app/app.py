@@ -46,10 +46,12 @@ def get_totals_for_round(round_id):
 
     # Get all votes for the current round.
     # TODO: The rest of the tabulation logic here is probably like O(3) or
-    # something insane. Could get slow with tens of thousands of votes. It would
-    # be nice to use a DISTINCT and do all the logic via SQL but with SQLite I
-    # was having problems getting a SELECT DISTINCT working with an ORDER BY so
-    # I decited to grab ALL the votes, then iterate through to tally votes.
+    # something insane. With 33,000 votes in a given round, this takes over
+    # 200ms to render. So, not wonderful when there are tens of thousands of
+    # votes in a given round. It would be nice to use a DISTINCT and do all the
+    # logic via SQL but with SQLite I was having problems getting SELECT
+    # DISTINCT working with an ORDER BY so I decited iterate through ALL the
+    # votes in a round to tally them up.
     vote_data = conn.execute('SELECT * FROM votes WHERE round_id = ? ORDER BY created DESC', (round_id,)).fetchall()
     latest_votes = []
 
@@ -122,6 +124,10 @@ def vote():
 
         # Get current round information.
         current_round = get_current_round()
+
+        # TODO Don't store votes for a button that doesn't have a corresponding
+        # option (e.g. if vote value is `2` and round only has value_0/value_1).
+        # (This is not critical... mostly saves us storing the non-useful data.)
 
         # If we're accepting votes, save vote and return success.
         if current_round['is_accepting_votes']:
