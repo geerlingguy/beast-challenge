@@ -150,6 +150,11 @@ def round():
         return response
 
 
+@app.context_processor
+def inject_debug():
+    return dict(debug=app.debug)
+
+
 @app.before_request
 def before_request():
     if app.debug:

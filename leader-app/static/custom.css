@@ -43,6 +43,16 @@ nav.navbar-beast {
     font-size: 150px;
 }
 
+.tally .execution-time {
+    color: #fff;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    opacity: 0.2;
+    width: 100%;
+    text-align: right;
+    padding: 5px;
+    margin: -50px;
+}
+
 /* Room Pages */
 .room-grid {
     width: 100%;

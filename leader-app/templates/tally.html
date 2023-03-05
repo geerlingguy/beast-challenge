@@ -11,7 +11,7 @@
         }
     </style>
 </head>
-<body>
+<body class="tally">
     <div class="tally-page">
         <table class="results width-{{ (votes | length ) }}">
             <tr>
@@ -25,10 +25,13 @@
             </div>
         </table>
     </div>
+{% if debug %}
+    <div class="execution-time">__EXECUTION_TIME__</div>
+{% endif %}
     <!-- Refresh page every 5 seconds -->
     <!-- TODO: Use more intelligent refresh (e.g. javascript / ajax refresh) -->
     <script type="text/javascript">
-        setTimeout(function () { location.reload(1); }, 5000);
+        // setTimeout(function () { location.reload(1); }, 5000);
     </script>
 </body>
 </html>
