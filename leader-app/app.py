@@ -109,6 +109,10 @@ def get_totals_for_round(round_id):
 # Default route - overview.
 @app.route('/', methods = ['GET', 'POST'])
 def index():
+    # To future readers of this code: please realize it was written after 1 a.m.
+    # over a long weekend which involved writing code between settling frequent
+    # disputes between the young ones in my family. I am tired, this code is not
+    # amazing, and that's all there is to it. If it works reliably, it ships!
     if request.method == 'POST':
         # Build dict of submitted round data.
         round_data = {}
