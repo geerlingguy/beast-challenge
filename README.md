@@ -33,6 +33,15 @@ The app controls the following:
 
 TODO: Build the app
 
+### 52Pi EP-0099 Relay Considerations
+
+The 52Pi EP-0099 Relay is a 4-channel I2C-controlled relay HAT that works with Le Potato. We bought it for two reasons:
+
+  1. It is easy to install (as a HAT)
+  2. It was available on short notice
+
+The relays used are `HK4100F-DC5V-SHG`, and according to the datasheet, 
+
 ## Automation for Controlling the Potatoes
 
 The `automation` directory contains Ansible configuration for managing both the main server (`farmer`) and the fleet of 100 room nodes (`potatoes`, sometimes referred to as `spuds`). We have to use something like Ansible because managing 100 nodes by hand would be insane.

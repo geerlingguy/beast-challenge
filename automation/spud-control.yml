@@ -15,6 +15,7 @@
   tasks:
     - name: Configure admin user and sudoers.
       ansible.builtin.include_tasks: tasks/admin-user.yml
+      tags: ['user']
 
     - name: Install required packages.
       ansible.builtin.package:
@@ -33,5 +34,6 @@
     - name: Configure I2C overlay on Armbian.
       ansible.builtin.include_tasks: tasks/i2c.yml
 
-    # TODO - copy station-app scripts (startup, main, etc.)
-    # TODO - make sure everything set to run on boot
+    - name: Configure our software.
+      ansible.builtin.include_tasks: tasks/beast-game.yml
+      tags: ['app']

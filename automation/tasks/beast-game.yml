@@ -1,0 +1,59 @@
+---
+- name: Copy utility scripts into place.
+  copy:
+    src: "../station-app/{{ item }}"
+    dest: "/home/admin/{{ item }}"
+    mode: 0755
+  become: false
+  with_items:
+    - light.py
+
+- name: Copy app scripts into place.
+  copy:
+    src: "../station-app/{{ item }}"
+    dest: "/opt/{{ item }}"
+    owner: admin
+    group: admin
+    mode: 0755
+  with_items:
+    - button-monitor.py
+    - light-control.py
+  tags: ['app']
+
+- name: Copy systemd unit files into place.
+  ansible.builtin.copy:
+    content: |-
+      [Unit]
+      Description={{ item }}
+      After=multi-user.target
+
+      [Service]
+      Type=simple
+      Restart=on-failure
+      ExecStart=/opt/{{ item }}.py
+
+      [Install]
+      WantedBy=multi-user.target
+    dest: "/lib/systemd/system/{{ item }}.service"
+    mode: 0644
+  register: systemd_units
+  with_items:
+    - button-monitor
+    - light-control
+  tags: ['app']
+
+- name: Reload systemd units if necessary.
+  ansible.builtin.systemd:
+    daemon_reload: true
+  when: systemd_units is changed
+  tags: ['app']
+
+- name: Make sure both services are started and enabled at boot.
+  ansible.builtin.service:
+    name: "{{ item }}"
+    enabled: true
+    state: started
+  with_items:
+    - light-control
+    - button-monitor
+  tags: ['app']
