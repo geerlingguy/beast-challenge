@@ -27,6 +27,13 @@ def get_rooms():
     return rooms
 
 
+def get_room(room_id):
+    conn = get_db_connection()
+    room = conn.execute('SELECT * FROM rooms WHERE room_id = ?', room_id).fetchone()
+    conn.close()
+    return room
+
+
 def get_rounds():
     conn = get_db_connection()
     rounds = conn.execute('SELECT * FROM rounds').fetchall()
@@ -216,6 +223,20 @@ def room_votes():
     return render_template('room_votes.html', rooms=rooms_with_vote_data, round=current_round, page='room-votes')
 
 
+# Room information API endpoint.
+@app.route('/room', methods = ['GET'])
+def room():
+    response = make_response()
+    room_id = request.args.get('room_id')
+    status_code = 400
+
+    if room_id:
+        room_data = get_room(room_id)
+        status_code = 200
+
+    return dict(room_data), status_code
+
+
 # Room light status displayed on a web page.
 @app.route('/room-lights', methods = ['GET', 'POST'])
 def room_lights():
@@ -241,9 +262,9 @@ def vote():
     # POST Method to add a vote
     if request.method == 'POST':
         response = make_response()
-        payload = request.get_json()
-        room_id = payload['room_id']
-        value = payload['value']
+        data = request.get_json()
+        room_id = data['room_id']
+        value = data['value']
 
         # Get current round information.
         current_round = get_current_round()

@@ -6,10 +6,13 @@
 # switch attached to pin 38.
 #
 # When you press the button, the LED should be toggled either on or off.
+#
+# Requires the pip `requests` package: `pip3 install requests`
 
 import gpiod
 import sys
 import time
+import requests
 
 # Button 1 Switch: "7J1 Header Pin40"
 # Button 1 LED: "7J1 Header Pin38"
@@ -20,6 +23,9 @@ import time
 
 bounce_timer = time.perf_counter_ns()
 bounce_limit = (5 * 1000000)  # 5ms converted to ns
+vote_url = 'http://10.0.100.15:5000/vote'
+room_id = 1
+button_map = {'Pin40': 0, 'Pin36': 1, 'Pin37': 2}
 
 
 def rising_edge_detect(event_source, event_value, event_time):
@@ -39,7 +45,18 @@ def rising_edge_detect(event_source, event_value, event_time):
 
 
 def button_click(event_source, event_value, event_time):
-    print(str(event_source) + ' value: ' + str(event_value) + ' time: ' + str(event_time))
+    # Get value for button.
+    for button_pin, vote_value in button_map.items():
+        if button_pin in str(event_source):
+            value = vote_value
+    data = {'room_id': room_id, 'value': value}
+    try:
+        response = requests.post(vote_url, json=data)
+        response.raise_for_status()
+        if response.status_code == 201:
+            print('Submitted vote data: ' + str(data))
+    except:
+        print('Received an exception in HTTP request. Continuing...')
 
 
 if __name__ == '__main__':
@@ -59,7 +76,6 @@ if __name__ == '__main__':
         offsets.append(button3.offset())
 
         lines = chip.get_lines(offsets)
-        print(lines)
         lines.request(consumer=sys.argv[0], type=gpiod.LINE_REQ_EV_RISING_EDGE, flags=gpiod.LINE_REQ_FLAG_BIAS_PULL_UP)
 
         try:

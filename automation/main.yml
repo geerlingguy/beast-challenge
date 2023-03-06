@@ -10,12 +10,18 @@
     # we run the playbook in sandboxed environment!
 
   tasks:
-    - name: Install required packages
+    - name: Install required packages.
       ansible.builtin.package:
         name:
           - gpiod
           - python3-libgpiod
           - python3-smbus
+          - python3-pip
+        state: present
+
+    - name: Install required pip packages.
+      ansible.builtin.pip:
+        name: requests
         state: present
 
     # TODO see https://github.com/geerlingguy/beast-game/issues/1#issuecomment-1454380799

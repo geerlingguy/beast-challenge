@@ -18,7 +18,7 @@ To develop it locally, run:
   2. `pipenv shell` (requires `pipenv`, install with `pip3 install pipenv`)
   3. `pip install -r requirements.txt`
   4. Initialize the database: `python3 init_db.py`
-  5. Run app: `FLASK_APP=app FLASK_DEBUG=true flask run`
+  5. Run app: `FLASK_APP=app FLASK_DEBUG=true flask run` (add `--host=0.0.0.0` to make it accessible over the network)
 
 Visit the app at http://127.0.0.1:5000
 
