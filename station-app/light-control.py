@@ -43,20 +43,27 @@ def lights_out():
 
 def set_color(color):
     lights_out()
-    relay_id = color_map['color']
-    bus.write_byte_data(DEVICE_ADDR, relay_id, 0xFF)
+    relay_id = color_map[color]
+
+    # If the relay is not on, turn it on.
+    if True:  # TODO - read smbus data for the address, if it's already on, leave it
+        # print('Setting color ' + color)
+        bus.write_byte_data(DEVICE_ADDR, relay_id, 0xFF)
 
 
 def set_lighting():
     try:
-        request_data = {'room_id': room_id}
-        response = requests.get(room_url, request_data)
+        response = requests.get(room_url, {'room_id': room_id})
         response.raise_for_status()
         if response.status_code == 200:
-            response_json = response.json()
-            set_color(response_json.color)
+            color = response.json()['color']
+            if color == 'off':
+                lights_out()
+            else:
+                set_color(response.json()['color'])
     except:
-        print('Received an exception in HTTP request. Continuing...')
+        print('Received an exception while setting the color. Continuing...')
+        # TODO - Should we default to white if there's a problem?
 
 
 if __name__ == '__main__':
@@ -66,4 +73,5 @@ if __name__ == '__main__':
             set_lighting()
             time.sleep(1)
     except KeyboardInterrupt:
+        lights_out()
         sys.exit(130)
