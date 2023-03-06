@@ -2,6 +2,11 @@
 
 {% block content %}
     <h2>Room Lights</h2>
+        {% for message in get_flashed_messages() %}
+            <div class="alert alert-danger">
+                {{ message }}
+            </div>
+        {% endfor %}
     <div class="room-grid d-flex flex-wrap">
         {% for room in rooms %}
             <!-- TODO bg-dark should be dynamic based on room 'color' -->

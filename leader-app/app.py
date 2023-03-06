@@ -1,9 +1,10 @@
 import sqlite3
 import time
 import random
-from flask import Flask, json, jsonify, request, make_response, render_template, g
+from flask import Flask, json, jsonify, request, flash, make_response, render_template, g
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = 'TvierCO6smUk7ZlNDm0ojBU7VeyPyGUn'
 
 
 def get_db_connection():
@@ -24,6 +25,17 @@ def get_rooms():
     rooms = conn.execute('SELECT * FROM rooms').fetchall()
     conn.close()
     return rooms
+
+
+def get_rounds():
+    conn = get_db_connection()
+    rounds = conn.execute('SELECT * FROM rounds').fetchall()
+    conn.close()
+    return rounds
+
+
+def valid_room_color_options():
+    return ['off', 'white', 'red', 'green', 'blue']
 
 
 def room_submitted_vote_for_round(room_id, round_id):
@@ -95,11 +107,57 @@ def get_totals_for_round(round_id):
 
 
 # Default route - overview.
-@app.route('/')
+@app.route('/', methods = ['GET', 'POST'])
 def index():
-    conn = get_db_connection()
-    rounds = conn.execute('SELECT * FROM rounds').fetchall()
-    conn.close()
+    if request.method == 'POST':
+        # Build dict of submitted round data.
+        round_data = {}
+        for key, value in request.form.items():
+            round_id = key[0]
+            actual_key = key[2:]
+            if round_id in round_data:
+                round_data[round_id][actual_key] = value
+            else:
+                round_data[round_id] = {'round_id': round_id}
+
+        conn = get_db_connection()
+
+        # Write each round to the database.
+        # NOTE: Security is not a priority. If someone hacked the form, they
+        # could likely achieve SQL injection. Hello little Bobby Tables!
+        for key, value in round_data.items():
+            value_keys = value.keys()
+            # Force all binary options to have a value, set to 0 or 1.
+            if 'is_accepting_votes' not in value_keys:
+                value['is_accepting_votes'] = 0
+            else:
+                value['is_accepting_votes'] = 1
+            if 'is_current' not in value_keys:
+                value['is_current'] = 0
+            else:
+                value['is_current'] = 1
+            if 'is_allowing_multiple_votes' not in value_keys:
+                value['is_allowing_multiple_votes'] = 0
+            else:
+                value['is_allowing_multiple_votes'] = 1
+
+            # Rearrange things for database insertion or update.
+            row_round_id = value.pop('round_id')
+            db_keys = '=?, '.join(value.keys()) + '=?'
+            value['round_id'] = row_round_id
+            db_values = tuple(value.values())
+
+            # Create new round.
+            if value['round_id'] == 'new':
+                print('TODO new round about to be created')
+            else:
+                print('Updating existing round')
+                conn = get_db_connection()
+                conn.execute("UPDATE rounds SET " + db_keys + " WHERE round_id=?", db_values)
+                conn.commit()
+                conn.close()
+
+    rounds = get_rounds()
     return render_template('index.html', rounds=rounds, page='index')
 
 
@@ -159,10 +217,15 @@ def room_votes():
 def room_lights():
     if request.method == 'POST':
         color = request.form.get('color_select')
-        conn = get_db_connection()
-        conn.execute('UPDATE rooms SET color = ?', (color,))
-        conn.commit()
-        conn.close()
+
+        # Make sure the color is valid.
+        if color not in valid_room_color_options():
+            flash('Color "' + color + '" is not a valid color option.')
+        else:
+            conn = get_db_connection()
+            conn.execute('UPDATE rooms SET color = ?', (color,))
+            conn.commit()
+            conn.close()
 
     rooms = get_rooms()
     return render_template('room_lights.html', rooms=rooms, page='room-lights')
