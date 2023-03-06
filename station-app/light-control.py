@@ -69,6 +69,7 @@ def set_lighting():
 if __name__ == '__main__':
     try:
         startup_light_test()
+        print('Monitoring room lighting conditions...')
         while True:
             set_lighting()
             time.sleep(1)
