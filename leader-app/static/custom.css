@@ -56,6 +56,7 @@ nav.navbar-beast {
 /* Room Pages */
 .room-grid {
     width: 100%;
+    max-width: 1092px;
 }
 
 .room-grid .room {

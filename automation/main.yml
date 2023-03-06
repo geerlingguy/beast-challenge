@@ -10,6 +10,10 @@
     # we run the playbook in sandboxed environment!
 
   tasks:
+    # TODO: Admin user with passwordless sudo, predefined SSH key
+    - name: Configure admin user.
+      noop:
+
     - name: Install required packages.
       ansible.builtin.package:
         name:
