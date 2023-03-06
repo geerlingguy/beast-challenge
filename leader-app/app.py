@@ -155,8 +155,15 @@ def room_votes():
 
 
 # Room light status displayed on a web page.
-@app.route('/room-lights')
+@app.route('/room-lights', methods = ['GET', 'POST'])
 def room_lights():
+    if request.method == 'POST':
+        color = request.form.get('color_select')
+        conn = get_db_connection()
+        conn.execute('UPDATE rooms SET color = ?', (color,))
+        conn.commit()
+        conn.close()
+
     rooms = get_rooms()
     return render_template('room_lights.html', rooms=rooms, page='room-lights')
 

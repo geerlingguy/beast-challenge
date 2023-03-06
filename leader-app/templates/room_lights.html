@@ -14,23 +14,25 @@
       <div class="card-body">
         <h5 class="card-title">Bulk Change Room Lights</h5>
         <p class="card-text">Select a color to apply to all rooms.</p>
-        <div class="d-inline-flex w-50">
-            <select class="form-select">
-                <option selected>-- Choose a color --</option>
-                <option value="off">off</option>
-                <option value="white">white</option>
-                <option value="red">red</option>
-                <option value="green">green</option>
-                <option value="blue">blue</option>
-            </select>
-        </div>
-        <div class="d-inline-flex w-25">
-            <a href="#" class="btn btn-primary">Save Color</a>
-        </div>
+        <form method="post">
+            <div class="d-inline-flex w-50">
+                <select class="form-select" name="color_select">
+                    <option selected>-- Choose a color --</option>
+                    <option value="off">off</option>
+                    <option value="white">white</option>
+                    <option value="red">red</option>
+                    <option value="green">green</option>
+                    <option value="blue">blue</option>
+                </select>
+            </div>
+            <div class="d-inline-flex w-25">
+                <button type="submit" class="btn btn-primary">Save Color</button>
+            </div>
+        </form>
       </div>
     </div>
     <!-- Refresh page every 5 seconds -->
     <script type="text/javascript">
-        setTimeout(function () { location.reload(1); }, 5000);
+        setTimeout(function () { location.reload(1); }, 10000);
     </script>
 {% endblock %}

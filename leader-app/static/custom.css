@@ -85,11 +85,12 @@ nav.navbar-beast {
 }
 
 .room-grid .bg-red { background-color: #ff0000; }
-.room-grid .bg-green { background-color: #00ff00; }
+.room-grid .bg-green { background-color: #008000; }
 .room-grid .bg-blue { background-color: #0000ff; }
 .room-grid .bg-white {
     color: #000 !important;
     background-color: #ffffff !important;
+    border: 1px solid #eeeeee;
 }
 .room-grid .bg-off {
     color: #dddddd;
