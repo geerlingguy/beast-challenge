@@ -1,0 +1,37 @@
+---
+- name: Someone set us up the Potatoes
+  hosts: potatoes
+  gather_facts: true
+  become: true
+
+  vars:
+    run_upgrades: false
+
+  pre_tasks:
+    - name: Upgrade everything on initial provision.
+      ansible.builtin.include_tasks: tasks/upgrade.yml
+      when: run_upgrades
+
+  tasks:
+    - name: Configure admin user and sudoers.
+      ansible.builtin.include_tasks: tasks/admin-user.yml
+
+    - name: Install required packages.
+      ansible.builtin.package:
+        name:
+          - gpiod
+          - python3-libgpiod
+          - python3-smbus
+          - python3-pip
+        state: present
+
+    - name: Install required pip packages.
+      ansible.builtin.pip:
+        name: requests
+        state: present
+
+    - name: Configure I2C overlay on Armbian.
+      ansible.builtin.include_tasks: tasks/i2c.yml
+
+    # TODO - copy station-app scripts (startup, main, etc.)
+    # TODO - make sure everything set to run on boot

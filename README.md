@@ -33,11 +33,42 @@ The app controls the following:
 
 TODO: Build the app
 
-## Automation for Controlling the Rooms
+## Automation for Controlling the Potatoes
 
-The `automation` directory contains Ansible configuration for managing the fleet of 100 room nodes. We have to use something like Ansible because managing 100 nodes by hand would be insane.
+The `automation` directory contains Ansible configuration for managing both the main server (`farmer`) and the fleet of 100 room nodes (`potatoes`, sometimes referred to as `spuds`). We have to use something like Ansible because managing 100 nodes by hand would be insane.
 
-TODO: Build the automation
+Make sure you have Ansible installed on a machine on the same network: `pip3 install ansible`
+
+### Initializing a Le Potato (the 'Spud')
+
+For first-time setup of a new Le Potato (assuming you've already booted it and set up the `admin` user account following Armbian's wizard), do the following:
+
+  1. `cd automation`
+  2. `ansible-playbook spud-control.yml -k -K -e '{"run_upgrades": true}'`
+  3. Enter the default `admin` password (and then press enter to re-use it for `BECOME`).
+  4. Wait for the playbook to complete.
+
+#### Re-running the `spud-control.yml` playbook
+
+For future runs, assuming you have the private key in your agent (`ssh-add [path-to-key]`), you can just run the following:
+
+```
+ansible-playbook spud-control.yml
+```
+
+The playbook is configured to be idempotent, so we should be able to run it live if we need to quickly patch all 100 rooms!
+
+#### Shutting down the Potato farm
+
+To shut down all active Potatoes, run the command:
+
+```
+ansible potatoes -m community.general.shutdown -b
+```
+
+### Initializing the Farmer
+
+TODO.
 
 ## Screenshots
 

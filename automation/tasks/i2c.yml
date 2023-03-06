@@ -1,0 +1,16 @@
+---
+- name: Download Libretech's I2C Device Tree.
+  ansible.builtin.get_url:
+    url: https://raw.githubusercontent.com/libre-computer-project/libretech-wiring-tool/master/libre-computer/aml-s905x-cc/dt/i2c-ao.dts
+    dest: /tmp/i2c-ao.dts
+    mode: 0644
+
+- name: Add the overlay using Armbian's tool.
+  ansible.builtin.command:
+    cmd: armbian-add-overlay /tmp/i2c-ao.dts
+    creates: /boot/overlay-user/i2c-ao.dtbo
+  register: add_overlay
+
+- name: Reboot if the overlay was added.
+  ansible.builtin.reboot:
+  when: add_overlay is changed

@@ -1,0 +1,30 @@
+---
+- name: Ensure required groups exist.
+  ansible.builtin.group:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - sudo
+    - i2c
+
+- name: Configure passwordless sudo.
+  ansible.builtin.lineinfile:
+    dest: /etc/sudoers
+    state: present
+    regexp: '^%sudo'
+    line: '%admin ALL=(ALL:ALL) NOPASSWD:ALL'
+    validate: 'visudo -cf %s'
+
+- name: Ensure admin user is configured correctly.
+  ansible.builtin.user:
+    name: admin
+    groups: sudo,i2c
+    append: true
+    state: present
+    createhome: true
+
+# Generated with `ssh-keygen -t ed25519 -C "potato_admin"`
+- name: Insert our SSH key for the admin user.
+  ansible.posix.authorized_key:
+    user: admin
+    key: "{{ lookup('file', 'files/potato_admin_key.pub') }}"

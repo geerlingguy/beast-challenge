@@ -1,0 +1,15 @@
+---
+- name: Farming is so fun
+  hosts: farmer
+  gather_facts: true
+  become: true
+
+  vars:
+    run_upgrades: false
+
+  pre_tasks:
+    - name: Upgrade everything on initial provision.
+      ansible.builtin.include_tasks: tasks/upgrade.yml
+      when: run_upgrades
+
+  tasks: []

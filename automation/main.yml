@@ -1,41 +1,6 @@
 ---
-- name: Someone set us up the Potatoes
-  hosts: potatoes
-  gather_facts: true
-  become: true
+- name: Manage the farmer node (main server).
+  ansible.builtin.import_playbook: farmer-control.yml
 
-  pre_tasks: []
-    # TODO: Update apt caches, apt upgrade all the things, reboot if required
-    # Have the parts that require Internet be tagged so we can avoid them if
-    # we run the playbook in sandboxed environment!
-
-  tasks:
-    # TODO: Admin user with passwordless sudo, predefined SSH key
-    - name: Configure admin user.
-      noop:
-
-    - name: Install required packages.
-      ansible.builtin.package:
-        name:
-          - gpiod
-          - python3-libgpiod
-          - python3-smbus
-          - python3-pip
-        state: present
-
-    - name: Install required pip packages.
-      ansible.builtin.pip:
-        name: requests
-        state: present
-
-    # TODO see https://github.com/geerlingguy/beast-game/issues/1#issuecomment-1454380799
-    - name: Configure I2C overlay on Armbian.
-      noop:
-
-    # TODO - admin user with our pubkey in authorized_keys, add user to sudo and
-    # i2c groups (create sudo group if needed)
-    - name: Configure admin user.
-      noop:
-
-    # TODO - copy station-app scripts (startup, main, etc.)
-    # TODO - make sure everything set to run on boot
+- name: Manage the Potatoes (spuds).
+  ansible.builtin.import_playbook: spud-control.yml
