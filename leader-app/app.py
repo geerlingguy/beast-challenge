@@ -7,12 +7,14 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'TvierCO6smUk7ZlNDm0ojBU7VeyPyGUn'
 
 
-def sqlite_select_as_dict(select_query):
+def sqlite_select_as_dict(select_query, type = 'all'):
     try:
         conn = sqlite3.connect('database.sqlite')
         conn.row_factory = sqlite3.Row
         things = conn.execute(select_query).fetchall()
         unpacked = [{k: item[k] for k in item.keys()} for item in things]
+        if type == 'one':
+            unpacked = unpacked[0]
         return unpacked
     except Exception as e:
         print(f"Failed to execute. Query: {select_query}\n with error:\n{e}")
@@ -28,10 +30,8 @@ def get_db_connection():
 
 
 def get_current_round():
-    conn = get_db_connection()
-    current_round = conn.execute('SELECT * FROM rounds WHERE is_current = 1 ORDER BY start_time DESC').fetchone()
-    conn.close()
-    return current_round
+    query = "SELECT * FROM rounds WHERE is_current = 1 ORDER BY start_time DESC"
+    return sqlite_select_as_dict(query, 'one')
 
 
 def get_rooms():
@@ -217,6 +217,13 @@ def live_tally():
     current_round = get_current_round()
     votes = get_totals_for_round(current_round['round_id'])
     return jsonify(votes)
+
+
+# Live current round data for React.
+@app.route('/live/round')
+def live_round():
+    current_round = get_current_round()
+    return jsonify(current_round)
 
 
 # Tally of all votes displayed on a web page.

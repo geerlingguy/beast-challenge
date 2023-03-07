@@ -72,7 +72,7 @@ The playbook is configured to be idempotent, so we should be able to run it live
 To shut down all active Potatoes, run the command:
 
 ```
-ansible potatoes -m community.general.shutdown -b
+ansible potatoes -a "shutdown -H now" -b
 ```
 
 ### Initializing the Farmer
