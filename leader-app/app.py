@@ -181,6 +181,14 @@ def test():
     return render_template('test.html', votes=votes, page='test')
 
 
+# Live vote data for React.
+@app.route('/live/tally')
+def live_tally():
+    current_round = get_current_round()
+    votes = get_totals_for_round(current_round['round_id'])
+    return jsonify(votes)
+
+
 # Tally of all votes displayed on a web page.
 @app.route('/tally')
 def tally():
