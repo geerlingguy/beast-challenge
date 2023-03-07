@@ -2,7 +2,7 @@
 
 {% block content %}
     <h2>Room Votes - Round {{ round.round_id }}</h2>
-    <div class="room-grid d-flex flex-wrap">
+    <div class="room-grid d-flex flex-wrap flex-column">
         {% for room in rooms %}
             <!-- TODO bg-light should be dynamic based on room 'color' -->
             <div class="room m-1 p-0 text-dark text-center{{ ' has-voted' if room.most_recent_vote }}">

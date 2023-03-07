@@ -7,7 +7,7 @@
                 {{ message }}
             </div>
         {% endfor %}
-    <div class="room-grid d-flex flex-wrap">
+    <div class="room-grid d-flex flex-wrap flex-column">
         {% for room in rooms %}
             <!-- TODO bg-dark should be dynamic based on room 'color' -->
             <div class="room m-1 p-0 bg-{{ room.color }} text-light text-center">
