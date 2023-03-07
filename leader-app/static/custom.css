@@ -18,6 +18,14 @@ nav.navbar-beast {
     width: 8em;
 }
 
+.round-overview .new {
+    background-color: #e1ffda;
+}
+
+.round-overview .new .id {
+    visibility: hidden;
+}
+
 /* Tally page */
 .tally-page {
     height: 100%;

@@ -7,6 +7,20 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'TvierCO6smUk7ZlNDm0ojBU7VeyPyGUn'
 
 
+def sqlite_select_as_dict(select_query):
+    try:
+        conn = sqlite3.connect('database.sqlite')
+        conn.row_factory = sqlite3.Row
+        things = conn.execute(select_query).fetchall()
+        unpacked = [{k: item[k] for k in item.keys()} for item in things]
+        return unpacked
+    except Exception as e:
+        print(f"Failed to execute. Query: {select_query}\n with error:\n{e}")
+        return []
+    finally:
+        conn.close()
+
+
 def get_db_connection():
     conn = sqlite3.connect('database.sqlite')
     conn.row_factory = sqlite3.Row
@@ -35,10 +49,7 @@ def get_room(room_id):
 
 
 def get_rounds():
-    conn = get_db_connection()
-    rounds = conn.execute('SELECT * FROM rounds').fetchall()
-    conn.close()
-    return rounds
+    return sqlite_select_as_dict('SELECT * FROM rounds')
 
 
 def valid_room_color_options():
@@ -126,10 +137,9 @@ def index():
         for key, value in request.form.items():
             round_id = key[0]
             actual_key = key[2:]
-            if round_id in round_data:
-                round_data[round_id][actual_key] = value
-            else:
+            if round_id not in round_data:
                 round_data[round_id] = {'round_id': round_id}
+            round_data[round_id][actual_key] = value
 
         conn = get_db_connection()
 
@@ -155,20 +165,40 @@ def index():
             # Rearrange things for database insertion or update.
             row_round_id = value.pop('round_id')
             db_keys = '=?, '.join(value.keys()) + '=?'
-            value['round_id'] = row_round_id
+            if (row_round_id != 'n'):
+                value['round_id'] = row_round_id
+            else:
+                db_keys = ','.join(value.keys())
             db_values = tuple(value.values())
 
-            # Create new round.
-            if value['round_id'] == 'new':
-                print('TODO new round about to be created')
+            # Create new round if not empty.
+            if row_round_id == 'n':
+                if value['value_0']:
+                    conn = get_db_connection()
+                    conn.execute("INSERT INTO rounds (" + db_keys + ') VALUES (?,?,?,?,?,?)', db_values)
+                    conn.commit()
+                    conn.close()
+            # Update existing round.
             else:
-                print('Updating existing round')
                 conn = get_db_connection()
                 conn.execute("UPDATE rounds SET " + db_keys + " WHERE round_id=?", db_values)
                 conn.commit()
                 conn.close()
 
     rounds = get_rounds()
+
+    # Create empty row for last round.
+    last_row = dict(rounds[-1])
+    for key, value in last_row.items():
+        if key == 'round_id':
+            last_row[key] = 'n'
+        elif type(last_row[key]) is int:
+            last_row[key] = 0
+        elif type(last_row[key]) is str:
+            last_row[key] = ''
+    rounds.append(last_row)
+
+    # Render the page.
     return render_template('index.html', rounds=rounds, page='index')
 
 
