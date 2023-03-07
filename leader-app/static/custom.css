@@ -71,6 +71,7 @@ nav.navbar-beast {
 .room-grid {
     width: 100%;
     max-width: 1092px;
+    max-height: 1092px;
 }
 
 .room-grid .room {
