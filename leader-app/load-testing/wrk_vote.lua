@@ -1,5 +1,5 @@
 --- To use:
----   wrk "http://127.0.0.1:5000/" -s wrk_vote.lua --latency -t 5 -c 20 -d 30s
+---   wrk "http://127.0.0.1:5000/" -s wrk_vote.lua --latency -t 2 -c 2 -d 5s
 ---
 --- Inspired by: https://stackoverflow.com/a/68597094/100134
 

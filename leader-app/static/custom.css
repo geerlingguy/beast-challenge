@@ -14,12 +14,18 @@ nav.navbar-beast {
 }
 
 /* Home page */
+.round-overview {
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
 .round-overview input[type="text"] {
     width: 8em;
 }
 
 .round-overview .new {
     background-color: #e1ffda;
+    display: none;
 }
 
 .round-overview .new .id {
