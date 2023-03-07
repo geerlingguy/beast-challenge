@@ -1,0 +1,4 @@
+---
+room_id: 1
+server_url: "http://10.0.100.15:5000"
+light_polling_rate_seconds: 1

@@ -13,6 +13,11 @@ import gpiod
 import sys
 import time
 import requests
+import yaml
+
+# Read configuration file.
+with open("config.yml", "r") as f:
+    config = yaml.safe_load(f)
 
 # Button 1 Switch: "7J1 Header Pin40"
 # Button 1 LED: "7J1 Header Pin38"
@@ -23,8 +28,8 @@ import requests
 
 bounce_timer = time.perf_counter_ns()
 bounce_limit = (5 * 1000000)  # 5ms converted to ns
-vote_url = 'http://10.0.100.15:5000/vote'
-room_id = 1
+vote_url = config['server_url'] + '/vote'
+room_id = config['room_id']
 button_map = {'Pin40': 0, 'Pin36': 1, 'Pin37': 2}
 
 

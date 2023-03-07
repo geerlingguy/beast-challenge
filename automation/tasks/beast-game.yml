@@ -18,6 +18,17 @@
   with_items:
     - button-monitor.py
     - light-control.py
+  notify: restart apps
+  tags: ['app']
+
+- name: Template config file for app.
+  template:
+    src: templates/config.yml.j2
+    dest: /opt/config.yml
+    owner: admin
+    group: admin
+    mode: 0644
+  notify: restart apps
   tags: ['app']
 
 - name: Copy systemd unit files into place.
@@ -31,6 +42,7 @@
       Type=simple
       Restart=on-failure
       ExecStart=/opt/{{ item }}.py
+      WorkingDirectory=/opt
 
       [Install]
       WantedBy=multi-user.target

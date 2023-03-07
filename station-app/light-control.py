@@ -18,12 +18,18 @@ import time
 import smbus
 import sys
 import requests
+import yaml
+
+# Read configuration file.
+with open("config.yml", "r") as f:
+    config = yaml.safe_load(f)
 
 DEVICE_BUS = 0
 DEVICE_ADDR = 0x10
 bus = smbus.SMBus(DEVICE_BUS)
-room_url = 'http://10.0.100.15:5000/room'
-room_id = 1
+room_url = config['server_url'] + '/room'
+room_id = config['room_id']
+light_polling_rate_seconds = config['light_polling_rate_seconds']
 color_map = {'white': 1, 'red': 2, 'green': 3, 'blue': 4}
 
 
@@ -72,7 +78,7 @@ if __name__ == '__main__':
         print('Monitoring room lighting conditions...')
         while True:
             set_lighting()
-            time.sleep(1)
+            time.sleep(light_polling_rate_seconds)
     except KeyboardInterrupt:
         lights_out()
         sys.exit(130)

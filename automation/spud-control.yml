@@ -6,6 +6,16 @@
 
   vars:
     run_upgrades: false
+    server_url: "http://10.0.100.15:5000"
+
+  handlers:
+    - name: restart apps
+      ansible.builtin.service:
+        name: "{{ item }}"
+        state: restarted
+      with_items:
+        - light-control
+        - button-monitor
 
   pre_tasks:
     - name: Upgrade everything on initial provision.
@@ -28,7 +38,9 @@
 
     - name: Install required pip packages.
       ansible.builtin.pip:
-        name: requests
+        name:
+          - requests
+          - pyyaml
         state: present
 
     - name: Configure I2C overlay on Armbian.
