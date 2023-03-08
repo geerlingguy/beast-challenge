@@ -1,7 +1,7 @@
 ---
 - name: Copy utility scripts into place.
   copy:
-    src: "../station-app/{{ item }}"
+    src: "../station-app/utils/{{ item }}"
     dest: "/home/admin/{{ item }}"
     mode: 0755
   become: false
