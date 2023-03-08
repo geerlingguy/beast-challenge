@@ -13,7 +13,7 @@ CREATE TABLE rounds (
     start_time TIMESTAMP DATETIME,
     close_time TIMESTAMP DATETIME,
     is_accepting_votes INTEGER NOT NULL DEFAULT(0),
-    is_current INTEGER NOT NULL DEFAULT(0),
+    live INTEGER NOT NULL DEFAULT(0),
     is_allowing_multiple_votes INTEGER NOT NULL DEFAULT(1),
     value_0 TEXT DEFAULT('No'),
     value_1 TEXT DEFAULT('Yes'),

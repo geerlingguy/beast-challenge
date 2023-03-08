@@ -29,8 +29,8 @@ def get_db_connection():
     return conn
 
 
-def get_current_round():
-    query = "SELECT * FROM rounds WHERE is_current = 1 ORDER BY start_time DESC"
+def get_live_round():
+    query = "SELECT * FROM rounds WHERE live = 1 ORDER BY start_time DESC"
     return sqlite_select_as_dict(query, 'one')
 
 
@@ -86,13 +86,13 @@ def get_totals_for_round(round_id):
     votes = []
     conn = get_db_connection()
     # Get current round metadata.
-    current_round = conn.execute('SELECT * FROM rounds WHERE round_id = ?', (round_id,)).fetchone()
+    live_round = conn.execute('SELECT * FROM rounds WHERE round_id = ?', (round_id,)).fetchone()
 
     # Build list of up to three vote options.
     vote_tallies = []
     for i in range(3):
-        if current_round['value_' + str(i)]:
-            vote_tallies.append({'label': current_round['value_' + str(i)],'total': 0})
+        if live_round['value_' + str(i)]:
+            vote_tallies.append({'label': live_round['value_' + str(i)],'total': 0})
 
     # Get all votes for the current round.
     # TODO: The rest of the tabulation logic here is probably like O(3) or
@@ -130,12 +130,12 @@ def update_color_for_room(color, room_id):
 
 
 def set_room_colors_according_to_last_vote(colors={}):
-    current_round = get_current_round()
+    live_round = get_live_round()
     rooms = get_rooms()
     # Loop through all the rooms.
     for room in rooms:
         # Get the latest vote for the room to set the color.
-        latest_vote = room_vote_latest_for_round(room['room_id'], current_round['round_id'])
+        latest_vote = room_vote_latest_for_round(room['room_id'], live_round['round_id'])
         if latest_vote:
             key = latest_vote['value']
             vote_color = colors[key]
@@ -186,10 +186,10 @@ def index():
                     value['is_accepting_votes'] = 0
                 else:
                     value['is_accepting_votes'] = 1
-                if 'is_current' not in value_keys:
-                    value['is_current'] = 0
+                if 'live' not in value_keys:
+                    value['live'] = 0
                 else:
-                    value['is_current'] = 1
+                    value['live'] = 1
                 if 'is_allowing_multiple_votes' not in value_keys:
                     value['is_allowing_multiple_votes'] = 0
                 else:
@@ -232,9 +232,9 @@ def index():
     rounds.append(last_row)
 
     # Also set up options for color selections.
-    current_round = get_current_round()
+    live_round = get_live_round()
     color_options = []
-    for key, value in current_round.items():
+    for key, value in live_round.items():
         if key.startswith('value_') and value:
             color_options.append(value)
 
@@ -254,25 +254,25 @@ def test():
 # Live vote data for React.
 @app.route('/live/tally')
 def live_tally():
-    current_round = get_current_round()
-    votes = get_totals_for_round(current_round['round_id'])
+    live_round = get_live_round()
+    votes = get_totals_for_round(live_round['round_id'])
     return jsonify(votes)
 
 
 # Live current round data for React.
 @app.route('/live/round')
 def live_round():
-    current_round = get_current_round()
+    live_round = get_live_round()
     # TODO - See https://github.com/geerlingguy/beast-game/issues/21
-    current_round['total_participants'] = 100
-    return jsonify(current_round)
+    live_round['total_participants'] = 100
+    return jsonify(live_round)
 
 
 # Tally of all votes displayed on a web page.
 @app.route('/tally')
 def tally():
-    current_round = get_current_round()
-    votes = get_totals_for_round(current_round['round_id'])
+    live_round = get_live_round()
+    votes = get_totals_for_round(live_round['round_id'])
     return render_template('tally.html', votes=votes, page='tally')
 
 
@@ -281,7 +281,7 @@ def tally():
 def room_votes():
     # TODO: Current round is hardcoded here. Might want to allow looking at
     # vote data for other rounds (for reference). Maybe a query string param?
-    current_round = get_current_round()
+    live_round = get_live_round()
 
     # Build list of rooms and vote data.
     rooms_with_vote_data = []
@@ -289,24 +289,24 @@ def room_votes():
     for room in rooms:
 
         # Add a count of total votes submitted this round.
-        room['votes_this_round'] = room_vote_count_for_round(room['room_id'], current_round['round_id'])
+        room['votes_this_round'] = room_vote_count_for_round(room['room_id'], live_round['round_id'])
 
         # Add the most recent vote.
-        latest_vote = room_vote_latest_for_round(room['room_id'], current_round['round_id'])
+        latest_vote = room_vote_latest_for_round(room['room_id'], live_round['round_id'])
         vote_label = ''
         if latest_vote is not None:
             match latest_vote['value']:
                 case 0:
-                    vote_label = current_round['value_0']
+                    vote_label = live_round['value_0']
                 case 1:
-                    vote_label = current_round['value_1']
+                    vote_label = live_round['value_1']
                 case 2:
-                    vote_label = current_round['value_2']
+                    vote_label = live_round['value_2']
         room['most_recent_vote'] = vote_label
 
         # Add the data to our list of rooms.
         rooms_with_vote_data.append(room)
-    return render_template('room_votes.html', rooms=rooms_with_vote_data, round=current_round, page='room-votes')
+    return render_template('room_votes.html', rooms=rooms_with_vote_data, round=live_round, page='room-votes')
 
 
 # Room information API endpoint.
@@ -353,25 +353,25 @@ def vote():
         value = data['value']
 
         # Get current round information.
-        current_round = get_current_round()
+        live_round = get_live_round()
 
         # TODO Don't store votes for a button that doesn't have a corresponding
         # option (e.g. if vote value is `2` and round only has value_0/value_1).
         # (This is not critical... mostly saves us storing the non-useful data.)
 
         # If we're accepting votes, save vote and return success.
-        if current_round['is_accepting_votes']:
+        if live_round['is_accepting_votes']:
             # If the current round allows multiple votes, save the vote.
-            if current_round['is_allowing_multiple_votes']:
-                save_vote(room_id, value, current_round['round_id'])
+            if live_round['is_allowing_multiple_votes']:
+                save_vote(room_id, value, live_round['round_id'])
                 response.status = 201  # Created
             else:
                 # A vote was already submitted for this room; deny the vote.
-                if room_submitted_vote_for_round(room_id, current_round['round_id']):
+                if room_submitted_vote_for_round(room_id, live_round['round_id']):
                     response.status = 423  # Locked
                 # No vote submitted yet; save the vote.
                 else:
-                    save_vote(room_id, value, current_round['round_id'])
+                    save_vote(room_id, value, live_round['round_id'])
                     response.status = 201  # Created
         # Not accepting votes right now; deny the vote.
         else:

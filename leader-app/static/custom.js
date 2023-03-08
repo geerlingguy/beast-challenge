@@ -1,6 +1,6 @@
-// Allow only one 'active' round.
-function onlyAllowOneActive(id) {
-    var elements = document.getElementsByClassName("round-active");
+// Allow only one 'live' round.
+function onlyAllowOneLive(id) {
+    var elements = document.getElementsByClassName("round-live");
     console.log(elements);
     for (i in elements) {
         elements[i].checked = false;

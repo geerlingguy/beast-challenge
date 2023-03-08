@@ -31,8 +31,8 @@
                     </td>
                     <td>
                         <div class="form-check form-switch">
-                            <input name="{{ id + '_is_current' }}" class="form-check-input round-active" type="checkbox" {{ 'checked' if round['is_current'] }} role="switch" id="round-active-{{ round['round_id'] }}" onclick="onlyAllowOneActive(this.id)">
-                            <label class="form-check-label" for="round-active-{{ round['round_id'] }}">Live</label>
+                            <input name="{{ id + '_live' }}" class="form-check-input round-live" type="checkbox" {{ 'checked' if round['live'] }} role="switch" id="round-live-{{ round['round_id'] }}" onclick="onlyAllowOneLive(this.id)">
+                            <label class="form-check-label" for="round-live-{{ round['round_id'] }}">Live</label>
                         </div>
                     </td>
                     <td>
