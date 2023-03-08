@@ -223,6 +223,8 @@ def live_tally():
 @app.route('/live/round')
 def live_round():
     current_round = get_current_round()
+    # TODO - See https://github.com/geerlingguy/beast-game/issues/21
+    current_round['total_participants'] = 100
     return jsonify(current_round)
 
 
