@@ -35,10 +35,8 @@ def get_current_round():
 
 
 def get_rooms():
-    conn = get_db_connection()
-    rooms = conn.execute('SELECT * FROM rooms').fetchall()
-    conn.close()
-    return rooms
+    query = 'SELECT * FROM rooms'
+    return sqlite_select_as_dict(query, 'all')
 
 
 def get_room(room_id):
@@ -124,6 +122,27 @@ def get_totals_for_round(round_id):
     return vote_tallies
 
 
+def update_color_for_room(color, room_id):
+    conn = get_db_connection()
+    conn.execute("UPDATE rooms SET color = ? WHERE room_id = ?", (color, room_id))
+    conn.commit()
+    conn.close()
+
+
+def set_room_colors_according_to_last_vote(colors={}):
+    current_round = get_current_round()
+    rooms = get_rooms()
+    # Loop through all the rooms.
+    for room in rooms:
+        # Get the latest vote for the room to set the color.
+        latest_vote = room_vote_latest_for_round(room['room_id'], current_round['round_id'])
+        if latest_vote:
+            key = latest_vote['value']
+            vote_color = colors[key]
+            # Write the new color to the database.
+            update_color_for_room(vote_color, room['room_id'])
+
+
 # Default route - overview.
 @app.route('/', methods = ['GET', 'POST'])
 def index():
@@ -132,58 +151,72 @@ def index():
     # disputes between the young ones in my family. I am tired, this code is not
     # amazing, and that's all there is to it. If it works reliably, it ships!
     if request.method == 'POST':
-        # Build dict of submitted round data.
-        round_data = {}
-        for key, value in request.form.items():
-            round_id = key[0]
-            actual_key = key[2:]
-            if round_id not in round_data:
-                round_data[round_id] = {'round_id': round_id}
-            round_data[round_id][actual_key] = value
+        # Process the colors selected for options in the current round.
+        if 'room_color_form' in request.form:
+            colors = {}
+            for key, value in request.form.items():
+                # Discard the first result.
+                if key == 'room_color_form':
+                    continue
+                # Grab the last character from the key.
+                colors[int(key[-1])] = value
+            set_room_colors_according_to_last_vote(colors)
 
-        conn = get_db_connection()
 
-        # Write each round to the database.
-        # NOTE: Security is not a priority. If someone hacked the form, they
-        # could likely achieve SQL injection. Hello little Bobby Tables!
-        for key, value in round_data.items():
-            value_keys = value.keys()
-            # Force all binary options to have a value, set to 0 or 1.
-            if 'is_accepting_votes' not in value_keys:
-                value['is_accepting_votes'] = 0
-            else:
-                value['is_accepting_votes'] = 1
-            if 'is_current' not in value_keys:
-                value['is_current'] = 0
-            else:
-                value['is_current'] = 1
-            if 'is_allowing_multiple_votes' not in value_keys:
-                value['is_allowing_multiple_votes'] = 0
-            else:
-                value['is_allowing_multiple_votes'] = 1
+        # Save data for all the rounds.
+        else:
+            # Build dict of submitted round data.
+            round_data = {}
+            for key, value in request.form.items():
+                round_id = key[0]
+                actual_key = key[2:]
+                if round_id not in round_data:
+                    round_data[round_id] = {'round_id': round_id}
+                round_data[round_id][actual_key] = value
 
-            # Rearrange things for database insertion or update.
-            row_round_id = value.pop('round_id')
-            db_keys = '=?, '.join(value.keys()) + '=?'
-            if (row_round_id != 'n'):
-                value['round_id'] = row_round_id
-            else:
-                db_keys = ','.join(value.keys())
-            db_values = tuple(value.values())
+            conn = get_db_connection()
 
-            # Create new round if not empty.
-            if row_round_id == 'n':
-                if value['value_0']:
+            # Write each round to the database.
+            # NOTE: Security is not a priority. If someone hacked the form, they
+            # could likely achieve SQL injection. Hello little Bobby Tables!
+            for key, value in round_data.items():
+                value_keys = value.keys()
+                # Force all binary options to have a value, set to 0 or 1.
+                if 'is_accepting_votes' not in value_keys:
+                    value['is_accepting_votes'] = 0
+                else:
+                    value['is_accepting_votes'] = 1
+                if 'is_current' not in value_keys:
+                    value['is_current'] = 0
+                else:
+                    value['is_current'] = 1
+                if 'is_allowing_multiple_votes' not in value_keys:
+                    value['is_allowing_multiple_votes'] = 0
+                else:
+                    value['is_allowing_multiple_votes'] = 1
+
+                # Rearrange things for database insertion or update.
+                row_round_id = value.pop('round_id')
+                db_keys = '=?, '.join(value.keys()) + '=?'
+                if (row_round_id != 'n'):
+                    value['round_id'] = row_round_id
+                else:
+                    db_keys = ','.join(value.keys())
+                db_values = tuple(value.values())
+
+                # Create new round if not empty.
+                if row_round_id == 'n':
+                    if value['value_0']:
+                        conn = get_db_connection()
+                        conn.execute("INSERT INTO rounds (" + db_keys + ') VALUES (?,?,?,?,?,?)', db_values)
+                        conn.commit()
+                        conn.close()
+                # Update existing round.
+                else:
                     conn = get_db_connection()
-                    conn.execute("INSERT INTO rounds (" + db_keys + ') VALUES (?,?,?,?,?,?)', db_values)
+                    conn.execute("UPDATE rounds SET " + db_keys + " WHERE round_id=?", db_values)
                     conn.commit()
                     conn.close()
-            # Update existing round.
-            else:
-                conn = get_db_connection()
-                conn.execute("UPDATE rounds SET " + db_keys + " WHERE round_id=?", db_values)
-                conn.commit()
-                conn.close()
 
     rounds = get_rounds()
 
@@ -198,8 +231,15 @@ def index():
             last_row[key] = ''
     rounds.append(last_row)
 
+    # Also set up options for color selections.
+    current_round = get_current_round()
+    color_options = []
+    for key, value in current_round.items():
+        if key.startswith('value_') and value:
+            color_options.append(value)
+
     # Render the page.
-    return render_template('index.html', rounds=rounds, page='index')
+    return render_template('index.html', rounds=rounds, color_options=color_options, page='index')
 
 
 # Test mode page.
@@ -247,10 +287,9 @@ def room_votes():
     rooms_with_vote_data = []
     rooms = get_rooms()
     for room in rooms:
-        room_copy = dict(zip(room.keys(), room))
 
         # Add a count of total votes submitted this round.
-        room_copy['votes_this_round'] = room_vote_count_for_round(room['room_id'], current_round['round_id'])
+        room['votes_this_round'] = room_vote_count_for_round(room['room_id'], current_round['round_id'])
 
         # Add the most recent vote.
         latest_vote = room_vote_latest_for_round(room['room_id'], current_round['round_id'])
@@ -263,10 +302,10 @@ def room_votes():
                     vote_label = current_round['value_1']
                 case 2:
                     vote_label = current_round['value_2']
-        room_copy['most_recent_vote'] = vote_label
+        room['most_recent_vote'] = vote_label
 
         # Add the data to our list of rooms.
-        rooms_with_vote_data.append(room_copy)
+        rooms_with_vote_data.append(room)
     return render_template('room_votes.html', rooms=rooms_with_vote_data, round=current_round, page='room-votes')
 
 

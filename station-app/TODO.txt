@@ -1,6 +1,0 @@
-Station App needs to do the following:
-
-  1. Monitor for button presses, forward those via HTTP to central server /vote endpoint
-  2. Request room color from central server (default to white), set that on relay
-  3. Request button LED lights (which to light) from central server (default to off), set that on GPIO
-  4. At startup (maybe separate script that runs at boot), cycle through relay colors and then turn off
