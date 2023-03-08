@@ -113,7 +113,7 @@ cur.execute("INSERT INTO rooms (room_id, mac_address, color) VALUES (?,?,?)", (1
 
 # Populate the rounds table with some values.
 time_now = time.strftime("%Y-%m-%d %H:%M:%f", time.gmtime())
-cur.execute("INSERT INTO rounds (round_id, start_time, close_time, is_accepting_votes, is_current, is_allowing_multiple_votes, value_0, value_1, value_2) VALUES (?,?,?,?,?,?,?,?,?)", (1,"2023-03-01 23:36:37.171","2023-03-01 23:38:23.249",1,0,1,"TEST","MODE","ONLY"))
+cur.execute("INSERT INTO rounds (round_id, start_time, close_time, is_accepting_votes, is_current, is_allowing_multiple_votes, value_0, value_1, value_2) VALUES (?,?,?,?,?,?,?,?,?)", (1,"2023-03-01 23:36:37.171","2023-03-01 23:38:23.249",0,0,0,"TEST","MODE","ONLY"))
 cur.execute("INSERT INTO rounds (round_id, start_time, close_time, is_accepting_votes, is_current, is_allowing_multiple_votes, value_0, value_1) VALUES (?,?,?,?,?,?,?,?)", (2,"2023-03-01 23:39:23.249","2023-03-01 23:42:23.249",0,0,0,"Yes","No"))
 cur.execute("INSERT INTO rounds (round_id, start_time, is_accepting_votes, is_current, is_allowing_multiple_votes, value_0, value_1, value_2) VALUES (?,?,?,?,?,?,?,?)", (3,time_now,1,1,1,"Chicken","Steak","Oatmeal"))
 
