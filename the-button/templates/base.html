@@ -5,8 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="author" content="Jeff Geerling, Network Chuck, and co">
     <title>{% block title %} {% endblock %}</title>
-    <!-- Bootstrap CSS -->
-    <!-- TODO SWITCH TO LOCAL (non-CDN) COPY! -->
     <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='custom.css') }}">
     <script src="{{ url_for('static', filename='custom.js') }}"></script>
@@ -43,8 +41,6 @@
         </footer>
 {% endif %}
     </main>
-    <!-- Bootstrap JS -->
-    <!-- TODO SWITCH TO LOCAL (non-CDN) COPY! -->
     <script src="{{ url_for('static', filename='bootstrap.bundle.min.js') }}"></script>
 </body>
 </html>
