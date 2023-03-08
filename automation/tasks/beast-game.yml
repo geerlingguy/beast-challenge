@@ -1,7 +1,7 @@
 ---
 - name: Copy utility scripts into place.
   copy:
-    src: "../station-app/utils/{{ item }}"
+    src: "../room-app/utils/{{ item }}"
     dest: "/home/admin/{{ item }}"
     mode: 0755
   become: false
@@ -10,7 +10,7 @@
 
 - name: Copy app scripts into place.
   copy:
-    src: "../station-app/{{ item }}"
+    src: "../room-app/{{ item }}"
     dest: "/opt/{{ item }}"
     owner: admin
     group: admin

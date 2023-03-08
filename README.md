@@ -22,9 +22,13 @@ To develop it locally, run:
 
 Visit the app at http://127.0.0.1:5000
 
+## The Button app
+
+TODO: Same as above, but add `-p 5005` and access at http://127.0.0.1:5005
+
 ## Room app
 
-The Room app runs on every one of the 100x rooms where SBCs are set up to run the room controls.
+The Room app (inside `room-app`) runs on every one of the 100x rooms where SBCs are set up to run the room controls.
 
 The app controls the following:
 
@@ -40,7 +44,7 @@ The 52Pi EP-0099 Relay is a 4-channel I2C-controlled relay HAT that works with L
   1. It is easy to install (as a HAT)
   2. It was available on short notice
 
-The relays used are `HK4100F-DC5V-SHG`, and according to the datasheet, 
+The relays used are `HK4100F-DC5V-SHG`, and according to the datasheet, TODO.
 
 ## Automation for Controlling the Potatoes
 
@@ -93,6 +97,6 @@ TODO.
 
 ## Critical Test Scenarios
 
-  1. Active round is open, accepts multiple votes, make sure multiple votes can be made per room.
-  2. Active round is open, doesn't accept multiple votes, make sure only first vote is accepted.
-  3. Active round is closed, make sure no votes are accepted.
+  1. Live round is open, accepts multiple votes, make sure multiple votes can be made per room.
+  2. Live round is open, doesn't accept multiple votes, make sure only first vote is accepted.
+  3. Live round is closed, make sure no votes are accepted.

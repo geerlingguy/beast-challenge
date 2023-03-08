@@ -379,13 +379,6 @@ def vote():
         return response
 
 
-@app.route('/round', methods = ['POST'])
-def round():
-    if request.method == 'POST':
-        response = make_response(jsonify({'Rounds': 'This route has not yet been implemented.'}), 501)
-        return response
-
-
 @app.context_processor
 def inject_debug():
     return dict(debug=app.debug)

@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Room Timers - Round {{ round.round_id }}</h2>
+    <div class="room-grid d-flex flex-wrap flex-column-reverse">
+        {% for room in rooms %}
+            <div class="room m-1 p-1 text-dark {{ ' has-pressed' if room.most_recent_press }}">
+                <h2 class="room-id m-0 p-0">{{ room.room_id }}</h2>
+                <div class="press-data text-center">
+                    <div class="countdown">
+                        <span class="timer">{{ room.time_remaining }}</span><br>
+                    </div>
+                    <div class="number-of-presses">
+                        <!-- 1 pluralizations make the world go round. -->
+                        <span class="press-count">{{ room.presses_this_round }} presses</span><br>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <!-- Refresh page every 10 seconds -->
+    <script type="text/javascript">
+        // setTimeout(function () { location.reload(1); }, 10000);
+    </script>
+{% endblock %}

@@ -10,7 +10,7 @@
 }
 
 nav.navbar-beast {
-    background-color: #03497d;
+    background-color: #1C5C30;
 }
 
 /* Home page */
@@ -76,41 +76,6 @@ nav.navbar-beast {
     border-color: #008000;
 }
 
-/* Tally page */
-.tally-page {
-    height: 100%;
-    font-family: komika_axisregular, Arial;
-    color: #fff;
-    font-size: 100px;
-    text-shadow: 0 0 10px #000;
-}
-
-.tally-page .results {
-    width: 100%;
-    text-align: center;
-    vertical-align: middle;
-    height: 100%;
-    font-weight: bold;
-}
-
-.tally-page .width-3 {
-    font-size: 80px;
-}
-
-.tally-page .results .value {
-    font-size: 150px;
-}
-
-.tally .execution-time {
-    color: #fff;
-    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    opacity: 0.2;
-    width: 100%;
-    text-align: right;
-    padding: 5px;
-    margin: -50px;
-}
-
 /* Room Pages */
 .room-grid {
     width: 100%;
@@ -127,19 +92,19 @@ nav.navbar-beast {
     background-color: #eeeeee;
 }
 
-.room-grid .has-voted {
+.room-grid .has-pressed {
     background-color: #9CD3FC;
 }
 
-.room-grid .vote-count {
+.room-grid .press-count {
     opacity: .5;
 }
 
-.room-grid .vote-data {
+.room-grid .press-data {
     line-height: .9em;
 }
 
-.room-grid .has-voted h2 {
+.room-grid .has-pressed h2 {
     color: #ffffff;
 }
 
@@ -162,18 +127,18 @@ nav.navbar-beast {
     background-color: #dddddd;
 }
 
-.room-grid .number-of-votes {
+.room-grid .number-of-presses {
     font-size: .2em;
 }
 
 /* Test Mode Page */
-.latest-vote {
+.latest-press {
     width: 100%;
     background-color: #E3447C;
     color: #fff;
 }
 
-.latest-vote table {
+.latest-press table {
     font-size: 100px;
     font-family: komika_axisregular, Arial;
     font-weight: bold;
@@ -183,11 +148,11 @@ nav.navbar-beast {
     width: 100%;
 }
 
-.latest-vote .value {
+.latest-press .value {
     font-size: 150px;
 }
 
-.latest-vote .vote-metadata {
+.latest-press .press-metadata {
     font-size: 20px;
     opacity: .4;
 }
