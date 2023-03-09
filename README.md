@@ -22,6 +22,10 @@ To develop it locally, run:
 
 Visit the app at http://127.0.0.1:5000
 
+### Production Deployment
+
+TODO: Basically run `docker-compose up -d` in this directory, and it will spin up the environment.
+
 ## The Button app
 
 TODO: Same as above, but add `-p 5005` and access at http://127.0.0.1:5005
