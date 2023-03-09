@@ -46,6 +46,6 @@
     - name: Configure I2C overlay on Armbian.
       ansible.builtin.include_tasks: tasks/i2c.yml
 
-    - name: Configure our software.
-      ansible.builtin.include_tasks: tasks/beast-game.yml
+    - name: Configure the room-app scripts.
+      ansible.builtin.include_tasks: tasks/room-app.yml
       tags: ['app']

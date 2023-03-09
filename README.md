@@ -22,13 +22,31 @@ To develop it locally, run:
 
 Visit the app at http://127.0.0.1:5000
 
-### Production Deployment
-
-TODO: Basically run `docker-compose up -d` in this directory, and it will spin up the environment.
-
 ## The Button app
 
 TODO: Same as above, but add `-p 5005` and access at http://127.0.0.1:5005
+
+## Production 'Farmer' Deployment (Leader and Button apps)
+
+The Leader and Button apps will run on the main server NUC, with a hot spare backup server available should the need arise.
+
+The `automation/farmer-control.yml` file contains the Ansible playbook to set up the server, install the app, and run it.
+
+Make sure you have Ansible installed on a machine on the same network: `pip3 install ansible`
+
+Then make sure the leader and spare's IP addresses are both entered in the `[leader]` section of the `hosts.ini` file. For SSH authentication, the private key is available inside the Notion doc—you should add it to your `ssh` keychain with `ssh-add ~/path/to/private_key`
+
+Then run the Ansible playbook:
+
+```
+ansible-playbook farmer-control.yml
+```
+
+You can control which app is active by overriding it with the extra var `running_app`. For example, if `leader-app` is currently running, switch to `the-button` with:
+
+```
+ansible-playbook farmer-control.yml -e "running_app=the-button" --tags app
+```
 
 ## Room app
 
@@ -39,7 +57,7 @@ The app controls the following:
   1. Buttons and Button LEDs (GPIO digital inputs)
   2. RGBW LED light strip control (GPIO digital outputs)
 
-TODO: Build the app
+To deploy the app, see the _Automation for Controlling the Potatoes_ section below.
 
 ### 52Pi EP-0099 Relay Considerations
 
@@ -48,7 +66,11 @@ The 52Pi EP-0099 Relay is a 4-channel I2C-controlled relay HAT that works with L
   1. It is easy to install (as a HAT)
   2. It was available on short notice
 
-The relays used are `HK4100F-DC5V-SHG`, and according to the datasheet, TODO.
+The relays used are `HK4100F-DC5V-SHG`, and according to the datasheet, they can only handle 3A at 30V, so they are not rated for the current we'll be drawing.
+
+Because of that, we will daisy chain another set of relays that are rated at 10A at 30V. For wiring diagrams, refer to the Notion doc. The relays are controlled via code in the Room app scripts.
+
+There is also a convenient `light.py` script which allows for setting a room color directly on the device, e.g. `./light.py white`. Note that you may need to temporarily stop the lighting control script: `sudo systemctl stop light-control`.
 
 ## Automation for Controlling the Potatoes
 
