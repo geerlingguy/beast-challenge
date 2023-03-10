@@ -392,24 +392,27 @@ def room_control():
 def edit_room(room_id):
     if request.method == 'POST':
         color = request.form.get('color_select')
-        # Force binary option to have a value, set to 0 or 1.
-        live = request.form.get('live')
-        if live:
-            live = 1
-        else:
-            live = 0
+        # Ensure every binary option has something set, 0 or 1.
+        binary_vars = ['live', 'led_0', 'led_1', 'led_2']
+        binary_values = {}
+        for var in binary_vars:
+            if request.form.get(var):
+                binary_values[var] = 1
+            else:
+                binary_values[var] = 0
 
         # Make sure the color is valid.
         if color not in valid_room_color_options():
             flash('Color "' + color + '" is not a valid color option.')
         else:
             conn = get_db_connection()
-            conn.execute('UPDATE rooms SET color = ?, live = ? WHERE room_id = ?', (color, live, room_id))
+            conn.execute('UPDATE rooms SET color = ?, live = ?, led_0 = ?, led_1 = ?, led_2 = ? WHERE room_id = ?', (color, binary_values['live'], binary_values['led_0'], binary_values['led_1'], binary_values['led_2'], room_id))
             conn.commit()
             conn.close()
-            return redirect("/room-lights", code=302)
+            return redirect("/room-control", code=302)
 
     room = get_room((room_id,))
+    print(room['led_0'])
     return render_template('edit_room.html', room=room, page='edit-room')
 
 
