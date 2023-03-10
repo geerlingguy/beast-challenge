@@ -350,7 +350,6 @@ def room_vote(room_id):
             case 2:
                 vote['label'] = live_round['value_2']
     room_data['votes_this_round'] = total
-    print(room_data['latest_vote'])
 
     return render_template('room_vote.html', room=room_data, votes=votes, round=live_round, page='room-vote')
 
