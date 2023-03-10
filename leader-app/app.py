@@ -6,7 +6,6 @@ from flask import Flask, json, jsonify, request, flash, make_response, render_te
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'TvierCO6smUk7ZlNDm0ojBU7VeyPyGUn'
 
-
 def sqlite_select_as_dict(select_query, type = 'all'):
     try:
         conn = sqlite3.connect('database.sqlite')

@@ -80,12 +80,12 @@ nav.navbar-beast {
 .room-grid {
     width: 100%;
     max-width: 1092px;
-    max-height: 700px;
+    max-height: 900px;
 }
 
 .room-grid .room {
-    width: 100px;
-    height: 56px;
+    width: 75px;
+    height: 75px;
 }
 
 .room-grid .room {
@@ -111,7 +111,7 @@ nav.navbar-beast {
 .room-grid .room h2 {
     font-size: 1.2em;
     padding-top: 0;
-    margin: 0;
+    margin: 0 0 5px;
     line-height: .9em;
 }
 
