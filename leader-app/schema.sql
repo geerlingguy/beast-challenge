@@ -5,7 +5,8 @@ DROP TABLE IF EXISTS votes;
 CREATE TABLE rooms (
     room_id INTEGER PRIMARY KEY,
     mac_address TEXT NOT NULL,
-    color TEXT NOT NULL DEFAULT('white')
+    color TEXT NOT NULL DEFAULT('white'),
+    live INTEGER DEFAULT(1)
 );
 
 CREATE TABLE rounds (
@@ -17,7 +18,8 @@ CREATE TABLE rounds (
     is_allowing_multiple_votes INTEGER NOT NULL DEFAULT(1),
     value_0 TEXT DEFAULT('No'),
     value_1 TEXT DEFAULT('Yes'),
-    value_2 TEXT
+    value_2 TEXT,
+    total_participants INTEGER
 );
 
 CREATE TABLE votes (

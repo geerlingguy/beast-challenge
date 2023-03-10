@@ -1,7 +1,7 @@
 import sqlite3
 import time
 import random
-from flask import Flask, json, jsonify, request, flash, make_response, render_template, g
+from flask import Flask, json, jsonify, request, flash, redirect, make_response, render_template, g
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'TvierCO6smUk7ZlNDm0ojBU7VeyPyGUn'
@@ -67,6 +67,15 @@ def room_vote_count_for_round(room_id, round_id):
     return count[0]
 
 
+def room_votes_for_round(room_id, round_id):
+    conn = get_db_connection()
+    conn.row_factory = sqlite3.Row
+    votes = conn.execute('SELECT * FROM votes WHERE room_id = ? AND round_id = ? ORDER BY created DESC', (room_id, round_id)).fetchall()
+    unpacked = [{k: item[k] for k in item.keys()} for item in votes]
+    conn.close()
+    return unpacked
+
+
 def room_vote_latest_for_round(room_id, round_id):
     conn = get_db_connection()
     vote = conn.execute('SELECT * FROM votes WHERE room_id = ? AND round_id = ? ORDER BY created DESC', (room_id, round_id)).fetchone()
@@ -115,6 +124,11 @@ def get_totals_for_round(round_id):
             # If the current option matches the vote, add one to the tally.
             if index == next(iter(vote.values())):
                 vote_tallies[index]['total'] += 1
+
+    # Add a percentage value to the result.
+    for tally in vote_tallies:
+        percentage_exact = ((tally['total'] / live_round['total_participants']) * 100)
+        tally['percentage'] = round(percentage_exact)
 
     # Close DB connection and return vote tally.
     conn.close()
@@ -207,7 +221,7 @@ def index():
                 if row_round_id == 'n':
                     if value['value_0']:
                         conn = get_db_connection()
-                        conn.execute("INSERT INTO rounds (" + db_keys + ') VALUES (?,?,?,?,?,?)', db_values)
+                        conn.execute("INSERT INTO rounds (" + db_keys + ') VALUES (?,?,?,?,?,?,?)', db_values)
                         conn.commit()
                         conn.close()
                 # Update existing round.
@@ -245,7 +259,7 @@ def index():
 @app.route('/test')
 def test():
     conn = get_db_connection()
-    votes = conn.execute('SELECT * FROM votes ORDER BY created DESC LIMIT 10').fetchall()
+    votes = conn.execute('SELECT * FROM votes ORDER BY created DESC LIMIT 20').fetchall()
     conn.close()
     return render_template('test.html', votes=votes, page='test')
 
@@ -262,8 +276,6 @@ def live_tally():
 @app.route('/live/round')
 def live_round():
     live_round = get_live_round()
-    # TODO - See https://github.com/geerlingguy/beast-game/issues/21
-    live_round['total_participants'] = 100
     return jsonify(live_round)
 
 
@@ -308,6 +320,41 @@ def room_votes():
     return render_template('room_votes.html', rooms=rooms_with_vote_data, round=live_round, page='room-votes')
 
 
+# Room vote status and history for the current round displayed on a web page.
+@app.route('/room-vote/<int:room_id>')
+def room_vote(room_id):
+    # TODO: Current round is hardcoded here. Might want to allow looking at
+    # vote data for other rounds (for reference). Maybe a query string param?
+    live_round = get_live_round()
+
+    # Get current room data.
+    room = get_room((room_id,))
+    room_data = {}
+    room_data['room_id'] = room_id
+
+    # Get all votes for this room submitted this round.
+    votes = room_votes_for_round((room_id), live_round['round_id'])
+
+    total = 0
+    for vote in votes:
+        # Store the latest vote data separately.
+        if total == 0:
+            room_data['latest_vote'] = vote
+        total += 1
+        # Add label for each vote value.
+        match vote['value']:
+            case 0:
+                vote['label'] = live_round['value_0']
+            case 1:
+                vote['label'] = live_round['value_1']
+            case 2:
+                vote['label'] = live_round['value_2']
+    room_data['votes_this_round'] = total
+    print(room_data['latest_vote'])
+
+    return render_template('room_vote.html', room=room_data, votes=votes, round=live_round, page='room-vote')
+
+
 # Room information API endpoint.
 @app.route('/room', methods = ['GET'])
 def room():
@@ -339,6 +386,32 @@ def room_lights():
 
     rooms = get_rooms()
     return render_template('room_lights.html', rooms=rooms, page='room-lights')
+
+
+# Room edit page
+@app.route('/edit-room/<int:room_id>', methods = ['GET', 'POST'])
+def edit_room(room_id):
+    if request.method == 'POST':
+        color = request.form.get('color_select')
+        # Force binary option to have a value, set to 0 or 1.
+        live = request.form.get('live')
+        if live:
+            live = 1
+        else:
+            live = 0
+
+        # Make sure the color is valid.
+        if color not in valid_room_color_options():
+            flash('Color "' + color + '" is not a valid color option.')
+        else:
+            conn = get_db_connection()
+            conn.execute('UPDATE rooms SET color = ?, live = ? WHERE room_id = ?', (color, live, room_id))
+            conn.commit()
+            conn.close()
+            return redirect("/room-lights", code=302)
+
+    room = get_room((room_id,))
+    return render_template('edit_room.html', room=room, page='edit-room')
 
 
 # Vote route.

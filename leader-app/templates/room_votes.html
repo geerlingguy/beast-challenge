@@ -4,19 +4,20 @@
     <h2>Room Votes - Round {{ round.round_id }}</h2>
     <div class="room-grid d-flex flex-wrap flex-column-reverse">
         {% for room in rooms %}
-            <!-- TODO bg-light should be dynamic based on room 'color' -->
-            <div class="room m-1 p-1 text-dark{{ ' has-voted' if room.most_recent_vote }}">
-                <h2 class="room-id">{{ room.room_id }}</h2>
-                <div class="vote-data text-center">
-                    <div class="vote">
-                        <span class="vote-value">{{ room.most_recent_vote }}</span><br>
-                    </div>
-                    <div class="number-of-votes">
-                        <!-- 1 pluralizations make the world go round. -->
-                        <span class="vote-count">{{ room.votes_this_round }} votes</span><br>
+            <a href="/room-vote/{{ room.room_id }}" class="room-link m-1 p-1">
+                <div class="room m-1 p-1 text-dark{{ ' has-voted' if room.most_recent_vote }}">
+                    <h2 class="room-id">{{ room.room_id }}</h2>
+                    <div class="vote-data text-center">
+                        <div class="vote">
+                            <span class="vote-value">{{ room.most_recent_vote }}</span><br>
+                        </div>
+                        <div class="number-of-votes">
+                            <!-- 1 pluralizations make the world go round. -->
+                            <span class="vote-count">{{ room.votes_this_round }} votes</span><br>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </a>
         {% endfor %}
     </div>
     <!-- Refresh page every 10 seconds -->

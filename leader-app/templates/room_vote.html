@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Room {{ room.room_id }} - Round {{ round.round_id }}</h2>
+    <div class="vote-data">
+        {% if room.votes_this_round %}
+            <div class="card" style="width: 50%;">
+                <h5 class="card-header">Latest Stats</h5>
+                <div class="card-body">
+                    <table class="table my-0 table-bordered">
+                        <tbody>
+                            <tr>
+                                <th scope="row">Total votes this round</th>
+                                <td>{{ room.votes_this_round }}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Most recent vote</th>
+                                <td>{{ room.latest_vote.label }}</td>
+                            </tr>
+                          </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="w-75">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Time</th>
+                            <th scope="col">Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for vote in votes %}
+                        <tr>
+                            <td>{{ vote.created }}</td>
+                            <td>{{ vote.label }}</td>
+                        </tr>
+                        {% endfor %}
+                      </tbody>
+                </table>
+            </div>
+        {% else %}
+            <p>Room {{ room.room_id }} has not voted yet in round {{ round.round_id }}.</p>
+        {% endif %}
+    </div>
+{% endblock %}
