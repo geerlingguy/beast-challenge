@@ -10,7 +10,7 @@ services:
 
   button:
     build:
-      context: button
+      context: the-button
     stop_signal: SIGINT
     ports:
       - '5005:5000'
