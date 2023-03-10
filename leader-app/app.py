@@ -369,9 +369,9 @@ def room():
     return dict(room_data), status_code
 
 
-# Room light status displayed on a web page.
-@app.route('/room-lights', methods = ['GET', 'POST'])
-def room_lights():
+# Room status displayed on a web page.
+@app.route('/room-control', methods = ['GET', 'POST'])
+def room_control():
     if request.method == 'POST':
         color = request.form.get('color_select')
 
@@ -385,7 +385,7 @@ def room_lights():
             conn.close()
 
     rooms = get_rooms()
-    return render_template('room_lights.html', rooms=rooms, page='room-lights')
+    return render_template('room_control.html', rooms=rooms, page='room-control')
 
 
 # Room edit page
