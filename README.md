@@ -32,7 +32,7 @@ The Leader and Button apps will run on the main server NUC, with a hot spare bac
 
 The `automation/farmer-control.yml` file contains the Ansible playbook to set up the server, install the app, and run it.
 
-Make sure you have Ansible installed on a machine on the same network: `pip3 install ansible`
+Make sure you have Ansible installed on a machine on the same network: `pip3 install ansible`.
 
 Then make sure the leader and spare's IP addresses are both entered in the `[leader]` section of the `hosts.ini` file. For SSH authentication, the private key is available inside the Notion doc—you should add it to your `ssh` keychain with `ssh-add ~/path/to/private_key`
 
@@ -47,6 +47,14 @@ You can control which app is active by overriding it with the extra var `running
 ```
 ansible-playbook farmer-control.yml -e "running_app=the-button" --tags app
 ```
+
+> For testing, bring up a Docker Ubuntu container with `docker run -d --volume=/sys/fs/cgroup:/sys/fs/cgroup:rw --cgroupns=host --privileged --name farmer geerlingguy/docker-ubuntu2204-ansible:latest /usr/sbin/init`, then set the hostname line for the farmer to:
+>
+> ```
+> farmer ansible_connection=community.general.docker role=leader
+> ```
+>
+> Then run the playbook: `ansible-playbook farmer-control.yml`
 
 ## Room app
 

@@ -6,16 +6,23 @@
 
   vars:
     run_upgrades: false
-    running_app: leader-app
+    github_access_token: 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
 
     pip_install_packages:
       - name: docker
-    docker_install_compose: false
-    docker_install_compose_plugin: true
+      - name: docker-compose
+    docker_install_compose: true
+    docker_compose_version: "1.29.2"
+    docker_install_compose_plugin: false
     docker_users:
       - "{{ ansible_user }}"
 
   pre_tasks:
+    - name: Update apt caches if required.
+      ansible.builtin.apt:
+        update_cache: true
+        cache_valid_time: 86400
+
     - name: Upgrade everything on initial provision.
       ansible.builtin.include_tasks: tasks/upgrade.yml
       when: run_upgrades
@@ -25,25 +32,14 @@
     - name: geerlingguy.docker
 
   tasks:
-    - name: Copy apps to the server.
-      ansible.builtin.copy:
-        src: ../{{ item }}/
-        dest: /opt/{{ item }}/
-      with_items:
-        - leader-app
-        - the-button
+    - name: Clone project to the server.
+      ansible.builtin.git:
+        repo: "https://geerlingguy:{{ github_access_token | urlencode }}@github.com/geerlingguy/beast-game.git"
+        dest: /opt/beast-game
       tags: ['app']
 
-    - name: Ensure the leader-app is running if configured.
+    - name: Ensure the Docker environment is running.
       community.docker.docker_compose:
-        project_src: /opt/leader-app
+        project_src: /opt/beast-game
         state: present
-        stopped: {{ true if running_app == 'leader-app' else false }}
-      tags: ['app']
-
-    - name: Ensure the app that's not running is stopped.
-      community.docker.docker-compose:
-        project_src: /opt/the-button
-        state: present
-        stopped: {{ true if running_app == 'the-button' else false }}
       tags: ['app']

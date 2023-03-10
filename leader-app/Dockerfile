@@ -7,8 +7,7 @@ ENV FLASK_APP=app.py
 ENV FLASK_RUN_HOST=0.0.0.0
 
 COPY requirements.txt /app
-RUN --mount=type=cache,target=/root/.cache/pip \
-    pip3 install -r requirements.txt
+RUN pip3 install -r requirements.txt
 
 # Install SQLite
 RUN apk update && apk upgrade
