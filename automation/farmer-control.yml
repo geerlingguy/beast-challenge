@@ -18,10 +18,11 @@
       - "{{ ansible_user }}"
 
   handlers:
-    - name: restart environment
+    - name: reset Docker environment
       community.docker.docker_compose:
         project_src: /opt/beast-game
         state: present
+        build: true
         restarted: true
       tags: ['app']
 
