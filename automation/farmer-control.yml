@@ -53,7 +53,7 @@
       ansible.builtin.git:
         repo: "https://geerlingguy:{{ github_access_token | urlencode }}@github.com/geerlingguy/beast-game.git"
         dest: /opt/beast-game
-      notify: restart environment
+      notify: reset environment
       tags: ['app']
 
     - name: Ensure the Docker environment is running.
