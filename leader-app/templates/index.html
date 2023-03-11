@@ -61,37 +61,55 @@
         </div>
     </form>
     <div class="accordion mt-3" id="accordionColors">
-      <div class="accordion-item">
-        <h2 class="accordion-header" id="headingColors">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseColors" aria-expanded="true" aria-controls="collapseColors">
-            Set Room Colors
-            </button>
-        </h2>
-        <div id="collapseColors" class="accordion-collapse collapse" aria-labelledby="headingColors" data-bs-parent="#accordionColors">
-            <div class="accordion-body room-colors">
-                <p>Choose a color for each option for the live round. When you click 'Set Room Colors', the rooms will change to the colors associated with their current vote.</p>
-                <form method="post">
-                    <input type="checkbox" class="d-none" name="room_color_form" id="room-color-form" checked>
-                    {% for option in color_options %}
-                        <div class="container-fluid ps-0 my-3">
-                            <div class="p-0">Color for <strong>{{ option }}</strong>:</div>
-                            <input type="radio" class="btn-check" name="color_{{ loop.index0 }}" value="off" id="off_{{ loop.index0 }}" autocomplete="off" checked>
-                            <label class="btn btn-outline-primary btn-off" for="off_{{ loop.index0 }}">Off</label>
-                            <input type="radio" class="btn-check" name="color_{{ loop.index0 }}" value="white" id="white_{{ loop.index0 }}" autocomplete="off">
-                            <label class="btn btn-outline-primary btn-white" for="white_{{ loop.index0 }}">White</label>
-                            <input type="radio" class="btn-check" name="color_{{ loop.index0 }}" value="red" id="red_{{ loop.index0 }}" autocomplete="off">
-                            <label class="btn btn-outline-primary btn-red" for="red_{{ loop.index0 }}">Red</label>
-                            <input type="radio" class="btn-check" name="color_{{ loop.index0 }}" value="green" id="green_{{ loop.index0 }}" autocomplete="off">
-                            <label class="btn btn-outline-primary btn-green" for="green_{{ loop.index0 }}">Green</label>
-                            <input type="radio" class="btn-check" name="color_{{ loop.index0 }}" value="blue" id="blue_{{ loop.index0 }}" autocomplete="off">
-                            <label class="btn btn-outline-primary btn-blue" for="blue_{{ loop.index0 }}">Blue</label>
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingColors">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseColors" aria-expanded="true" aria-controls="collapseColors">
+                Set Room Colors
+                </button>
+            </h2>
+            <div id="collapseColors" class="accordion-collapse collapse" aria-labelledby="headingColors" data-bs-parent="#accordionColors">
+                <div class="accordion-body room-colors">
+                    <p>Choose a color for each option for the live round. When you click 'Set Room Colors', the rooms will change to the colors associated with their current vote.</p>
+                    <form method="post">
+                        <input type="checkbox" class="d-none" name="room_color_form" id="room-color-form" checked>
+                        {% for option in color_options %}
+                            <div class="container-fluid ps-0 my-3">
+                                <div class="p-0">Color for <strong>{{ option }}</strong>:</div>
+                                <input type="radio" class="btn-check" name="color_{{ loop.index0 }}" value="off" id="off_{{ loop.index0 }}" autocomplete="off" checked>
+                                <label class="btn btn-outline-primary btn-off" for="off_{{ loop.index0 }}">Off</label>
+                                <input type="radio" class="btn-check" name="color_{{ loop.index0 }}" value="white" id="white_{{ loop.index0 }}" autocomplete="off">
+                                <label class="btn btn-outline-primary btn-white" for="white_{{ loop.index0 }}">White</label>
+                                <input type="radio" class="btn-check" name="color_{{ loop.index0 }}" value="red" id="red_{{ loop.index0 }}" autocomplete="off">
+                                <label class="btn btn-outline-primary btn-red" for="red_{{ loop.index0 }}">Red</label>
+                                <input type="radio" class="btn-check" name="color_{{ loop.index0 }}" value="green" id="green_{{ loop.index0 }}" autocomplete="off">
+                                <label class="btn btn-outline-primary btn-green" for="green_{{ loop.index0 }}">Green</label>
+                                <input type="radio" class="btn-check" name="color_{{ loop.index0 }}" value="blue" id="blue_{{ loop.index0 }}" autocomplete="off">
+                                <label class="btn btn-outline-primary btn-blue" for="blue_{{ loop.index0 }}">Blue</label>
+                            </div>
+                        {% endfor %}
+                        <div class="mt-4">
+                            <button type="submit" class="btn btn-primary" id="set-colors-button">Set Room Colors</button>
                         </div>
-                    {% endfor %}
-                    <div class="mt-4">
-                        <button type="submit" class="btn btn-primary" id="set-colors-button">Set Room Colors</button>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
         </div>
-      </div>
+        <div class="accordion mt-3" id="accordionColors">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingEndpoints">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEndpoints" aria-expanded="true" aria-controls="collapseColors">
+                    API Endpoints
+                    </button>
+                </h2>
+            <div id="collapseEndpoints" class="accordion-collapse collapse" aria-labelledby="headingEndpoints" data-bs-parent="#headingEndpoints">
+                <div class="accordion-body room-colors">
+                    <ul>
+                        <li><a href="/live/tally">Live Vote Tally</a></li>
+                        <li><a href="/live/round">Live Round Data</a></li>
+                        <li><a href="/live/round/participants">Live Round Participant Count</a></li>
+                        <li><a href="/live/round/options">Live Round Vote Options</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
 {% endblock %}

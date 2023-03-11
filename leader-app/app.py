@@ -264,7 +264,7 @@ def test():
     return render_template('test.html', votes=votes, page='test')
 
 
-# Live vote data for React.
+# Live vote data.
 @app.route('/live/tally')
 def live_tally():
     live_round = get_live_round()
@@ -272,18 +272,30 @@ def live_tally():
     return jsonify(votes)
 
 
-# Live current round data for React.
+# Live current round data.
 @app.route('/live/round')
 def live_round():
     live_round = get_live_round()
     return jsonify(live_round)
 
 
-# Live current round data for React.
+# Live current round participant data.
 @app.route('/live/round/participants')
 def live_round_participants():
     live_round = get_live_round()
     return jsonify({'total_participants': live_round['total_participants']})
+
+
+# Live current round option data.
+@app.route('/live/round/options')
+def live_round_options():
+    live_round = get_live_round()
+    value_data = {}
+    value_potential_options = ['value_0', 'value_1', 'value_2']
+    for value in value_potential_options:
+        if live_round[value]:
+            value_data[value] = live_round[value]
+    return jsonify(value_data)
 
 
 # Tally of all votes displayed on a web page.
