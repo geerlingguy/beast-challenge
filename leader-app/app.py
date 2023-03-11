@@ -90,7 +90,7 @@ def save_vote(room_id, value, round_id):
     conn.close()
 
 
-def get_totals_for_round(round_id):
+def get_totals_for_round(round_id, force_lowercase=False):
     votes = []
     conn = get_db_connection()
     # Get current round metadata.
@@ -100,7 +100,10 @@ def get_totals_for_round(round_id):
     vote_tallies = []
     for i in range(3):
         if live_round['value_' + str(i)]:
-            vote_tallies.append({'label': live_round['value_' + str(i)],'total': 0})
+            value_label = live_round['value_' + str(i)]
+            if force_lowercase:
+                value_label = value_label.lower()
+            vote_tallies.append({'label': value_label,'total': 0})
 
     # Get all votes for the current round.
     # TODO: The rest of the tabulation logic here is probably like O(3) or
@@ -268,7 +271,7 @@ def test():
 @app.route('/live/tally')
 def live_tally():
     live_round = get_live_round()
-    votes = get_totals_for_round(live_round['round_id'])
+    votes = get_totals_for_round(live_round['round_id'], True)
     return jsonify(votes)
 
 
