@@ -17,6 +17,14 @@
     docker_users:
       - "{{ ansible_user }}"
 
+  handlers:
+    - name: restart environment
+      community.docker.docker_compose:
+        project_src: /opt/beast-game
+        state: present
+        restarted: true
+      tags: ['app']
+
   pre_tasks:
     - name: Update apt caches if required.
       ansible.builtin.apt:
@@ -44,6 +52,7 @@
       ansible.builtin.git:
         repo: "https://geerlingguy:{{ github_access_token | urlencode }}@github.com/geerlingguy/beast-game.git"
         dest: /opt/beast-game
+      notify: restart environment
       tags: ['app']
 
     - name: Ensure the Docker environment is running.
