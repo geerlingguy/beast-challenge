@@ -18,7 +18,7 @@
       - "{{ ansible_user }}"
 
   handlers:
-    - name: reset Docker environment
+    - name: reset environment
       community.docker.docker_compose:
         project_src: /opt/beast-game
         state: present

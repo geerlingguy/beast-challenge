@@ -381,7 +381,7 @@ def room():
     status_code = 400
 
     if room_id:
-        room_data = get_room(room_id)
+        room_data = get_room((room_id,))
         status_code = 200
 
     return dict(room_data), status_code
