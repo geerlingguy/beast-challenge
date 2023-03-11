@@ -66,33 +66,32 @@ def button_click(event_source, event_value, event_time):
 
 if __name__ == '__main__':
     with gpiod.Chip('periphs-banks') as chip:
+        # Buttons
         button_offsets = []
-
-        # Button 1
         button1 = gpiod.find_line("7J1 Header Pin40")
         button_offsets.append(button1.offset())
-
-        # Button 2
         button2 = gpiod.find_line("7J1 Header Pin36")
         button_offsets.append(button2.offset())
-
-        # Button 3
         button3 = gpiod.find_line("7J1 Header Pin37")
         button_offsets.append(button3.offset())
-
-        lines = chip.get_lines(button_offsets)
-        lines.request(consumer=sys.argv[0], type=gpiod.LINE_REQ_EV_RISING_EDGE, flags=gpiod.LINE_REQ_FLAG_BIAS_PULL_UP)
+        button_lines = chip.get_lines(button_offsets)
+        button_lines.request(consumer=sys.argv[0], type=gpiod.LINE_REQ_EV_RISING_EDGE, flags=gpiod.LINE_REQ_FLAG_BIAS_PULL_UP)
 
         # LEDs
         led_offsets = []
-        led_1 = gpiod.find_line("7J1 Header Pin38")
-        led_2 = gpiod.find_line("7J1 Header Pin35")
-        led_3 = gpiod.find_line("7J1 Header Pin33")
-        # TODO TURN ON ALL THREE LEDs!
+        led1 = gpiod.find_line("7J1 Header Pin38")
+        led_offsets.append(led1.offset())
+        led2 = gpiod.find_line("7J1 Header Pin35")
+        led_offsets.append(led2.offset())
+        led3 = gpiod.find_line("7J1 Header Pin33")
+        led_offsets.append(led3.offset())
+        led_lines = chip.get_lines(led_offsets)
+        led_lines.request(consumer=sys.argv[0], type=gpiod.LINE_REQ_DIR_OUT)
 
         try:
             while True:
-                ev_lines = lines.event_wait(sec=1)
+                led_lines.set_values([1, 1, 1])
+                ev_lines = button_lines.event_wait(sec=1)
                 if ev_lines:
                     for line in ev_lines:
                         event = line.event_read()

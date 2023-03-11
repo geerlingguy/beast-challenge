@@ -140,6 +140,9 @@ def get_totals_for_round(round_id, force_lowercase=False):
         percentage_exact = ((tally['total'] / total_votes_so_far) * 100)
         tally['percentage_of_vote_so_far'] = round(percentage_exact)
 
+        # Percentage with the letter 't' for vMix because weird font.
+        tally['percentage_of_vote_so_far_with_t'] = str(round(percentage_exact)) + ' T'
+
     # Close DB connection and return vote tally.
     conn.close()
     return vote_tallies
