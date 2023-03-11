@@ -6,6 +6,8 @@ services:
       context: leader-app
     stop_signal: SIGINT
     restart: always
+    volumes:
+      - ./:/app
     ports:
       - '5000:5000'
 
@@ -14,5 +16,7 @@ services:
       context: the-button
     stop_signal: SIGINT
     restart: always
+    volumes:
+      - ./:/app
     ports:
       - '5005:5000'
