@@ -122,16 +122,23 @@ def get_totals_for_round(round_id, force_lowercase=False):
             latest_votes.append({vote['room_id']: vote['value']})
 
     # Total the count of each tally.
+    total_votes_so_far = 0
     for index, option in enumerate(vote_tallies):
         for vote in latest_votes:
             # If the current option matches the vote, add one to the tally.
             if index == next(iter(vote.values())):
                 vote_tallies[index]['total'] += 1
+                total_votes_so_far += 1
 
-    # Add a percentage value to the result.
+    # Add percentages to the result.
     for tally in vote_tallies:
+        # Percentage of all round participants.
         percentage_exact = ((tally['total'] / live_round['total_participants']) * 100)
-        tally['percentage'] = round(percentage_exact)
+        tally['percentage_round_participants'] = round(percentage_exact)
+
+        # Percentage of current vote total.
+        percentage_exact = ((tally['total'] / total_votes_so_far) * 100)
+        tally['percentage_of_vote_so_far'] = round(percentage_exact)
 
     # Close DB connection and return vote tally.
     conn.close()
