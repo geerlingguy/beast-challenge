@@ -7,7 +7,6 @@
     <title>{% block title %} {% endblock %}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='custom.css') }}">
-    <script src="{{ url_for('static', filename='custom.js') }}"></script>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark navbar-beast">
@@ -42,5 +41,6 @@
 {% endif %}
     </main>
     <script src="{{ url_for('static', filename='bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='custom.js') }}"></script>
 </body>
 </html>

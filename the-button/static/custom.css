@@ -83,6 +83,17 @@ nav.navbar-beast {
     max-height: 900px;
 }
 
+.room-grid a.room-link {
+    width: 75px;
+    height: 75px;
+    text-decoration: none;
+}
+
+.room-grid a.room-link:hover .room {
+    border: 1px solid #000;
+    box-shadow: 0px 0px 2px #000;
+}
+
 .room-grid .room {
     width: 75px;
     height: 75px;
@@ -90,10 +101,12 @@ nav.navbar-beast {
 
 .room-grid .room {
     background-color: #eeeeee;
+    border: 1px solid #eeeeee;
 }
 
-.room-grid .has-pressed {
+.room-grid .has-voted {
     background-color: #9CD3FC;
+    border: 1px solid #9CD3FC;
 }
 
 .room-grid .press-count {
@@ -104,10 +117,6 @@ nav.navbar-beast {
     line-height: .9em;
 }
 
-.room-grid .has-pressed h2 {
-    color: #ffffff;
-}
-
 .room-grid .room h2 {
     font-size: 1.2em;
     padding-top: 0;
@@ -115,20 +124,44 @@ nav.navbar-beast {
     line-height: .9em;
 }
 
-.room-grid .bg-red { background-color: #ff0000; }
-.room-grid .bg-green { background-color: #008000; }
-.room-grid .bg-blue { background-color: #0000ff; }
+.room-grid .bg-red {
+    background-color: #ff0000;
+    border: 1px solid #ff0000;
+}
+.room-grid .bg-green {
+    background-color: #008000;
+    border: 1px solid #008000;
+}
+.room-grid .bg-blue {
+    background-color: #0000ff;
+    border: 1px solid #008000;
+}
 .room-grid .bg-white {
     color: #000 !important;
     background-color: #ffffff !important;
     border: 1px solid #eeeeee;
 }
 .room-grid .bg-off {
-    background-color: #dddddd;
+    color: #000 !important;
+    background-color: #ededed;
+    border: 1px solid #ededed;
+}
+
+.room-grid .bg-off h2 {
+    opacity: .25;
 }
 
 .room-grid .number-of-presses {
     font-size: .2em;
+}
+
+.press-data .countdown {
+    margin-top: 0.5em;
+    font-size: 1.4em;
+}
+
+.press-data .countdown .timer {
+    margin-bottom: 0.2em;
 }
 
 /* Test Mode Page */

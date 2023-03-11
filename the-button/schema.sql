@@ -5,7 +5,11 @@ DROP TABLE IF EXISTS presses;
 CREATE TABLE rooms (
     room_id INTEGER PRIMARY KEY,
     mac_address TEXT NOT NULL,
-    color TEXT NOT NULL DEFAULT('white')
+    color TEXT NOT NULL DEFAULT('white'),
+    live INTEGER DEFAULT(1),
+    led_0 INTEGER DEFAULT(0),
+    led_1 INTEGER DEFAULT(0),
+    led_2 INTEGER DEFAULT(0)
 );
 
 CREATE TABLE rounds (

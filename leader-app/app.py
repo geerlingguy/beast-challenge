@@ -259,7 +259,7 @@ def index():
 @app.route('/test')
 def test():
     conn = get_db_connection()
-    votes = conn.execute('SELECT * FROM votes ORDER BY created DESC LIMIT 20').fetchall()
+    votes = conn.execute('SELECT * FROM votes ORDER BY created DESC LIMIT 25').fetchall()
     conn.close()
     return render_template('test.html', votes=votes, page='test')
 
@@ -412,7 +412,6 @@ def edit_room(room_id):
             return redirect("/room-control", code=302)
 
     room = get_room((room_id,))
-    print(room['led_0'])
     return render_template('edit_room.html', room=room, page='edit-room')
 
 

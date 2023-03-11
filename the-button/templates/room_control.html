@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h2>Room Lights</h2>
+    <h2>Room Control</h2>
         {% for message in get_flashed_messages() %}
             <div class="alert alert-danger">
                 {{ message }}
@@ -9,13 +9,14 @@
         {% endfor %}
     <div class="room-grid d-flex flex-wrap flex-column-reverse">
         {% for room in rooms %}
-            <!-- TODO bg-dark should be dynamic based on room 'color' -->
-            <div class="room m-1 p-0 bg-{{ room.color }} text-light text-center">
-                <h2 class="room-id">{{ room.room_id }}</h2>
-            </div>
+            <a href="/edit-room/{{ room.room_id }}" class="room-link m-1 p-1">
+                <div class="room m-0 p-1 bg-{{ room.color }} text-light">
+                    <h2 class="room-id">{{ room.room_id }}</h2>
+                </div>
+            </a>
         {% endfor %}
     </div>
-    <div class="card mt-3" style="width: 50rem;">
+    <div class="card color-select mt-3" style="width: 50rem;">
       <div class="card-body">
         <h5 class="card-title">Bulk Change Room Lights</h5>
         <p class="card-text">Select a color to apply to all rooms.</p>
