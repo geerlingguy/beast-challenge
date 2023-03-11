@@ -66,22 +66,29 @@ def button_click(event_source, event_value, event_time):
 
 if __name__ == '__main__':
     with gpiod.Chip('periphs-banks') as chip:
-        offsets = []
+        button_offsets = []
 
         # Button 1
         button1 = gpiod.find_line("7J1 Header Pin40")
-        offsets.append(button1.offset())
+        button_offsets.append(button1.offset())
 
         # Button 2
         button2 = gpiod.find_line("7J1 Header Pin36")
-        offsets.append(button2.offset())
+        button_offsets.append(button2.offset())
 
         # Button 3
         button3 = gpiod.find_line("7J1 Header Pin37")
-        offsets.append(button3.offset())
+        button_offsets.append(button3.offset())
 
-        lines = chip.get_lines(offsets)
+        lines = chip.get_lines(button_offsets)
         lines.request(consumer=sys.argv[0], type=gpiod.LINE_REQ_EV_RISING_EDGE, flags=gpiod.LINE_REQ_FLAG_BIAS_PULL_UP)
+
+        # LEDs
+        led_offsets = []
+        led_1 = gpiod.find_line("7J1 Header Pin38")
+        led_2 = gpiod.find_line("7J1 Header Pin35")
+        led_3 = gpiod.find_line("7J1 Header Pin33")
+        # TODO TURN ON ALL THREE LEDs!
 
         try:
             while True:
