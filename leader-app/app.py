@@ -279,6 +279,13 @@ def live_round():
     return jsonify(live_round)
 
 
+# Live current round data for React.
+@app.route('/live/round/participants')
+def live_round_participants():
+    live_round = get_live_round()
+    return jsonify({'total_participants': live_round['total_participants']})
+
+
 # Tally of all votes displayed on a web page.
 @app.route('/tally')
 def tally():
