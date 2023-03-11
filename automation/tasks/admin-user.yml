@@ -12,7 +12,7 @@
     dest: /etc/sudoers
     state: present
     regexp: '^%sudo'
-    line: '%admin ALL=(ALL:ALL) NOPASSWD:ALL'
+    line: '%sudo ALL=(ALL:ALL) NOPASSWD:ALL'
     validate: 'visudo -cf %s'
 
 - name: Ensure admin user is configured correctly.

@@ -32,6 +32,14 @@
     - name: geerlingguy.docker
 
   tasks:
+    - name: Configure passwordless sudo.
+      ansible.builtin.lineinfile:
+        dest: /etc/sudoers
+        state: present
+        regexp: '^%sudo'
+        line: '%sudo ALL=(ALL:ALL) NOPASSWD:ALL'
+        validate: 'visudo -cf %s'
+
     - name: Clone project to the server.
       ansible.builtin.git:
         repo: "https://geerlingguy:{{ github_access_token | urlencode }}@github.com/geerlingguy/beast-game.git"

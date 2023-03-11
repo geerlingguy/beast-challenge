@@ -6,7 +6,7 @@
 
   vars:
     run_upgrades: false
-    server_url: "http://10.0.100.15:5000"
+    server_url: "http://10.6.0.71:5000"
 
   handlers:
     - name: restart apps
