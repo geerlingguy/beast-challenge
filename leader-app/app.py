@@ -322,6 +322,14 @@ def tally():
     return render_template('tally.html', votes=votes, page='tally')
 
 
+# Tally of all votes displayed on a web page.
+@app.route('/tally-percentages')
+def tally_percentages():
+    live_round = get_live_round()
+    votes = get_totals_for_round(live_round['round_id'])
+    return render_template('tally_percentages.html', votes=votes, page='tally-percentages')
+
+
 # Room vote status displayed on a web page.
 @app.route('/room-votes')
 def room_votes():
