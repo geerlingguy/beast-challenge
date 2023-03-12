@@ -1,21 +1,25 @@
 // Allow only one 'live' round.
 function onlyAllowOneLive(id) {
     var elements = document.getElementsByClassName("round-live");
-    console.log(elements);
     for (i in elements) {
         elements[i].checked = false;
     }
     document.getElementById(id).checked = true;
 }
 
-// Allow only one round to be accepting votes.
+// Allow up to one round to be accepting votes.
 function onlyAllowOneAccepting(id) {
+    check_me = true;
+    if (document.getElementById(id).checked === false) {
+        check_me = false;
+    }
     var elements = document.getElementsByClassName("round-accepting");
-    console.log(elements);
     for (i in elements) {
         elements[i].checked = false;
     }
-    document.getElementById(id).checked = true;
+    if (check_me) {
+        document.getElementById(id).checked = true;
+    }
 }
 
 // Show the 'New Round' form.
