@@ -428,7 +428,7 @@ def edit_room(room_id):
     if request.method == 'POST':
         color = request.form.get('color_select')
         # Ensure every binary option has something set, 0 or 1.
-        binary_vars = ['live', 'led_0', 'led_1', 'led_2']
+        binary_vars = ['live']
         binary_values = {}
         for var in binary_vars:
             if request.form.get(var):
@@ -441,7 +441,7 @@ def edit_room(room_id):
             flash('Color "' + color + '" is not a valid color option.')
         else:
             conn = get_db_connection()
-            conn.execute('UPDATE rooms SET color = ?, live = ?, led_0 = ?, led_1 = ?, led_2 = ? WHERE room_id = ?', (color, binary_values['live'], binary_values['led_0'], binary_values['led_1'], binary_values['led_2'], room_id))
+            conn.execute('UPDATE rooms SET color = ?, live = ? WHERE room_id = ?', (color, binary_values['live'], room_id))
             conn.commit()
             conn.close()
             return redirect("/room-control", code=302)
