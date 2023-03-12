@@ -1,0 +1,20 @@
+---
+- name: Install monitoring software.
+  ansible.builtin.package:
+    name: monitorix
+    state: present
+  tags: ['monitoring']
+
+- name: Configure monitoring software.
+  ansible.builtin.copy:
+    src: files/monitorix.conf
+    dest: /etc/monitorix/monitorix.conf
+  notify: restart monitorix
+  tags: ['monitoring']
+
+- name: Ensure monitoring software is running.
+  ansible.builtin.service:
+    name: monitorix
+    enabled: true
+    state: started
+  tags: ['monitoring']

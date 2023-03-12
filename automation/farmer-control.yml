@@ -26,6 +26,11 @@
         restarted: true
       tags: ['app']
 
+    - name: restart monitorix
+      ansible.builtin.service:
+        name: monitorix
+        state: restarted
+
   pre_tasks:
     - name: Update apt caches if required.
       ansible.builtin.apt:
@@ -61,3 +66,7 @@
         project_src: /opt/beast-game
         state: present
       tags: ['app']
+
+    - name: Configure monitoring software.
+      ansible.builtin.include_tasks: tasks/monitorix.yml
+      tags: ['monitoring']
