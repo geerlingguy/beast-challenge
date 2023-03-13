@@ -1,7 +1,9 @@
 import sqlite3
 import time
+import os
 
-connection = sqlite3.connect('database.sqlite')
+database_path = os.environ.get('FLASK_DATABASE_PATH') or 'leader.sqlite'
+connection = sqlite3.connect(database_path)
 
 # Load schema into database.
 with open('schema.sql') as f:

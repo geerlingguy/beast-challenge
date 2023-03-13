@@ -1,15 +1,18 @@
 import sqlite3
 import time
 import random
+import os
 from flask import Flask, json, jsonify, request, flash, redirect, make_response, render_template, g
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'TvierCO6smUk7ZlNDm0ojBU7VeyPyGUn'
 
+# Allow the database path to be overridden
+database_path = os.environ.get('FLASK_DATABASE_PATH') or 'leader.sqlite'
+
 def sqlite_select_as_dict(select_query, type = 'all'):
     try:
-        conn = sqlite3.connect('database.sqlite')
-        conn.row_factory = sqlite3.Row
+        conn = get_db_connection()
         things = conn.execute(select_query).fetchall()
         unpacked = [{k: item[k] for k in item.keys()} for item in things]
         if type == 'one':
@@ -23,7 +26,7 @@ def sqlite_select_as_dict(select_query, type = 'all'):
 
 
 def get_db_connection():
-    conn = sqlite3.connect('database.sqlite')
+    conn = sqlite3.connect(database_path)
     conn.row_factory = sqlite3.Row
     return conn
 

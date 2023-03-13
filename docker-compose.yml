@@ -6,6 +6,10 @@ services:
       context: leader-app
     stop_signal: SIGINT
     restart: always
+    volumes:
+      - /var/beast:/var/beast
+    environment:
+      - FLASK_DATABASE_PATH=${FLASK_DATABASE_PATH}
     ports:
       - '5000:5000'
 

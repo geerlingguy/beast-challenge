@@ -61,6 +61,13 @@
       notify: reset environment
       tags: ['app']
 
+    - name: Ensure data directory exists.
+      file:
+        path: /var/beast
+        state: directory
+        mode: 0755
+      become: false
+
     - name: Ensure the Docker environment is running.
       community.docker.docker_compose:
         project_src: /opt/beast-game
