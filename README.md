@@ -115,11 +115,19 @@ ansible potatoes -a "shutdown -H now" -b
 
 ### Initializing the Farmer
 
-TODO.
+Assuming either Ubuntu Desktop or Ubuntu Server is installed on the Farmer, make sure you have SSH access, and install your SSH key on the `beast-admin` or `admin` account. Then run the Ansible playbook to set it up:
+
+```
+ansible-playbook farmer-control.yml
+```
+
+You may need to add `-K` the first time the playbook runs, to supply the sudo password (since by default Ubuntu doesn't allow passwordless sudo).
 
 ## Screenshots
 
 ![Tally Page Example](/resources/screenshots/tally-example.png)
+
+![Bar Graph Example](/resources/screenshots/bar-graph-example.png)
 
 ![Overview UI](/resources/screenshots/overview-example.png)
 
