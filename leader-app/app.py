@@ -2,10 +2,12 @@ import sqlite3
 import time
 import random
 import os
+from flask_cors import CORS, cross_origin
 from flask import Flask, json, jsonify, request, flash, redirect, make_response, render_template, g
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'TvierCO6smUk7ZlNDm0ojBU7VeyPyGUn'
+CORS(app)
 
 # Allow the database path to be overridden
 database_path = os.environ.get('FLASK_DATABASE_PATH') or 'leader.sqlite'
