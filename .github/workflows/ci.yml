@@ -18,9 +18,21 @@ jobs:
       - name: Build the docker environment.
         run: docker-compose up -d
 
-      - name: Test if the site responds.
+      - name: Test loading the overview page.
         run: >
           bash -c
           'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' localhost:5000)" != "200" ]];
           do sleep 5;
           done'
+
+      - name: Test loading other pages.
+        run: |-
+          curl --head localhost:5000/tally
+          curl --head localhost:5000/live/tally
+          curl --head localhost:5000/live/round
+
+      - name: Test POSTing a vote.
+        run: >
+          curl -X POST http://127.0.0.1:5000/vote
+             -H 'Content-Type: application/json'
+             -d '{"room_id":3,"value":0}'
