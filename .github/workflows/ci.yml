@@ -1,0 +1,26 @@
+---
+name: CI
+'on':
+  pull_request:
+  push:
+    branches:
+      - master
+
+jobs:
+  test:
+    name: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out the codebase.
+        uses: actions/checkout@v2
+
+      - name: Build the docker environment.
+        run: docker-compose up -d
+
+      - name: Test if the site responds.
+        run: >
+          bash -c
+          'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' localhost:5000)" != "200" ]];
+          do sleep 5;
+          done'
