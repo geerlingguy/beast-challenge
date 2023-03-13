@@ -27,7 +27,7 @@ with open("config.yml", "r") as f:
 # Button 3 LED: "7J1 Header Pin33"
 
 bounce_timer = time.perf_counter_ns()
-bounce_limit = (5 * 1000000)  # 5ms converted to ns
+bounce_limit = (100 * 1000000)  # 100ms converted to ns
 vote_url = config['server_url'] + '/vote'
 room_id = config['room_id']
 button_map = {'Pin40': 0, 'Pin36': 1, 'Pin37': 2}
