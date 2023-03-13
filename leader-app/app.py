@@ -199,6 +199,7 @@ def index():
         else:
             # Build dict of submitted round data.
             round_data = {}
+            error_in_form_data = False
             for key, value in request.form.items():
                 round_id = key[0]
                 actual_key = key[2:]
@@ -206,49 +207,56 @@ def index():
                     round_data[round_id] = {'round_id': round_id}
                 round_data[round_id][actual_key] = value
 
-            conn = get_db_connection()
+                # Ensure total_participants is not 0.
+                if actual_key == 'total_participants' and value == '0':
+                    print('THIS SHOULD HIT')
+                    flash('Round ' + round_id + ' must have at least 1 participant.')
+                    error_in_form_data = True
 
-            # Write each round to the database.
-            # NOTE: Security is not a priority. If someone hacked the form, they
-            # could likely achieve SQL injection. Hello little Bobby Tables!
-            for key, value in round_data.items():
-                value_keys = value.keys()
-                # Force all binary options to have a value, set to 0 or 1.
-                if 'is_accepting_votes' not in value_keys:
-                    value['is_accepting_votes'] = 0
-                else:
-                    value['is_accepting_votes'] = 1
-                if 'live' not in value_keys:
-                    value['live'] = 0
-                else:
-                    value['live'] = 1
-                if 'is_allowing_multiple_votes' not in value_keys:
-                    value['is_allowing_multiple_votes'] = 0
-                else:
-                    value['is_allowing_multiple_votes'] = 1
+            if not error_in_form_data:
+                conn = get_db_connection()
 
-                # Rearrange things for database insertion or update.
-                row_round_id = value.pop('round_id')
-                db_keys = '=?, '.join(value.keys()) + '=?'
-                if (row_round_id != 'n'):
-                    value['round_id'] = row_round_id
-                else:
-                    db_keys = ','.join(value.keys())
-                db_values = tuple(value.values())
+                # Write each round to the database.
+                # NOTE: Security is not a priority. If someone hacked the form, they
+                # could likely achieve SQL injection. Hello little Bobby Tables!
+                for key, value in round_data.items():
+                    value_keys = value.keys()
+                    # Force all binary options to have a value, set to 0 or 1.
+                    if 'is_accepting_votes' not in value_keys:
+                        value['is_accepting_votes'] = 0
+                    else:
+                        value['is_accepting_votes'] = 1
+                    if 'live' not in value_keys:
+                        value['live'] = 0
+                    else:
+                        value['live'] = 1
+                    if 'is_allowing_multiple_votes' not in value_keys:
+                        value['is_allowing_multiple_votes'] = 0
+                    else:
+                        value['is_allowing_multiple_votes'] = 1
 
-                # Create new round if not empty.
-                if row_round_id == 'n':
-                    if value['value_0']:
+                    # Rearrange things for database insertion or update.
+                    row_round_id = value.pop('round_id')
+                    db_keys = '=?, '.join(value.keys()) + '=?'
+                    if (row_round_id != 'n'):
+                        value['round_id'] = row_round_id
+                    else:
+                        db_keys = ','.join(value.keys())
+                    db_values = tuple(value.values())
+
+                    # Create new round if not empty.
+                    if row_round_id == 'n':
+                        if value['value_0']:
+                            conn = get_db_connection()
+                            conn.execute("INSERT INTO rounds (" + db_keys + ') VALUES (?,?,?,?,?,?,?)', db_values)
+                            conn.commit()
+                            conn.close()
+                    # Update existing round.
+                    else:
                         conn = get_db_connection()
-                        conn.execute("INSERT INTO rounds (" + db_keys + ') VALUES (?,?,?,?,?,?,?)', db_values)
+                        conn.execute("UPDATE rounds SET " + db_keys + " WHERE round_id=?", db_values)
                         conn.commit()
                         conn.close()
-                # Update existing round.
-                else:
-                    conn = get_db_connection()
-                    conn.execute("UPDATE rounds SET " + db_keys + " WHERE round_id=?", db_values)
-                    conn.commit()
-                    conn.close()
 
     rounds = get_rounds()
 
@@ -258,7 +266,10 @@ def index():
         if key == 'round_id':
             last_row[key] = 'n'
         elif type(last_row[key]) is int:
-            last_row[key] = 0
+            if key != 'total_participants':
+                last_row[key] = 0
+            else:
+                last_row[key] = 100
         elif type(last_row[key]) is str:
             last_row[key] = ''
     rounds.append(last_row)

@@ -2,6 +2,11 @@
 
 {% block content %}
     <h1>Overview</h1>
+    {% for message in get_flashed_messages() %}
+        <div class="alert alert-danger">
+            {{ message }}
+        </div>
+    {% endfor %}
     <form method="post">
         <table class="table round-overview">
             <thead class="thead-light sticky-top bg-white">
