@@ -12,8 +12,7 @@
                             <span class="vote-value">{{ room.most_recent_vote }}</span><br>
                         </div>
                         <div class="number-of-votes">
-                            <!-- 1 pluralizations make the world go round. -->
-                            <span class="vote-count">{{ room.votes_this_round }} votes</span><br>
+                            <span class="vote-count">{{ room.votes_this_round }} vote{{ room.votes_this_round | pluralize }}</span><br>
                         </div>
                     </div>
                 </div>

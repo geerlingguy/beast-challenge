@@ -495,6 +495,14 @@ def vote():
         return response
 
 
+@app.template_filter('pluralize')
+def pluralize(number, singular = '', plural = 's'):
+    if number == 1:
+        return singular
+    else:
+        return plural
+
+
 @app.context_processor
 def inject_debug():
     return dict(debug=app.debug)

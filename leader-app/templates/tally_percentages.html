@@ -15,7 +15,7 @@
     <div class="tally-percentage-page values-{{ vote | length }}">
 {% for vote in votes %}
         <div class="bar value-{{ loop.index0 }}" style="height: {{ vote.percentage_of_vote_so_far }}%">
-            <div class="value"><span>{{ vote.total }} votes</span></div>
+            <div class="value"><span>{{ vote.total }} vote{{ vote.total | pluralize }}</span></div>
             <div class="label">{{ vote.label }}</div>
         </div>
 {% endfor %}
@@ -26,7 +26,7 @@
     <!-- Refresh page every 1 second -->
     <!-- TODO: Use more intelligent refresh (e.g. javascript / ajax)? -->
     <script type="text/javascript">
-        // setTimeout(function () { location.reload(1); }, 1000);
+        setTimeout(function () { location.reload(1); }, 1000);
     </script>
 </body>
 </html>

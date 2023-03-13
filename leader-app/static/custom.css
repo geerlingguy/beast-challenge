@@ -119,20 +119,19 @@ nav.navbar-beast {
     background: #000; /* TODO Changeme */
     position: fixed;
     bottom: 0;
-    width: 15%;
-    left: 15%;
+    width: 20%;
     text-align: center;
+    min-height: 10%;
 }
 
 .tally-percentage-page .bar .value {
-    font-size: 20px;
-    margin-top: -40px;
-    margin: -60px 0 30px;
+    font-size: 18px;
+    margin: -55px 0 30px;
 }
 
 .tally-percentage-page .bar .value span {
-    padding: 10px 20px;
-    border-radius: 25px;
+    padding: 6px 20px 12px;
+    border-radius: 30px;
     background-color:rgba(0, 0, 0, 0.5);
 }
 
@@ -141,7 +140,7 @@ nav.navbar-beast {
 }
 
 .tally-percentage-page .bar.value-0 {
-    left: 20%;
+    left: 15%;
     background-color: #48EB12;
 }
 
@@ -151,8 +150,15 @@ nav.navbar-beast {
 }
 
 .tally-percentage-page .bar.value-2 {
-    left: 60%;
+    left: 65%;
     background-color: #00A7FA;
+}
+
+@media only screen and (max-width: 820px) {
+    .tally-percentage-page .bar .label,
+    .tally-percentage-page .bar .value {
+        display: none;
+    }
 }
 
 /* Room Pages */
