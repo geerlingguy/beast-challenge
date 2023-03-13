@@ -122,6 +122,7 @@ nav.navbar-beast {
     width: 20%;
     text-align: center;
     min-height: 10%;
+    max-height: 99%;
 }
 
 .tally-percentage-page .bar .value {
@@ -139,20 +140,19 @@ nav.navbar-beast {
     font-size: 30px;
 }
 
-.tally-percentage-page .bar.value-0 {
-    left: 15%;
-    background-color: #48EB12;
-}
+.tally-percentage-page .bar.value-0 { background-color: #48EB12; }
+.tally-percentage-page .bar.value-1 { background-color: #FF3B28; }
+.tally-percentage-page .bar.value-2 { background-color: #00A7FA; }
 
-.tally-percentage-page .bar.value-1 {
-    left: 40%;
-    background-color: #FF3B28;
-}
+.options-1 .bar.value-0 { left: 40%; max-height: 85%; }
 
-.tally-percentage-page .bar.value-2 {
-    left: 65%;
-    background-color: #00A7FA;
-}
+.options-2 .bar.value-0 { left: 25%; }
+.options-2 .bar.value-1 { left: 55%; }
+
+.options-3 .bar.value-0 { left: 15%; }
+.options-3 .bar.value-1 { left: 40%; }
+.options-3 .bar.value-2 { left: 65%; }
+
 
 @media only screen and (max-width: 820px) {
     .tally-percentage-page .bar .label,

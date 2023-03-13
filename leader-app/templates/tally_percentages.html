@@ -12,7 +12,7 @@
     <script src="{{ url_for('static', filename='custom.js') }}"></script>
 </head>
 <body class="tally">
-    <div class="tally-percentage-page values-{{ vote | length }}">
+    <div class="tally-percentage-page options-{{ votes | length }}">
 {% for vote in votes %}
         <div class="bar value-{{ loop.index0 }}" style="height: {{ vote.percentage_of_vote_so_far }}%">
             <div class="value"><span>{{ vote.total }} vote{{ vote.total | pluralize }}</span></div>
