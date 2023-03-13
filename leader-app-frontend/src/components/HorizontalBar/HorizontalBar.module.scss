@@ -1,0 +1,29 @@
+.container {
+  display: flex;
+}
+.root {
+  padding: 24px 56px;
+  min-width: 300px;
+}
+
+.answer {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 64px;
+  line-height: 100%;
+  color: #ffffff;
+}
+
+.votes {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 32px;
+  line-height: 100%;
+  /* identical to box height, or 32px */
+
+  color: #ffffff;
+}
+
+.bar {
+  width: 20px;
+}
