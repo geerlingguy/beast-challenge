@@ -9,15 +9,15 @@ NPM is used to manage packages. To install packages run `npm install`
 Create a new `.env.local` file using `.env.example`. Following are the env variable used.
 
 ```
-NEXT_PUBLIC_BASE_URL // Endpoint of the backend flask App
+NEXT_PUBLIC_BASE_URL=http://127.0.0.1:4000
 ```
 
-To run development server `npm run dev`
+To run development server `yarn dev`
 
 ## Production Build
 
-1. npm run build
-2. npm run start
+1. yarn run build
+2. yarn run start
 
 ## Libraries used
 
