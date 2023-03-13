@@ -13,10 +13,11 @@ services:
     ports:
       - '5000:5000'
 
-  button:
-    build:
-      context: the-button
-    stop_signal: SIGINT
-    restart: always
-    ports:
-      - '5005:5000'
+  # Disable the Button Game for the time being...
+  # button:
+  #   build:
+  #     context: the-button
+  #   stop_signal: SIGINT
+  #   restart: always
+  #   ports:
+  #     - '5005:5000'
