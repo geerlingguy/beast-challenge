@@ -153,7 +153,7 @@ nav.navbar-beast {
 .options-3 .bar.value-1 { left: 40%; }
 .options-3 .bar.value-2 { left: 65%; }
 
-
+/* Mobile layout is designed for display in the lower right jumbotron view. */
 @media only screen and (max-width: 820px) {
     .tally-percentage-page .bar {
         width: 15%;
