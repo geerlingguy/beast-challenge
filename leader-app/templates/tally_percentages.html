@@ -14,7 +14,7 @@
 <body class="tally">
     <div class="tally-percentage-page values-{{ vote | length }}">
 {% for vote in votes %}
-        <div class="bar value-{{ loop.index0 }}" style="height: {{ vote.total }}%">
+        <div class="bar value-{{ loop.index0 }}" style="height: {{ vote.percentage_of_vote_so_far }}%">
             <div class="value"><span>{{ vote.total }} votes</span></div>
             <div class="label">{{ vote.label }}</div>
         </div>
