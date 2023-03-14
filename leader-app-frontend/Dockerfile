@@ -19,8 +19,8 @@ RUN \
 # Rebuild the source code only when needed
 FROM base AS builder
 
-ARG BASE_URL=""
-ENV NEXT_PUBLIC_BASE_URL=$BASE_URL
+ARG NEXT_PUBLIC_API_URL
+ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
 
 WORKDIR /app
 COPY . .
@@ -41,4 +41,5 @@ COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package.json ./package.json
 
 EXPOSE 3000
+
 CMD ["yarn", "start"]
