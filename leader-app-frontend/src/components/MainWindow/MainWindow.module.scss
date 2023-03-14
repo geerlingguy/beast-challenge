@@ -5,7 +5,7 @@
   background: linear-gradient(180deg, #5961b0 0%, #4dd5f0 100%);
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-end;
 }
 
 .background {
@@ -14,8 +14,13 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: url("../../assets/Pattern.png");
+  background-image: url("../../assets/Pattern.png");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+
+  &__green {
+    background-image: none;
+    background-color: #04f404;
+  }
 }
