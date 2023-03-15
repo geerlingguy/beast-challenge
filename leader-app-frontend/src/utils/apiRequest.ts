@@ -1,13 +1,13 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from "axios";
 
-const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+const baseURL = process.env.NEXT_PUBLIC_API_URL;
 
 class axiosInstance {
   instance: AxiosInstance;
 
   constructor() {
     this.instance = axios.create({
-      baseURL: baseUrl,
+      baseURL,
       timeout: 30000,
       headers: {
         "Content-Type": "application/json",

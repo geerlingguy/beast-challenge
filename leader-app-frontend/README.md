@@ -9,7 +9,7 @@ NPM is used to manage packages. To install packages run `npm install`
 Create a new `.env.local` file using `.env.example`. Following are the env variable used.
 
 ```
-NEXT_PUBLIC_BASE_URL=http://127.0.0.1:4000
+NEXT_PUBLIC_API_URL=http://127.0.0.1:5000
 ```
 
 To run development server `yarn dev`
@@ -24,3 +24,11 @@ To run development server `yarn dev`
 1. Framer motion -> For animation
 2. react-query -> for data fetching
 3. sass -> for styling
+
+## Docker
+
+To build the docker image
+
+```
+docker build -t tag --build-arg BASE_URL=http://127.0.0.1:5000 .
+```

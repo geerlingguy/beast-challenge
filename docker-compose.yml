@@ -1,5 +1,20 @@
 ---
 services:
+  leader-frontend:
+    build:
+      context: leader-app-frontend
+      args:
+        - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
+    stop_signal: SIGINT
+    restart: always
+    volumes:
+      - ./leader-app-frontend:/app
+      - /app/node_modules
+      - /app/.next
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
 
   leader:
     build:
@@ -11,7 +26,7 @@ services:
     environment:
       - FLASK_DATABASE_PATH=${FLASK_DATABASE_PATH}
     ports:
-      - '5000:5000'
+      - "5000:5000"
 
   # Disable the Button Game for the time being...
   # button:
