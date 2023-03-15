@@ -11,31 +11,36 @@
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark navbar-beast">
-      <div class="container">
-        <a class="navbar-brand" href="{{ url_for('index') }}">
-            <img src="{{ url_for('static', filename='mr-beast-logo.png') }}" alt="Mr. Beast Logo" width="50" height="36">
-        </a>
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item">
-                <a class="nav-link{{ ' active' if page == 'index' }}" href="/">Overview</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link{{ ' active' if page == 'tally' }}" href="/tally">Live Tally</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link{{ ' active' if page == 'tally-percentages' }}" href="/tally-percentages">Percentage Tally</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link{{ ' active' if page == 'room-votes' }}" href="/room-votes">Room Votes</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link{{ ' active' if page == 'room-control' }}" href="/room-control">Room Control</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link{{ ' active' if page == 'test' }}" href="/test">Test Mode</a>
-            </li>
-        </ul>
-      </div>
+        <div class="container">
+            <a class="navbar-brand" href="{{ url_for('index') }}">
+                <img src="{{ url_for('static', filename='mr-beast-logo.png') }}" alt="Mr. Beast Logo" width="50" height="36">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarToggler">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link{{ ' active' if page == 'index' }}" href="/">Overview</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link{{ ' active' if page == 'tally' }}" href="/tally">Live Tally</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link{{ ' active' if page == 'tally-percentages' }}" href="/tally-percentages">Percentage Tally</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link{{ ' active' if page == 'room-votes' }}" href="/room-votes">Room Votes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link{{ ' active' if page == 'room-control' }}" href="/room-control">Room Control</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link{{ ' active' if page == 'test' }}" href="/test">Test Mode</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </nav>
     <main role="main" class="container">
         <div class="container mt-2">

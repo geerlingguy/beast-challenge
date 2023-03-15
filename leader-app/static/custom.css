@@ -154,7 +154,7 @@ nav.navbar-beast {
 .options-3 .bar.value-2 { left: 65%; }
 
 /* Mobile layout is designed for display in the lower right jumbotron view. */
-@media only screen and (max-width: 820px) {
+@media only screen and (max-width: 990px) {
     .tally-percentage-page .bar {
         width: 15%;
     }
@@ -252,7 +252,7 @@ nav.navbar-beast {
 }
 
 .room-grid .number-of-votes {
-    font-size: .2em;
+    font-size: 10px;
 }
 
 /* Test Mode Page */
@@ -279,4 +279,15 @@ nav.navbar-beast {
 .latest-vote .vote-metadata {
     font-size: 20px;
     opacity: .4;
+}
+
+/* Responsive styles */
+@media only screen and (max-width: 990px) {
+    .tally-page { font-size: 20px; }
+    .tally-page .width-3 { font-size: 20px; }
+    .tally-page .results .value { font-size: 50px; }
+
+    .latest-vote table { font-size: 35px; }
+    .latest-vote .value { font-size: 80px; }
+    .latest-vote .vote-metadata { font-size: 10px; }
 }

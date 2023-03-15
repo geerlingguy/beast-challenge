@@ -298,6 +298,7 @@ def test():
 
 # Live vote data.
 @app.route('/live/tally')
+@cross_origin()
 def live_tally():
     live_round = get_live_round()
     votes = get_totals_for_round(live_round['round_id'], True)
@@ -306,6 +307,7 @@ def live_tally():
 
 # Live current round data.
 @app.route('/live/round')
+@cross_origin()
 def live_round():
     live_round = get_live_round()
     return jsonify(live_round)
@@ -313,6 +315,7 @@ def live_round():
 
 # Live current round participant data.
 @app.route('/live/round/participants')
+@cross_origin()
 def live_round_participants():
     live_round = get_live_round()
     return jsonify({'total_participants': live_round['total_participants']})
@@ -320,6 +323,7 @@ def live_round_participants():
 
 # Live current round option data.
 @app.route('/live/round/options')
+@cross_origin()
 def live_round_options():
     live_round = get_live_round()
     value_data = {}
