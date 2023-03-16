@@ -65,7 +65,7 @@ def button_click(event_source, event_value, event_time):
             round_data = response.json()
             if round_data['live_colors']:
                 color_options = ['green', 'red', 'blue']
-                set_color(color_options[vote_value])
+                set_color(color_options[data['value']])
     except:
         print('Received an exception while voting. Continuing...')
 
