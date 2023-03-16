@@ -22,10 +22,6 @@ To develop it locally, run:
 
 Visit the app at http://127.0.0.1:5000
 
-## The Button app
-
-TODO: Same as above, but add `-p 5005` and access at http://127.0.0.1:5005
-
 ## Production 'Farmer' Deployment (Leader and Button apps)
 
 The Leader and Button apps will run on the main server NUC, with a hot spare backup server available should the need arise.
@@ -42,12 +38,6 @@ Then run the Ansible playbook:
 ansible-playbook farmer-control.yml
 ```
 
-You can control which app is active by overriding it with the extra var `running_app`. For example, if `leader-app` is currently running, switch to `the-button` with:
-
-```
-ansible-playbook farmer-control.yml -e "running_app=the-button" --tags app
-```
-
 > For testing, bring up a Docker Ubuntu container with `docker run -d --volume=/sys/fs/cgroup:/sys/fs/cgroup:rw --cgroupns=host --privileged --name farmer geerlingguy/docker-ubuntu2204-ansible:latest /usr/sbin/init`, then set the hostname line for the farmer to:
 >
 > ```
@@ -55,6 +45,14 @@ ansible-playbook farmer-control.yml -e "running_app=the-button" --tags app
 > ```
 >
 > Then run the playbook: `ansible-playbook farmer-control.yml`
+
+### Initializing the Database
+
+To initialize (or reset) the database, run the Ansible playbook:
+
+```
+ansible-playbook reset-leader-database.yml
+```
 
 ## Room app
 
