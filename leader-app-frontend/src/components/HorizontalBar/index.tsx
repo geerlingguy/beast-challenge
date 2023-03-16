@@ -13,9 +13,9 @@ const HorizontalBar = ({ width, votes, index, label }: Props) => {
   const rootBackground = React.useMemo(() => {
     switch (index) {
       case 0:
-        return "linear-gradient(270deg, #FF6161 0%, #F23225 100%)";
-      case 1:
         return "linear-gradient(270deg, #82AC73 27.43%, #34A853 97.7%)";
+      case 1:
+        return "linear-gradient(270deg, #FF6161 0%, #F23225 100%)";
       case 2:
         return "linear-gradient(270deg, #22AFFF 0%, #227AFF 100%)";
       default:
@@ -26,9 +26,9 @@ const HorizontalBar = ({ width, votes, index, label }: Props) => {
   const background = React.useMemo(() => {
     switch (index) {
       case 0:
-        return "linear-gradient(90deg, #FF6161 0%, #F23225 100%)";
-      case 1:
         return "linear-gradient(90deg, #82AC73 27.43%, #34A853 97.7%)";
+      case 1:
+        return "linear-gradient(90deg, #FF6161 0%, #F23225 100%)";
       case 2:
         return "linear-gradient(90deg, #22AFFF 0%, #227AFF 100%)";
       default:
@@ -39,9 +39,9 @@ const HorizontalBar = ({ width, votes, index, label }: Props) => {
   const barColor = React.useMemo(() => {
     switch (index) {
       case 0:
-        return "#D90F02";
-      case 1:
         return "#1F8B3C";
+      case 1:
+        return "#D90F02";
       case 2:
         return "#1660CF";
       default:

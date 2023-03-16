@@ -10,13 +10,14 @@ interface ISingleAnswer {
   percentage_round_participants: number;
   total: number;
 }
+
 const Answer = () => {
   const { data: items, refetch } = useBaseQuery<ISingleAnswer[]>("/live/tally");
 
   React.useEffect(() => {
     const interval = setInterval(() => {
       refetch();
-    }, 300);
+    }, 500);
 
     return () => clearInterval(interval);
   }, [refetch]);
