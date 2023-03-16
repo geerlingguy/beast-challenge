@@ -1,13 +1,4 @@
 ---
-- name: Copy utility scripts into place.
-  copy:
-    src: "../room-app/utils/{{ item }}"
-    dest: "/home/admin/{{ item }}"
-    mode: 0755
-  become: false
-  with_items:
-    - light.py
-
 - name: Copy app scripts into place.
   copy:
     src: "../room-app/{{ item }}"
@@ -18,6 +9,7 @@
   with_items:
     - button-monitor.py
     - light-control.py
+    - lights.py
   notify: restart apps
   tags: ['app']
 
