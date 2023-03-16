@@ -90,6 +90,14 @@ def room_vote_latest_for_round(room_id, round_id):
 
 def save_vote(room_id, value, round_id):
     conn = get_db_connection()
+
+    # Write the color for the value to the rooms table if live_colors is active.
+    current_round = get_live_round()
+    if current_round['live_colors']:
+        value_colors = ['green', 'red', 'blue']
+        conn.execute('UPDATE rooms SET color = ? WHERE room_id = ?', (value_colors[value], room_id))
+
+    # Write the vote to the database.
     conn.execute('INSERT INTO votes (room_id, value, round_id) VALUES (?,?,?)', (room_id, value, round_id))
     conn.commit()
     conn.close()
@@ -232,6 +240,10 @@ def index():
                         value['live'] = 0
                     else:
                         value['live'] = 1
+                    if 'live_colors' not in value_keys:
+                        value['live_colors'] = 0
+                    else:
+                        value['live_colors'] = 1
                     if 'is_allowing_multiple_votes' not in value_keys:
                         value['is_allowing_multiple_votes'] = 0
                     else:
