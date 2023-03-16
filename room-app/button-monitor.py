@@ -14,6 +14,7 @@ import sys
 import time
 import requests
 import yaml
+from lights import set_color
 
 # Read configuration file.
 with open("config.yml", "r") as f:
@@ -59,9 +60,14 @@ def button_click(event_source, event_value, event_time):
         response = requests.post(vote_url, json=data)
         response.raise_for_status()
         if response.status_code == 201:
-            print('Submitted vote data: ' + str(data))
+            # print('Submitted vote data: ' + str(data))
+            # TODO: TEST THIS AND MAKE SURE IT ACTUALLY WORKS! Or not.
+            round_data = response.json()
+            if round_data['live_colors']:
+                color_options = ['green', 'red', 'blue']
+                set_color(color_options[vote_value])
     except:
-        print('Received an exception in HTTP request. Continuing...')
+        print('Received an exception while voting. Continuing...')
 
 
 if __name__ == '__main__':

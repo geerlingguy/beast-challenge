@@ -1,0 +1,9 @@
+---
+- name: Reboot le spuds
+  hosts: potatoes
+  gather_facts: true
+  become: true
+
+  tasks:
+    - name: Reboot ALL THE SPUDS!
+      ansible.builtin.reboot:

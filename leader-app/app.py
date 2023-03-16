@@ -502,6 +502,7 @@ def vote():
 
         # Get current round information.
         live_round = get_live_round()
+        round_response_data = {'round_id': live_round['round_id'], 'live_colors': live_round['live_colors']}
 
         # TODO Don't store votes for a button that doesn't have a corresponding
         # option (e.g. if vote value is `2` and round only has value_0/value_1).
@@ -512,6 +513,7 @@ def vote():
             # If the current round allows multiple votes, save the vote.
             if live_round['is_allowing_multiple_votes']:
                 save_vote(room_id, value, live_round['round_id'])
+                response.data = json.dumps(round_response_data)
                 response.status = 201  # Created
             else:
                 # A vote was already submitted for this room; deny the vote.
@@ -520,6 +522,7 @@ def vote():
                 # No vote submitted yet; save the vote.
                 else:
                     save_vote(room_id, value, live_round['round_id'])
+                    response.data = json.dumps(round_response_data)
                     response.status = 201  # Created
         # Not accepting votes right now; deny the vote.
         else:
