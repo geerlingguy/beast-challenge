@@ -1,0 +1,11 @@
+---
+- name: Someone set us up the base.
+  hosts: farmer
+  gather_facts: false
+  become: true
+
+  tasks:
+    - name: Re-initialize the leader database.
+      community.docker.docker_container_exec:
+        container: beast-game_leader_1
+        command: python3 init_db.py
