@@ -11,6 +11,8 @@
     pip_install_packages:
       - name: docker
       - name: docker-compose
+      - name: ansible
+
     docker_install_compose: true
     docker_compose_version: "1.29.2"
     docker_install_compose_plugin: false

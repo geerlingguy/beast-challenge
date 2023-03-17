@@ -3,6 +3,7 @@
   hosts: potatoes
   gather_facts: false
   become: true
+  serial: 10
 
   vars:
     spud_reboot: false
