@@ -103,12 +103,19 @@ ansible-playbook spud-control.yml
 
 The playbook is configured to be idempotent, so we should be able to run it live if we need to quickly patch all 100 rooms!
 
-#### Shutting down the Potato farm
+#### Maintaining the Potato farm
 
-To shut down all active Potatoes, run the command:
+There are a variety of maintenance tasks in the maintenance playbook:
 
 ```
-ansible potatoes -a "shutdown -H now" -b
+# Reboot spuds:
+ansible-playbook spud-maintain.yml -e '{"spud_reboot":true}'
+
+# Stop all services on the spuds:
+ansible-playbook spud-maintain.yml -e '{"service_stop":true}'
+
+# Start all services on the spuds:
+ansible-playbook spud-maintain.yml -e '{"service_start":true}'
 ```
 
 ### Initializing the Farmer

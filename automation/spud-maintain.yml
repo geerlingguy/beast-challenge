@@ -1,0 +1,31 @@
+---
+- name: Reboot le spuds
+  hosts: potatoes
+  gather_facts: true
+  become: true
+
+  vars:
+    spud_reboot: false
+    service_stop: false
+    service_start: false
+
+  tasks:
+    - name: Reboot ALL THE SPUDS!
+      ansible.builtin.reboot:
+      when: spud_reboot
+
+    - name: Potato services stop
+      ansible.builtin.service:
+        name: "{{ item }}"
+        state: stopped
+      with_items:
+        - light-control
+        - button-monitor
+
+    - name: Potato services start
+      ansible.builtin.service:
+        name: "{{ item }}"
+        state: started
+      with_items:
+        - light-control
+        - button-monitor
