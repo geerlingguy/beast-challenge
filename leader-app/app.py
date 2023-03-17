@@ -262,7 +262,7 @@ def index():
                     if row_round_id == 'n':
                         if value['value_0']:
                             conn = get_db_connection()
-                            conn.execute("INSERT INTO rounds (" + db_keys + ') VALUES (?,?,?,?,?,?,?)', db_values)
+                            conn.execute("INSERT INTO rounds (" + db_keys + ') VALUES (?,?,?,?,?,?,?,?)', db_values)
                             conn.commit()
                             conn.close()
                     # Update existing round.
