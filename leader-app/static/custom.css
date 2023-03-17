@@ -255,6 +255,13 @@ nav.navbar-beast {
     font-size: 10px;
 }
 
+/* Edit Room Page */
+@media only screen and (max-width: 990px) {
+    .edit-room .w-50 {
+        width: 100% !important;
+    }
+}
+
 /* Test Mode Page */
 .latest-vote {
     width: 100%;
