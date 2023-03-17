@@ -1,7 +1,7 @@
 ---
 - name: Reboot le spuds
   hosts: potatoes
-  gather_facts: true
+  gather_facts: false
   become: true
 
   vars:
@@ -21,6 +21,7 @@
       with_items:
         - light-control
         - button-monitor
+      when: service_stop
 
     - name: Potato services start
       ansible.builtin.service:
@@ -29,3 +30,4 @@
       with_items:
         - light-control
         - button-monitor
+      when: service_start
