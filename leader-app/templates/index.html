@@ -18,9 +18,9 @@
                         <th scope="col">Option 3</th>
                         <th scope="col">Live?</th>
                         <th scope="col">Live Colors?</th>
-                        <th scope="col">Accept Votes?</th>
+                        <th scope="col" class="hidden">Accept Votes?</th>
                         <th scope="col">Allow vote changes</th>
-                        <th scope="col">Participants</th>
+                        <th scope="col" class="hidden">Participants</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -49,7 +49,7 @@
                                 <label class="form-check-label" for="round-live_colors-{{ round['round_id'] }}">Live Colors</label>
                             </div>
                         </td>
-                        <td>
+                        <td class="hidden">
                             <div class="form-check form-switch">
                                 <input name="{{ id + '_is_accepting_votes' }}" class="form-check-input round-accepting" type="checkbox" {{ 'checked' if round['is_accepting_votes'] }} role="switch" id="round-accepting-{{ round['round_id'] }}" onclick="onlyAllowOneAccepting(this.id)">
                                 <label class="form-check-label" for="round-accepting-{{ round['round_id'] }}">Voting On</label>
@@ -61,7 +61,7 @@
                                 <label class="form-check-label" for="round-changes-{{ round['round_id'] }}">Allow vote changes</label>
                             </div>
                         </td>
-                        <td>
+                        <td class="hidden">
                             <input name="{{ id + '_total_participants' }}" class="form-control form-control-sm" type="text" value="{{ round['total_participants'] }}">
                         </td>
                     </tr>

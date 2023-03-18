@@ -232,10 +232,6 @@ def index():
                 for key, value in round_data.items():
                     value_keys = value.keys()
                     # Force all binary options to have a value, set to 0 or 1.
-                    if 'is_accepting_votes' not in value_keys:
-                        value['is_accepting_votes'] = 0
-                    else:
-                        value['is_accepting_votes'] = 1
                     if 'live' not in value_keys:
                         value['live'] = 0
                     else:
@@ -248,6 +244,9 @@ def index():
                         value['is_allowing_multiple_votes'] = 0
                     else:
                         value['is_allowing_multiple_votes'] = 1
+
+                    # They decided to drop the toggle for this.
+                    value['is_accepting_votes'] = 1
 
                     # Rearrange things for database insertion or update.
                     row_round_id = value.pop('round_id')

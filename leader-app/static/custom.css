@@ -23,6 +23,11 @@ nav.navbar-beast {
     width: 8em;
 }
 
+.round-overview .hidden {
+    display: none;
+    visibility: hidden;
+}
+
 .round-overview .new {
     background-color: #e1ffda;
     display: none;
