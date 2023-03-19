@@ -93,7 +93,7 @@ const HorizontalBar = ({ width, votes, index, label, roundId }: Props) => {
         animate={{ width: `${width}%` }}
         // transition={{ ease: [0.17, 0.67, 0.83, 0.67] }}
         // transition={{ type: "spring", bounce: 0.25 }}
-        // transition={{ type: "inertia", velocity: 100 }}
+        transition={{ type: "inertia", velocity: 100 }}
         // transition={{
         //   duration: 0.05,
         //   type: "spring",
