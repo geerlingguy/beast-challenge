@@ -38,11 +38,7 @@ const Question = ({
         </div>
         <div className={styles.question}>{question}</div>
         <div className={styles.timer}>
-          <Countdown
-            renderer={renderer}
-            onComplete={console.log}
-            date={Date.now() + timeLimit}
-          />
+          <Countdown renderer={renderer} date={Date.now() + timeLimit} />
         </div>
       </div>
     </motion.div>
