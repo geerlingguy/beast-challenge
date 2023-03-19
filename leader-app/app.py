@@ -180,9 +180,12 @@ def set_room_colors_according_to_last_vote(colors={}):
         latest_vote = room_vote_latest_for_round(room['room_id'], live_round['round_id'])
         if latest_vote:
             key = latest_vote['value']
-            vote_color = colors[key]
-            # Write the new color to the database.
-            update_color_for_room(vote_color, room['room_id'])
+            # Make sure the vote corresponds to a valid key (in case someone
+            # modifies a round and removes an option with votes).
+            if key in colors.keys():
+                vote_color = colors[key]
+                # Write the new color to the database.
+                update_color_for_room(vote_color, room['room_id'])
 
 
 # Default route - overview.
