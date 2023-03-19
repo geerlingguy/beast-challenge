@@ -337,10 +337,10 @@ def live_round_participants():
 @cross_origin()
 def live_round_options():
     live_round = get_live_round()
-    value_data = {}
+    value_data = []
     value_potential_options = ['value_0', 'value_1', 'value_2']
     for value in value_potential_options:
-        value_data[value] = live_round[value]
+        value_data.append({str(value): live_round[value]})
     return jsonify(value_data)
 
 
