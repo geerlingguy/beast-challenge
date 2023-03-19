@@ -51,7 +51,7 @@ ansible-playbook farmer-control.yml
 To initialize (or reset) the database, run the Ansible playbook:
 
 ```
-ansible-playbook reset-leader-database.yml
+ansible-playbook farmer-reset-database.yml
 ```
 
 ## Room app

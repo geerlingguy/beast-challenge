@@ -1,0 +1,32 @@
+---
+- name: Someone set us up the base.
+  hosts: farmer
+  gather_facts: true
+  become: true
+
+  tasks:
+    - name: Back up the existing database file.
+      ansible.builtin.copy:
+        src: /var/beast/leader.sqlite
+        dest: /var/beast/leader-backup-{{ ansible_date_time.iso8601_basic_short }}.sqlite
+        remote_src: yes
+
+    - name: Delete the existing database file.
+      ansible.builtin.file:
+        path: /var/beast/leader.sqlite
+        state: absent
+
+    - name: Kill the leader app environment.
+      community.docker.docker_compose:
+        project_src: /opt/beast-game
+        state: absent
+
+    - name: Restart the leader app environment.
+      community.docker.docker_compose:
+        project_src: /opt/beast-game
+        state: present
+
+    - name: Re-initialize the leader database.
+      community.docker.docker_container_exec:
+        container: beast-game_leader_1
+        command: python3 init_db.py
