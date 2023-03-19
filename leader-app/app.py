@@ -340,8 +340,7 @@ def live_round_options():
     value_data = {}
     value_potential_options = ['value_0', 'value_1', 'value_2']
     for value in value_potential_options:
-        if live_round[value]:
-            value_data[value] = live_round[value]
+        value_data[value] = live_round[value]
     return jsonify(value_data)
 
 
