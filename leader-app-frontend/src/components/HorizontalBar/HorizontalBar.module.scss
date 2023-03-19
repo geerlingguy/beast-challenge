@@ -3,7 +3,7 @@
 }
 .root {
   padding: 24px 56px;
-  min-width: 300px;
+  flex-shrink: 0;
 }
 
 .answer {
