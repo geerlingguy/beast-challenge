@@ -5,7 +5,7 @@
     <div class="room-grid d-flex flex-wrap flex-column-reverse">
         {% for room in rooms %}
             <a href="/room-vote/{{ room.room_id }}" class="room-link m-1 p-1">
-                <div class="room m-1 p-1 text-dark{{ ' has-voted' if room.most_recent_vote }}">
+                <div class="room m-1 p-1 text-dark{{ ' has-voted' if room.most_recent_vote }}{{ ' room-off' if not room['live'] }}">
                     <h2 class="room-id">{{ room.room_id }}</h2>
                     <div class="vote-data text-center">
                         <div class="vote">
