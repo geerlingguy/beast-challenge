@@ -205,6 +205,10 @@ nav.navbar-beast {
     border: 1px solid #eeeeee;
 }
 
+.room-grid .room-off {
+    opacity: 0.1 !important;
+}
+
 .room-grid .has-voted {
     background-color: #9CD3FC;
     border: 1px solid #9CD3FC;
