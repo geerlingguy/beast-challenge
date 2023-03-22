@@ -43,4 +43,23 @@
             <p>Room {{ room.room_id }} has not voted yet in round {{ round.round_id }}.</p>
         {% endif %}
     </div>
+    <div class="card color-select mt-3 w-50">
+      <div class="card-body">
+        <h5 class="card-title">Force Submit a Vote</h5>
+        <p class="card-text">Forcibly store a vote for this room for the current round. This vote will be stored regardless of the current round's 'Allow multiple votes' status!</p>
+        <form method="post">
+            <div class="d-inline-flex w-50">
+                <select class="form-select" name="vote_select">
+                    <option selected>-- Choose an option --</option>
+                    {% for option in vote_options %}
+                        <option value="{{ loop.index0 }}">{{ option }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="d-inline-flex w-25">
+                <button type="submit" class="btn btn-primary">Save Vote</button>
+            </div>
+        </form>
+      </div>
+    </div>
 {% endblock %}

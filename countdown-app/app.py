@@ -210,6 +210,18 @@ def room_timers():
     return render_template('room_timers.html', rooms=rooms_with_press_data, countdown_state=countdown_state, page='room-timers')
 
 
+# Room timer API endpoint.
+@app.route('/live/room-timers', methods = ['GET'])
+@cross_origin()
+def live_room_timers():
+    response = make_response()
+
+    room_timer_data = {}
+    status_code = 200
+
+    return dict(room_timer_data), status_code
+
+
 # Room timer status displayed on a web page.
 @app.route('/room-presses/<int:room_id>')
 def room_presses(room_id):
@@ -222,7 +234,6 @@ def room_presses(room_id):
     room['latest_press'] = room_press_latest(room_id)
 
     return render_template('room_presses.html', room=room, countdown_state=countdown_state, page='room-presses')
-
 
 
 # Room information API endpoint.

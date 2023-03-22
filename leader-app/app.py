@@ -412,8 +412,14 @@ def room_votes():
 
 
 # Room vote status and history for the current round displayed on a web page.
-@app.route('/room-vote/<int:room_id>')
+@app.route('/room-vote/<int:room_id>', methods = ['GET', 'POST'])
 def room_vote(room_id):
+    if request.method == 'POST':
+        value = request.form.get('vote_select')
+        print(value)
+        live_round = get_live_round()
+        save_vote(room_id, value, live_round['round_id'])
+
     # TODO: Current round is hardcoded here. Might want to allow looking at
     # vote data for other rounds (for reference). Maybe a query string param?
     live_round = get_live_round()
@@ -442,7 +448,14 @@ def room_vote(room_id):
                 vote['label'] = live_round['value_2']
     room_data['votes_this_round'] = total
 
-    return render_template('room_vote.html', room=room_data, votes=votes, round=live_round, page='room-vote')
+    # Make a list of round voting options.
+    potential_options = ['value_0', 'value_1', 'value_2']
+    vote_options = []
+    for option in potential_options:
+        if live_round[option]:
+            vote_options.append(live_round[option])
+
+    return render_template('room_vote.html', room=room_data, votes=votes, round=live_round, vote_options=vote_options, page='room-vote')
 
 
 # Room information API endpoint.
