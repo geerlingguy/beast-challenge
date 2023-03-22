@@ -5,7 +5,7 @@
     <div class="room-grid d-flex flex-wrap flex-column-reverse">
         {% for room in rooms %}
             <a href="/room-presses/{{ room.room_id }}" class="room-link m-1 p-1">
-                <div class="room m-1 p-1 text-dark {{ ' has-pressed' if room.most_recent_press }}{{ ' room-off' if not room['live'] }}{{ ' room-time-expired' if not room.time_remaining_seconds }}">
+                <div class="room m-0 p-1 text-dark {{ ' has-pressed' if room.most_recent_press }}{{ ' room-off' if not room['live'] }}{{ ' room-time-expired' if not room.time_remaining_seconds }}">
                     <h2 class="room-id mb-2 p-0">{{ room.room_id }}</h2>
                     {% if room.live %}
                     <div class="press-data text-center">
@@ -13,7 +13,6 @@
                             <div class="timer" id="timer_{{ room.room_id }}">{{ room.time_remaining }}</div>
                         </div>
                         <div class="number-of-presses">
-                            <!-- 1 pluralizations make the world go round. -->
                             <span class="press-count">{{ room.presses }} press{{ room.presses | pluralize('', 'es') }}</span><br>
                         </div>
                     </div>
@@ -24,7 +23,4 @@
     </div>
     <!-- Refresh page every 10 seconds -->
     <script src="{{ url_for('static', filename='timers.js') }}"></script>
-    <script type="text/javascript">
-        setTimeout(function () { location.reload(1); }, 10000);
-    </script>
 {% endblock %}

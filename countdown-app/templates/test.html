@@ -1,45 +1,37 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h2>Last Vote</h2>
+    <h2>Last Press</h2>
         <div class="latest-vote">
             <table>
                 <tr>
-                    <td class="pt-4 pb-5" style="width: 50%;">
+                    <td class="pt-4 pb-5" style="width: 100%;">
                         <span class="label">Room</span><br>
-                        <span class="value">{{ votes[0].room_id }}</span>
-                    </td>
-                    <td class="pt-4 pb-5" style="width: 50%;">
-                        <span class="label">Button</span><br>
-                        <span class="value">{{ votes[0].value }}</span>
+                        <span class="value">{{ presses[0].room_id }}</span>
                     </td>
                 </tr>
             </table>
-            <div class="text-center vote-metadata pb-2">Button Pushed at: {{ votes[0].created }} for round {{ votes[0].round_id }}</div>
+            <div class="text-center vote-metadata pb-2">Button Pushed at: {{ presses[0].created }}</div>
         </div>
-    <h2 class="mt-2">Recent Votes</h2>
+    <h2 class="mt-2">Recent Presses</h2>
     <table class="table">
         <thead>
             <tr>
                 <th scope="col">Room</th>
                 <th scope="col">Time</th>
-                <th scope="col">Value</th>
-                <th scope="col">Round</th>
             </tr>
         </thead>
         <tbody>
-            {% set _votes = votes.pop(0) %}
-            {% for vote in votes %}
+            {% set _presses = presses.pop(0) %}
+            {% for press in presses %}
             <tr>
-                <th scope="row">{{ vote.room_id }}</th>
-                <td>{{ vote.created }}</td>
-                <td>{{ vote.value }}</td>
-                <td>{{ vote.round_id }}</td>
+                <th scope="row">{{ press.room_id }}</th>
+                <td>{{ press.created }}</td>
             </tr>
             {% endfor %}
           </tbody>
     </table>
-    <!-- Refresh page every 3 seconds -->
+    <!-- Refresh page every .5 seconds -->
     <script type="text/javascript">
         setTimeout(function () { location.reload(1); }, 500);
     </script>

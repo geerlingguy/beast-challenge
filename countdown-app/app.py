@@ -4,11 +4,37 @@ import random
 import os
 from datetime import datetime
 from flask_cors import CORS, cross_origin
+from flask_apscheduler import APScheduler
 from flask import Flask, json, jsonify, request, flash, redirect, make_response, render_template, g
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'TviesCO6smUk7ZlNDm0ojBU7VeyPyGUn'
 CORS(app)
+
+# Scheduled task to expire rooms for which time has passed.
+def check_room_status():
+    with scheduler.app.app_context():
+        rooms = get_rooms()
+        for room in rooms:
+            # Check all rooms that have not yet run out of time.
+            if room['live'] and not room['time_expired']:
+                latest_press = room_press_latest(room['room_id'])
+                remaining_time = remaining_time_for_room(room['room_id'], latest_press['created'])
+                # If time is up, expire the room.
+                if remaining_time == 0:
+                    conn = get_db_connection()
+                    conn.execute("UPDATE rooms SET color = ?, time_expired = ? WHERE room_id = ?", ('red', 1, room['room_id']))
+                    conn.commit()
+                    conn.close()
+
+# Configure the Scheduler to run every second.
+scheduler = APScheduler()
+scheduler.init_app(app)
+scheduler.add_job(func=check_room_status, args=[], trigger='interval', id='room_status', seconds=1)
+scheduler.start()
+
+if (__name__ == "__main__"):
+    app.run()
 
 # Allow the database path to be overridden
 database_path = os.environ.get('FLASK_DATABASE_PATH') or 'countdown.sqlite'
@@ -129,8 +155,7 @@ def index():
         conn = get_db_connection()
 
         time_now = datetime.utcnow().isoformat(' ', 'milliseconds')
-        time_seconds = request.form['time_seconds']
-        # TODO: Validate time_seconds is an integer.
+        time_seconds = int(request.form['time_seconds'])
 
         # Update the countdown_state table.
         time_now = datetime.utcnow().isoformat(' ', 'milliseconds')
@@ -216,15 +241,43 @@ def room_timers():
 def live_room_timers():
     response = make_response()
 
-    room_timer_data = {}
+    room_timer_data = []
     status_code = 200
+    rooms = get_rooms()
+    for room in rooms:
+        room_data = {'room_id': room['room_id']}
+        room_data['press_count'] = room_press_count(room['room_id'])
+        if room['live']:
+            latest_press = room_press_latest(room['room_id'])
+            remaining_time = remaining_time_for_room(room['room_id'], latest_press['created'])
+            if remaining_time > 0:
+                room_data['time_remaining_seconds'] = remaining_time
+                room_data['time_remaining'] = format_seconds_to_mmss(remaining_time)
+            else:
+                room_data['time_remaining_seconds'] = 0
+                room_data['time_remaining'] = '0:00'
+        else:
+            room_data['time_remaining_seconds'] = 0
+            room_data['time_remaining'] = '0:00'
+        room_timer_data.append(room_data)
 
-    return dict(room_timer_data), status_code
+    return room_timer_data, status_code
 
 
 # Room timer status displayed on a web page.
-@app.route('/room-presses/<int:room_id>')
+@app.route('/room-presses/<int:room_id>', methods = ['GET', 'POST'])
 def room_presses(room_id):
+    if request.method == 'POST':
+        if request.form.get('reset_timer'):
+            # Reset the room's status in the rooms table.
+            conn = get_db_connection()
+            conn.execute("UPDATE rooms SET color = ?, time_expired = ?, live = ? WHERE room_id = ?", ('off', 0, 1, room_id))
+            conn.commit()
+            conn.close()
+
+            # Save a vote with the current time for this room.
+            save_press(room_id)
+
     countdown_state = get_countdown_state()
 
     # Get room press data.

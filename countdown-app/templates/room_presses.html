@@ -43,4 +43,15 @@
             <p>Room {{ room.room_id }} has not pressed any buttons yet.</p>
         {% endif %}
     </div>
+    <div class="card vote-select mt-3 w-50">
+      <div class="card-body">
+        <h5 class="card-title">Force Reset a Room's Timer</h5>
+        <p class="card-text">Forcibly reset a room so it is active again and has its timer reset for the countdown game.</p>
+        <form method="post">
+            <div class="d-inline-flex">
+                <input type="submit" class="btn btn-danger" name="reset_timer" value="Reset Timer for Room {{ room.room_id }}">
+            </div>
+        </form>
+      </div>
+    </div>
 {% endblock %}
