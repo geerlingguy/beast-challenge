@@ -22,6 +22,22 @@ To develop it locally, run:
 
 Visit the app at http://127.0.0.1:5000
 
+## Countdown app
+
+The Countdown app (inside `countdown-app/`) runs on a central server that manages game state, provides output for a display, and provides controls to manage game state (e.g. setting the time interval for a button press, resetting timers).
+
+The Countdown app is a Flask app built with Python.
+
+To develop it locally, run:
+
+  1. `cd countdown-app`
+  2. `pipenv shell` (requires `pipenv`, install with `pip3 install pipenv`)
+  3. `pip install -r requirements.txt`
+  4. Initialize the database: `python3 init_db.py`
+  5. Run app: `FLASK_APP=app FLASK_DEBUG=true flask run` (add `--host=0.0.0.0` to make it accessible over the network)
+
+Visit the app at http://127.0.0.1:5000
+
 ## Production 'Farmer' Deployment (Leader and Button apps)
 
 The Leader and Button apps will run on the main server NUC, with a hot spare backup server available should the need arise.
@@ -52,6 +68,16 @@ To initialize (or reset) the database, run the Ansible playbook:
 
 ```
 ansible-playbook farmer-reset-database.yml
+```
+
+To _manually_ initialize the database (e.g. the first time you run the application in production), log into the server and run:
+
+```
+# For leader app
+docker exec beast-game_leader_1 python3 init_db.py
+
+# For countdown app
+docker exec countdown-app_countdown_1 python3 init_db.py
 ```
 
 ## Room app
@@ -127,6 +153,14 @@ ansible-playbook farmer-control.yml
 ```
 
 You may need to add `-K` the first time the playbook runs, to supply the sudo password (since by default Ubuntu doesn't allow passwordless sudo).
+
+### Switching game modes
+
+If you need to switch from the `leader` app to `countdown` (or vice-versa), run the `switch-game-modes.yml` playbook. For example, if the `leader` app is running, and you would like to switch to `countdown`:
+
+```
+ansible-playbook switch-game-modes.yml -e game_mode=countdown
+```
 
 ## Screenshots
 
