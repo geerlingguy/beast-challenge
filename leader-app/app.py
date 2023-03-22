@@ -232,7 +232,6 @@ def index():
                     live_rounds += 1
 
             # Ensure one round is live.
-            print(live_rounds)
             if live_rounds == 0:
                 flash('Please make sure at least one round is Live and save again')
                 error_in_form_data = True
@@ -416,7 +415,6 @@ def room_votes():
 def room_vote(room_id):
     if request.method == 'POST':
         value = request.form.get('vote_select')
-        print(value)
         live_round = get_live_round()
         save_vote(room_id, value, live_round['round_id'])
 

@@ -111,6 +111,11 @@ def format_seconds_to_mmss(seconds):
 
 
 def remaining_time_for_room(room_id, press_time):
+    # If the room's time is expired, return 0 immediately.
+    room = get_room((room_id,))
+    if room['time_expired']:
+        return 0
+
     current_time = getattr(g, '_current_time', None)
     if current_time is None:
         g._current_time = datetime.utcnow()
@@ -161,11 +166,11 @@ def index():
         time_now = datetime.utcnow().isoformat(' ', 'milliseconds')
         conn.execute('UPDATE countdown_state SET last_change = ?, time_seconds = ? WHERE id = 1', (time_now, time_seconds))
 
-        # Save a press for each live room (only if it is live and hasn't had
-        # time expired) so their counters are reset to the new time_seconds.
+        # Save a press for each live room (only if it hasn't had time expired)
+        # so their counters are reset to the new time_seconds.
         rooms = get_rooms()
         for room in rooms:
-            if room['live'] and not room['time_expired']:
+            if not room['time_expired']:
                 conn.execute("INSERT INTO presses (created, room_id) VALUES (?,?)", (time_now, room['room_id']))
 
         conn.commit()
@@ -186,17 +191,8 @@ def test():
     return render_template('test.html', presses=presses, page='test')
 
 
-# Live countdown data.
-@app.route('/live/countdown')
-@cross_origin()
-def live_countdown():
-    countdown_state = get_countdown_state()
-    # TODO: Retrieve all countdown timers current for current round as JSON.
-    return jsonify({})
-
-
 # Live current game state data.
-@app.route('/live/countdown_state')
+@app.route('/live/countdown-state')
 @cross_origin()
 def live_countdown_state():
     countdown_state = get_countdown_state()
