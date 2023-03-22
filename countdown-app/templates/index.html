@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Overview</h1>
+    {% for message in get_flashed_messages() %}
+        <div class="alert alert-danger">
+            {{ message }}
+        </div>
+    {% endfor %}
+    <form method="post">
+        <div class="table-responsive">
+            <table class="table countdown-overview">
+                <thead class="thead-light sticky-top bg-white">
+                    <tr>
+                        <th scope="col">Countdown State Last Changed (UTC)</th>
+                        <th scope="col">Time per press (seconds)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr id="countdown-row">
+                        <th scope="row"><span class="id">{{ countdown_state['last_change'] }}</span></th>
+                        <td>
+                            <input name="time_seconds" class="form-control form-control-sm" type="text" value="{{ countdown_state['time_seconds'] }}">
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="container clearfix">
+            <button type="submit" class="btn btn-primary float-end" id="save-changes" value="save-changes">Save Changes</button>
+        </div>
+    </form>
+    <div class="accordion mt-3" id="accordionEndpoints">
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingEndpoints">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEndpoints" aria-expanded="true" aria-controls="collapseColors">
+                API Endpoints
+                </button>
+            </h2>
+        <div id="collapseEndpoints" class="accordion-collapse collapse" aria-labelledby="headingEndpoints" data-bs-parent="#headingEndpoints">
+            <div class="accordion-body room-colors">
+                <ul>
+                    <li><a href="/live/tally">Live Vote Tally</a></li>
+                    <li><a href="/live/round">Live Round Data</a></li>
+                    <li><a href="/live/round/participants">Live Round Participant Count</a></li>
+                    <li><a href="/live/round/options">Live Round Vote Options</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endblock %}

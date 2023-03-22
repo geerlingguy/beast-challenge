@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Room {{ room.room_id }} - Presses</h2>
+    <div class="press-data">
+        {% if room.presses_total %}
+            <div class="card" style="width: 50%;">
+                <h5 class="card-header">Latest Stats</h5>
+                <div class="card-body">
+                    <table class="table my-0 table-bordered">
+                        <tbody>
+                            <tr>
+                                <th scope="row">Total presses this round</th>
+                                <td>{{ room.presses_total }}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Most recent press (UTC)</th>
+                                <td>{{ room.latest_press.created }}</td>
+                            </tr>
+                          </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="w-75">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Press ID</th>
+                            <th scope="col">Time</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for press in room.presses %}
+                        <tr>
+                            <td>{{ press.press_id }}</td>
+                            <td>{{ press.created }}</td>
+                        </tr>
+                        {% endfor %}
+                      </tbody>
+                </table>
+            </div>
+        {% else %}
+            <p>Room {{ room.room_id }} has not pressed any buttons yet.</p>
+        {% endif %}
+    </div>
+{% endblock %}

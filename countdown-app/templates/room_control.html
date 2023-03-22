@@ -10,7 +10,7 @@
     <div class="room-grid d-flex flex-wrap flex-column-reverse">
         {% for room in rooms %}
             <a href="/edit-room/{{ room.room_id }}" class="room-link m-1 p-1">
-                <div class="room m-0 p-1 bg-{{ room.color }} text-light">
+                <div class="room m-0 p-1 bg-{{ room.color }} text-light{{ ' room-off' if not room['live'] }}">
                     <h2 class="room-id">{{ room.room_id }}</h2>
                 </div>
             </a>
@@ -37,7 +37,7 @@
         </form>
       </div>
     </div>
-    <!-- Refresh page every 5 seconds -->
+    <!-- Refresh page every 10 seconds -->
     <script type="text/javascript">
         setTimeout(function () { location.reload(1); }, 10000);
     </script>

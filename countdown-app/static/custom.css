@@ -1,0 +1,328 @@
+/* Custom CSS */
+
+/* Global styles */
+@font-face {
+    font-family: 'komika_axisregular';
+    src: url("/static/komika_axis-webfont.woff2") format('woff2'),
+         url("/static/komika_axis-webfont.woff") format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+nav.navbar-beast {
+    background-color: #E3447C;
+}
+
+/* Home page */
+.round-overview {
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.round-overview input[type="text"] {
+    width: 8em;
+}
+
+.round-overview .hidden {
+    display: none;
+    visibility: hidden;
+}
+
+.round-overview .new {
+    background-color: #e1ffda;
+    display: none;
+}
+
+.round-overview .new .id {
+    visibility: hidden;
+}
+
+.room-colors .btn-off {
+    color: #000000;
+    border-color: #000000;
+}
+.room-colors .btn-check:checked+.btn-off,
+.room-colors .btn-off:hover {
+    color: #fff;
+    background-color: #000000;
+    border-color: #000000;
+}
+
+.room-colors .btn-white {
+    color: #000000;
+    border-color: #000000;
+}
+.room-colors .btn-check:checked+.btn-white,
+.room-colors .btn-white:hover {
+    color: #fff;
+    background-color: #000000;
+    border-color: #000000;
+}
+
+.room-colors .btn-red {
+    color: #ff0000;
+    border-color: #ff0000;
+}
+.room-colors .btn-check:checked+.btn-red,
+.room-colors .btn-red:hover {
+    color: #fff;
+    background-color: #ff0000;
+    border-color: #ff0000;
+}
+
+.room-colors .btn-green {
+    color: #008000;
+    border-color: #008000;
+}
+.room-colors .btn-check:checked+.btn-green,
+.room-colors .btn-green:hover {
+    color: #fff;
+    background-color: #008000;
+    border-color: #008000;
+}
+
+/* Tally pages */
+.tally-page,
+.tally-percentage-page {
+    height: 100%;
+    font-family: komika_axisregular, Arial;
+    color: #fff;
+}
+
+.tally-page {
+    font-size: 100px;
+    text-shadow: 0 0 10px #000;
+}
+
+.tally-page .results {
+    width: 100%;
+    text-align: center;
+    vertical-align: middle;
+    height: 100%;
+    font-weight: bold;
+}
+
+.tally-page .width-3 {
+    font-size: 80px;
+}
+
+.tally-page .results .value {
+    font-size: 150px;
+}
+
+.tally .execution-time {
+    color: #fff;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    opacity: 0.2;
+    width: 100%;
+    text-align: right;
+    padding: 5px;
+    margin: -50px;
+}
+
+.tally-percentage-page .bar {
+    background: #000; /* TODO Changeme */
+    position: fixed;
+    bottom: 0;
+    width: 20%;
+    text-align: center;
+    min-height: 10%;
+    max-height: 99%;
+}
+
+.tally-percentage-page .bar .value {
+    font-size: 18px;
+    margin: -55px 0 30px;
+}
+
+.tally-percentage-page .bar .value span {
+    padding: 6px 20px 12px;
+    border-radius: 30px;
+    background-color:rgba(0, 0, 0, 0.5);
+}
+
+.tally-percentage-page .bar .label {
+    font-size: 30px;
+}
+
+.tally-percentage-page .bar.value-0 { background-color: #48EB12; }
+.tally-percentage-page .bar.value-1 { background-color: #FF3B28; }
+.tally-percentage-page .bar.value-2 { background-color: #00A7FA; }
+
+.options-1 .bar.value-0 { left: 40%; max-height: 85%; }
+
+.options-2 .bar.value-0 { left: 25%; }
+.options-2 .bar.value-1 { left: 55%; }
+
+.options-3 .bar.value-0 { left: 15%; }
+.options-3 .bar.value-1 { left: 40%; }
+.options-3 .bar.value-2 { left: 65%; }
+
+/* Mobile layout is designed for display in the lower right jumbotron view. */
+@media only screen and (max-width: 990px) {
+    .tally-percentage-page .bar {
+        width: 15%;
+    }
+    .tally-percentage-page .bar .label,
+    .tally-percentage-page .bar .value {
+        display: none;
+    }
+    .options-1 .bar.value-0 { left: 42.5%; max-height: 85%; }
+
+    .options-2 .bar.value-0 { left: 32.5%; }
+    .options-2 .bar.value-1 { left: 52.5%; }
+
+    .options-3 .bar.value-0 { left: 22.5%; }
+    .options-3 .bar.value-1 { left: 42.5%; }
+    .options-3 .bar.value-2 { left: 62.5%; }
+}
+
+/* Room Pages */
+.room-grid {
+    width: 100%;
+    max-width: 1092px;
+    max-height: 900px;
+}
+
+.room-grid a.room-link {
+    width: 75px;
+    height: 75px;
+    text-decoration: none;
+}
+
+.room-grid a.room-link:hover .room {
+    border: 1px solid #000;
+    box-shadow: 0px 0px 2px #000;
+}
+
+.room-grid .room {
+    width: 75px;
+    height: 75px;
+}
+
+.room-grid .room {
+    background-color: #eeeeee;
+    border: 1px solid #eeeeee;
+}
+
+.room-grid .room-time-expired {
+    background-color: #ff0000;
+    border: 1px solid #ff0000;
+    color: #ffffff !important;
+}
+
+.room-grid .room-off {
+    opacity: 0.1 !important;
+    background-color: #ffffff !important;
+    border-color: #ffffff !important;
+    color: #333333 !important;
+}
+
+.room-grid .press-count {
+    opacity: .5;
+}
+
+.room-grid .press-data {
+    line-height: .9em;
+}
+
+.room-grid .room h2 {
+    font-size: 1.2em;
+    padding-top: 0;
+    margin: 0 0 10px;
+    line-height: .9em;
+}
+
+.room-grid .bg-red {
+    background-color: #ff0000;
+    border: 1px solid #ff0000;
+}
+.room-grid .bg-green {
+    background-color: #008000;
+    border: 1px solid #008000;
+}
+.room-grid .bg-blue {
+    background-color: #0000ff;
+    border: 1px solid #008000;
+}
+.room-grid .bg-white {
+    color: #000 !important;
+    background-color: #ffffff !important;
+    border: 1px solid #eeeeee;
+}
+.room-grid .bg-off {
+    color: #000 !important;
+    background-color: #ededed;
+    border: 1px solid #ededed;
+}
+
+.room-grid .bg-off h2 {
+    opacity: .25;
+}
+
+.room-grid .number-of-presses {
+    font-size: .2em;
+}
+
+.press-data .countdown {
+    margin-top: 0.5em;
+    font-size: 1.4em;
+}
+
+.press-data .countdown .timer {
+    margin-bottom: 0.2em;
+    font-family: ui-monospace,
+        Menlo, Monaco,
+        "Cascadia Mono", "Segoe UI Mono",
+        "Roboto Mono",
+        "Oxygen Mono",
+        "Ubuntu Monospace",
+        "Source Code Pro",
+        "Fira Mono",
+        "Droid Sans Mono",
+        "Courier New", monospace;
+}
+
+/* Edit Room Page */
+@media only screen and (max-width: 990px) {
+    .edit-room .w-50 {
+        width: 100% !important;
+    }
+}
+
+/* Test Mode Page */
+.latest-vote {
+    width: 100%;
+    background-color: #E3447C;
+    color: #fff;
+}
+
+.latest-vote table {
+    font-size: 100px;
+    font-family: komika_axisregular, Arial;
+    font-weight: bold;
+    text-shadow: 0 0 10px #000;
+    vertical-align: middle;
+    text-align: center;
+    width: 100%;
+}
+
+.latest-vote .value {
+    font-size: 150px;
+}
+
+.latest-vote .vote-metadata {
+    font-size: 20px;
+    opacity: .4;
+}
+
+/* Responsive styles */
+@media only screen and (max-width: 990px) {
+    .tally-page { font-size: 20px; }
+    .tally-page .width-3 { font-size: 20px; }
+    .tally-page .results .value { font-size: 50px; }
+
+    .latest-vote table { font-size: 35px; }
+    .latest-vote .value { font-size: 80px; }
+    .latest-vote .vote-metadata { font-size: 10px; }
+}
