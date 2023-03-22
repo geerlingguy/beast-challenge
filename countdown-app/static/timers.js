@@ -3,8 +3,8 @@ const pluralize = (count, noun, suffix = 's') =>
   `${count} ${noun}${count !== 1 ? suffix : ''}`;
 
 async function refresh_timer_data() {
-    // TODO: Change this before pushing to production!
-    let url = 'http://127.0.0.1:5000/live/room-timers';
+    // TODO: Make this URL more easily configurable.
+    let url = 'http://10.6.0.71:5000/live/room-timers';
     let timer_data = await (await fetch(url)).json();
 
     // Loop through all the timers, updating their current time.
