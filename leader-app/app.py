@@ -35,7 +35,10 @@ def get_db_connection():
 
 def get_live_round():
     query = "SELECT * FROM rounds WHERE live = 1 ORDER BY start_time DESC"
-    return sqlite_select_as_dict(query, 'one')
+    live_round = sqlite_select_as_dict(query, 'one')
+    if not live_round:
+        live_round = {}
+    return live_round
 
 
 def get_rooms():
@@ -213,6 +216,7 @@ def index():
             # Build dict of submitted round data.
             round_data = {}
             error_in_form_data = False
+            live_rounds = 0
             for key, value in request.form.items():
                 round_id = key[0]
                 actual_key = key[2:]
@@ -222,9 +226,19 @@ def index():
 
                 # Ensure total_participants is not 0.
                 if actual_key == 'total_participants' and value == '0':
-                    print('THIS SHOULD HIT')
                     flash('Round ' + round_id + ' must have at least 1 participant.')
                     error_in_form_data = True
+                elif actual_key == 'live':
+                    live_rounds += 1
+
+            # Ensure one round is live.
+            print(live_rounds)
+            if live_rounds == 0:
+                flash('Please make sure at least one round is Live and save again')
+                error_in_form_data = True
+            elif live_rounds > 1:
+                flash('Please make sure only one round is Live and save again')
+                error_in_form_data = True
 
             if not error_in_form_data:
                 conn = get_db_connection()
@@ -293,9 +307,10 @@ def index():
     # Also set up options for color selections.
     live_round = get_live_round()
     color_options = []
-    for key, value in live_round.items():
-        if key.startswith('value_') and value:
-            color_options.append(value)
+    if live_round:
+        for key, value in live_round.items():
+            if key.startswith('value_') and value:
+                color_options.append(value)
 
     # Render the page.
     return render_template('index.html', rounds=rounds, color_options=color_options, page='index')

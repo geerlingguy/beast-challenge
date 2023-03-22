@@ -267,6 +267,8 @@ nav.navbar-beast {
 
 /* Edit Room Page */
 @media only screen and (max-width: 990px) {
+    .vote-data .w-75,
+    .vote-data .w-50,
     .edit-room .w-50 {
         width: 100% !important;
     }
