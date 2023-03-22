@@ -200,13 +200,28 @@ def live_countdown_state():
 
 
 # Room timer status displayed on a web page.
-@app.route('/room-timers')
+@app.route('/room-timers', methods = ['GET', 'POST'])
 def room_timers():
+    rooms = get_rooms()
+
+    if request.method == 'POST':
+        if request.form.get('reset_all_timers'):
+            # Reset all rooms in the rooms table if they are 'live'.
+            for room in rooms:
+                if room['live']:
+                    # Reset the room's status in the rooms table.
+                    conn = get_db_connection()
+                    conn.execute("UPDATE rooms SET color = ?, time_expired = ? WHERE room_id = ?", ('off', 0, room['room_id']))
+                    conn.commit()
+                    conn.close()
+
+                    # Save a vote with the current time for this room.
+                    save_press(room['room_id'])
+
     countdown_state = get_countdown_state()
 
     # Build list of rooms and press data.
     rooms_with_press_data = []
-    rooms = get_rooms()
     for room in rooms:
         if room['live']:
             # Add a count of total presses submitted this round.

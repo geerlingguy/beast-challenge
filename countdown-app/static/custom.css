@@ -213,8 +213,11 @@ nav.navbar-beast {
 
 .room-grid .room-off {
     opacity: 0.1 !important;
+}
+
+.room-grid .room-off.room-time-expired {
     background-color: #ffffff !important;
-    border-color: #ffffff !important;
+    border: 1px solid #ffffff !important;
     color: #333333 !important;
 }
 

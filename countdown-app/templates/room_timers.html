@@ -21,6 +21,24 @@
             </a>
         {% endfor %}
     </div>
-    <!-- Refresh page every 10 seconds -->
+    <div class="accordion mt-3" id="accordionTimerReset">
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingTimerReset">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTimerReset" aria-expanded="true" aria-controls="collapseTimerReset">
+                Reset ALL Room Timers
+                </button>
+            </h2>
+        <div id="collapseTimerReset" class="accordion-collapse collapse" aria-labelledby="headingEndpoints" data-bs-parent="#headingTimerReset">
+            <div class="accordion-body room-colors">
+                <p class="card-text">Reset ALL rooms that are 'Live' and reset all their timers. Do this only if absolutely necessary. If you'd like to exclude a room from this reset, make sure to turn off the 'Live' switch on the Room Control page for the room.</p>
+                <p><strong>Warning</strong>: This operation is irreversible!</p>
+                <form method="post">
+                    <div class="d-inline-flex w-25">
+                        <button type="submit" class="btn btn-danger" name="reset_all_timers" value="1">Reset ALL Room Timers</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
     <script src="{{ url_for('static', filename='timers.js') }}"></script>
 {% endblock %}
