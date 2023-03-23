@@ -40,7 +40,7 @@ cur.execute("INSERT INTO rooms (room_id, mac_address, color, live) VALUES (?,?,?
 cur.execute("INSERT INTO rooms (room_id, mac_address, color, live) VALUES (?,?,?,?)", (25,"b8:27:eb:cd:09:34","off",0))
 cur.execute("INSERT INTO rooms (room_id, mac_address, color, live) VALUES (?,?,?,?)", (26,"b8:27:eb:cd:09:35","off",0))
 cur.execute("INSERT INTO rooms (room_id, mac_address, color, live) VALUES (?,?,?,?)", (27,"b8:27:eb:cd:09:36","off",0))
-cur.execute("INSERT INTO rooms (room_id, mac_address, color, live) VALUES (?,?,?,?)", (28,"b8:27:eb:cd:09:37","off",1))
+cur.execute("INSERT INTO rooms (room_id, mac_address, color, live) VALUES (?,?,?,?)", (28,"b8:27:eb:cd:09:37","off",0))
 cur.execute("INSERT INTO rooms (room_id, mac_address, color, live) VALUES (?,?,?,?)", (29,"b8:27:eb:cd:09:38","off",0))
 cur.execute("INSERT INTO rooms (room_id, mac_address, color, live) VALUES (?,?,?,?)", (30,"b8:27:eb:cd:09:39","off",0))
 cur.execute("INSERT INTO rooms (room_id, mac_address, color, live) VALUES (?,?,?,?)", (31,"b8:27:eb:cd:09:30","off",0))
