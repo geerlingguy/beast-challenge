@@ -75,7 +75,7 @@ cur.execute("INSERT INTO rooms (room_id, time_expired, live) VALUES (?,?,?)", (5
 cur.execute("INSERT INTO rooms (room_id, time_expired, live) VALUES (?,?,?)", (59,1,0))
 cur.execute("INSERT INTO rooms (room_id, time_expired, live) VALUES (?,?,?)", (60,1,0))
 cur.execute("INSERT INTO rooms (room_id, time_expired, live) VALUES (?,?,?)", (61,0,1))
-cur.execute("INSERT INTO rooms (room_id, time_expired, live) VALUES (?,?,?)", (62,0,1))
+cur.execute("INSERT INTO rooms (room_id, time_expired, live) VALUES (?,?,?)", (62,0,0))
 cur.execute("INSERT INTO rooms (room_id, time_expired, live) VALUES (?,?,?)", (63,1,0))
 cur.execute("INSERT INTO rooms (room_id, time_expired, live) VALUES (?,?,?)", (64,1,0))
 cur.execute("INSERT INTO rooms (room_id, time_expired, live) VALUES (?,?,?)", (65,0,1))
