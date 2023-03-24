@@ -218,8 +218,8 @@ def index():
             error_in_form_data = False
             live_rounds = 0
             for key, value in request.form.items():
-                round_id = key[0]
-                actual_key = key[2:]
+                round_id = key[:key.index("_")]
+                actual_key = key.split("_", 1)[1]
                 if round_id not in round_data:
                     round_data[round_id] = {'round_id': round_id}
                 round_data[round_id][actual_key] = value
