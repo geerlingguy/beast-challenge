@@ -34,6 +34,8 @@ room_id = config['room_id']
 button_map = {'Pin40': 0, 'Pin36': 1, 'Pin37': 2}
 vote_increment = 1
 
+print('Ready for button presses...' + '\n')
+
 
 def rising_edge_detect(event_source, event_value, event_time):
     global bounce_timer
