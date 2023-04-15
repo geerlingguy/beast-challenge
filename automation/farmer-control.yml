@@ -6,7 +6,7 @@
 
   vars:
     run_upgrades: false
-    github_access_token: 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
+    github_access_token: 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
 
     pip_install_packages:
       - name: docker
