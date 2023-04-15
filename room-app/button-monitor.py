@@ -32,6 +32,7 @@ bounce_limit = (100 * 1000000)  # 100ms converted to ns
 vote_url = config['server_url'] + '/vote'
 room_id = config['room_id']
 button_map = {'Pin40': 0, 'Pin36': 1, 'Pin37': 2}
+vote_increment = 1
 
 
 def rising_edge_detect(event_source, event_value, event_time):
@@ -60,12 +61,11 @@ def button_click(event_source, event_value, event_time):
         response = requests.post(vote_url, json=data)
         response.raise_for_status()
         if response.status_code == 201:
-            # print('Submitted vote data: ' + str(data))
-            # TODO: TEST THIS AND MAKE SURE IT ACTUALLY WORKS! Or not.
-            round_data = response.json()
-            if round_data['live_colors']:
-                color_options = ['green', 'red', 'blue']
-                set_color(color_options[data['value']])
+            # Print vote data and the ID of this vote.
+            print('Submitted vote data: ' + str(data))
+            print('Vote #' + str(vote_increment) + "\n")
+            vote_increment += 1
+            # (Removed live colors setup - don't commit this)
     except:
         print('Received an exception while voting. Continuing...')
 
