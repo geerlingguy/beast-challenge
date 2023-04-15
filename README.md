@@ -80,6 +80,22 @@ docker exec beast-game_leader_1 python3 init_db.py
 docker exec countdown-app_countdown_1 python3 init_db.py
 ```
 
+### Running the Apps on a Potato
+
+If you want to test things on a Potato running Armbian instead of a NUC running Ubuntu, you can do that too! Just change the `[farmer]` section inside `hosts.ini` to have a line for the Potato where you want the server running.
+
+Run the Ansible `farmer-control.yml` playbook, initialize the database, and away you go!
+
+If you want to plug an HDMI display into the Potato and use Firefox to browse the web UI, you can install the LXDE Desktop (Armbian doesn't come with a desktop environment out of the box):
+
+```
+sudo apt install lxdm vanilla-gnome-desktop firefox
+```
+
+If you get a popup asking you to select a default display manager, choose `gdm3` then continue. See [this post](https://forum.armbian.com/topic/5298-le-potato-general-topics/page/3/#comment-125790) for more info.
+
+> Note: During testing, there could be some things that don't behave as expected. For example, I had a bare Le Potato I was using to demo some button functionality, and it _didn't_ have the relay HAT attached. In that situation, the default setup with 'Live Colors' enabled for a round resulted in an exception, because the Potato couldn't find the I2C relay HAT to control! So... you might have to do a little Python spelunking if you want to do things out of the norm. In my case, I just had to disable 'Live Colors' in that test scenario.
+
 ## Room app
 
 The Room app (inside `room-app`) runs on every one of the 100x rooms where SBCs are set up to run the room controls.
