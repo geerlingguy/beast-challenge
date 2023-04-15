@@ -1,20 +1,21 @@
 ---
 services:
-  leader-frontend:
-    build:
-      context: leader-app-frontend
-      args:
-        - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
-    stop_signal: SIGINT
-    restart: always
-    volumes:
-      - ./leader-app-frontend:/app
-      - /app/node_modules
-      - /app/.next
-    ports:
-      - "3000:3000"
-    env_file:
-      - .env
+  # Disable leader frontend app for testing (it killed Le Potato).
+  # leader-frontend:
+  #   build:
+  #     context: leader-app-frontend
+  #     args:
+  #       - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
+  #   stop_signal: SIGINT
+  #   restart: always
+  #   volumes:
+  #     - ./leader-app-frontend:/app
+  #     - /app/node_modules
+  #     - /app/.next
+  #   ports:
+  #     - "3000:3000"
+  #   env_file:
+  #     - .env
 
   leader:
     build:
@@ -27,12 +28,3 @@ services:
       - FLASK_DATABASE_PATH=${FLASK_DATABASE_PATH}
     ports:
       - "5000:5000"
-
-  # Disable the Button Game for the time being...
-  # button:
-  #   build:
-  #     context: the-button
-  #   stop_signal: SIGINT
-  #   restart: always
-  #   ports:
-  #     - '5005:5000'
