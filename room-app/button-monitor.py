@@ -34,8 +34,6 @@ room_id = config['room_id']
 button_map = {'Pin40': 0, 'Pin36': 1, 'Pin37': 2}
 vote_increment = 1
 
-print('Ready for button presses...' + '\n')
-
 
 def rising_edge_detect(event_source, event_value, event_time):
     global bounce_timer
@@ -95,6 +93,8 @@ if __name__ == '__main__':
         led_offsets.append(led3.offset())
         led_lines = chip.get_lines(led_offsets)
         led_lines.request(consumer=sys.argv[0], type=gpiod.LINE_REQ_DIR_OUT)
+
+        print('Ready for button presses...' + '\n')
 
         try:
             while True:
