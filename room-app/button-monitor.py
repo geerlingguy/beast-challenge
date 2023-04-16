@@ -45,29 +45,23 @@ def rising_edge_detect(event_source, event_value, event_time):
     # or up side of the falling edge on this board. And we don't have time to
     # print our own debounce circuit, so this function is what you get.
     time_now = time.perf_counter_ns()
-    if ((time_now - bounce_timer) > bounce_limit):
-        button_click(event_source, event_value, event_time)
-        # Reset bounce timer so further noise won't be registered.
-        bounce_timer = time.perf_counter_ns()
+    print(time_now)
+    button_click(event_source, event_value, event_time)
 
 
 def button_click(event_source, event_value, event_time):
+    global vote_increment
+
     # Get value for button.
     for button_pin, vote_value in button_map.items():
         if button_pin in str(event_source):
             value = vote_value
-    data = {'room_id': room_id, 'value': value}
     try:
-        response = requests.post(vote_url, json=data)
-        response.raise_for_status()
-        if response.status_code == 201:
-            # Print vote data and the ID of this vote.
-            print('Submitted vote data: ' + str(data))
-            print('Vote #' + str(vote_increment) + "\n")
-            vote_increment += 1
-            # (Removed live colors setup - don't commit this)
-    except:
-        print('Received an exception while voting. Continuing...')
+        print('Vote #' + str(vote_increment) + "\n")
+        vote_increment += 1
+    except Exception as err:
+        print(Exception)
+        print(err)
 
 
 if __name__ == '__main__':
