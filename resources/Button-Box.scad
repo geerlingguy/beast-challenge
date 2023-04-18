@@ -1,8 +1,8 @@
-$fn=200;
+$fn=80;
 
 // Box dimensions.
 length = 220;
-width = 135;
+width = 100;
 height = 58;
 cornerRadius = 2.5;
 
@@ -29,9 +29,9 @@ translate([2.5, 2.5, 0]){
             cylinder(5,buttonHoleRadius,buttonHoleRadius);
         }
         // Cable hole.
-        translate([-5,80,30]) {
+        translate([-5,110,57]) {
             rotate([0,90,0]) {
-                cylinder(10,4,4);
+                cylinder(10,6,6);
             }
         }
     }
