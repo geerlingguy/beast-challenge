@@ -1,10 +1,20 @@
 # Beast Game
 
-A game control system for Mr. Beast.
+A game control system for the buttons and in-room LEDs in Mr. Beast's [Ages 1 - 100 Fight For $500,000](https://www.youtube.com/watch?v=FM7Z-Xq8Drc) video.
 
-Relevant resources:
+## Screenshots
 
-  - [Notion Doc](https://www.notion.so/networkchuck/Mr-Beast-Raspberry-Pi-Project-24b504815a63434fbceb8776cfc94d49?pvs=4)
+![Tally Page Example](/resources/screenshots/tally-example.png)
+
+![Bar Graph Example](/resources/screenshots/bar-graph-example.png)
+
+![Overview UI](/resources/screenshots/overview-example.png)
+
+![Room Votes UI](/resources/screenshots/room-votes-example.png)
+
+![Room Lights UI](/resources/screenshots/room-lights-example.png)
+
+![Test Mode UI](/resources/screenshots/test-mode-example.png)
 
 ## Leader app
 
@@ -178,22 +188,14 @@ If you need to switch from the `leader` app to `countdown` (or vice-versa), run 
 ansible-playbook switch-game-modes.yml -e game_mode=countdown
 ```
 
-## Screenshots
-
-![Tally Page Example](/resources/screenshots/tally-example.png)
-
-![Bar Graph Example](/resources/screenshots/bar-graph-example.png)
-
-![Overview UI](/resources/screenshots/overview-example.png)
-
-![Room Votes UI](/resources/screenshots/room-votes-example.png)
-
-![Room Lights UI](/resources/screenshots/room-lights-example.png)
-
-![Test Mode UI](/resources/screenshots/test-mode-example.png)
-
 ## Critical Test Scenarios
 
   1. Live round is open, accepts multiple votes, make sure multiple votes can be made per room.
   2. Live round is open, doesn't accept multiple votes, make sure only first vote is accepted.
   3. Live round is closed, make sure no votes are accepted.
+
+## License
+
+GPLv2 or later
+
+Any Mr. Beast graphics or trademarks are all rights reserved and must be removed if redistributing or re-using this software outside of the Mr. Beast organization.
