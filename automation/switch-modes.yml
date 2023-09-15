@@ -6,31 +6,31 @@
 
   vars:
     # MAKE SURE THE CODE IS UP TO DATE BEFORE RUNNING THIS PLAYBOOK!
-    game_mode: 'leader'  # either 'leader' or 'countdown'
+    challenge_mode: 'leader'  # either 'leader' or 'countdown'
 
   tasks:
     - name: Ensure the Leader environment is not running.
       community.docker.docker_compose:
-        project_src: /opt/beast-game
+        project_src: /opt/beast-challenge
         state: present
         stopped: true
-      when: game_mode == 'countdown'
+      when: challenge_mode == 'countdown'
 
     - name: Ensure the Countdown environment is not running.
       community.docker.docker_compose:
-        project_src: /opt/beast-game/countdown-app
+        project_src: /opt/beast-challenge/countdown-app
         state: present
         stopped: true
-      when: game_mode == 'leader'
+      when: challenge_mode == 'leader'
 
     - name: Ensure the Leader environment is running.
       community.docker.docker_compose:
-        project_src: /opt/beast-game
+        project_src: /opt/beast-challenge
         state: present
-      when: game_mode == 'leader'
+      when: challenge_mode == 'leader'
 
     - name: Ensure the Countdown environment is running.
       community.docker.docker_compose:
-        project_src: /opt/beast-game/countdown-app
+        project_src: /opt/beast-challenge/countdown-app
         state: present
-      when: game_mode == 'countdown'
+      when: challenge_mode == 'countdown'

@@ -18,15 +18,15 @@
 
     - name: Kill the leader app environment.
       community.docker.docker_compose:
-        project_src: /opt/beast-game
+        project_src: /opt/beast-challenge
         state: absent
 
     - name: Restart the leader app environment.
       community.docker.docker_compose:
-        project_src: /opt/beast-game
+        project_src: /opt/beast-challenge
         state: present
 
     - name: Re-initialize the leader database.
       community.docker.docker_container_exec:
-        container: beast-game_leader_1
+        container: beast-challenge_leader_1
         command: python3 init_db.py

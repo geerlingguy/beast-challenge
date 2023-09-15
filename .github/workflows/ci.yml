@@ -19,7 +19,7 @@ jobs:
         run: docker-compose --env-file .env.dev up -d
 
       - name: Initialize the database.
-        run: docker exec beast-game_leader_1 python3 init_db.py
+        run: docker exec beast-challenge_leader_1 python3 init_db.py
 
       - name: Test loading the overview page.
         run: >

@@ -1,6 +1,11 @@
-# Beast Game
+# Beast Challenge
 
-A game control system for the buttons and in-room LEDs in Mr. Beast's [Ages 1 - 100 Fight For $500,000](https://www.youtube.com/watch?v=FM7Z-Xq8Drc) video.
+A control system for the buttons and in-room LEDs in MrBeast's [Ages 1 - 100 Fight For $500,000](https://www.youtube.com/watch?v=FM7Z-Xq8Drc) video.
+
+See my video and blog post for more behind-the-scenes details:
+
+  - [How I almost broke MrBeast's 1-100 video](https://www.youtube.com/watch?v=wsV_C9cMf8A)
+  - [100 SBCs, Python Flask, and two NUCs for MrBeast](https://www.jeffgeerling.com/blog/2023/100-sbcs-python-flask-and-two-nucs-mrbeast)
 
 ## Screenshots
 
@@ -18,7 +23,7 @@ A game control system for the buttons and in-room LEDs in Mr. Beast's [Ages 1 - 
 
 ## Leader app
 
-The Leader app (inside `leader-app/`) runs on a central server that manages game state, provides output for a display, and provides controls to manage game state (e.g. starting/ending a round, advancing to a new round).
+The Leader app (inside `leader-app/`) runs on a central server that manages state, provides output for a display, and provides controls to manage state (e.g. starting/ending a round, advancing to a new round).
 
 The Leader app is a Flask app built with Python.
 
@@ -34,7 +39,7 @@ Visit the app at http://127.0.0.1:5000
 
 ## Countdown app
 
-The Countdown app (inside `countdown-app/`) runs on a central server that manages game state, provides output for a display, and provides controls to manage game state (e.g. setting the time interval for a button press, resetting timers).
+The Countdown app (inside `countdown-app/`) runs on a central server that manages state, provides output for a display, and provides controls to manage state (e.g. setting the time interval for a button press, resetting timers).
 
 The Countdown app is a Flask app built with Python.
 
@@ -84,7 +89,7 @@ To _manually_ initialize the database (e.g. the first time you run the applicati
 
 ```
 # For leader app
-docker exec beast-game_leader_1 python3 init_db.py
+docker exec beast-challenge_leader_1 python3 init_db.py
 
 # For countdown app
 docker exec countdown-app_countdown_1 python3 init_db.py
@@ -126,7 +131,7 @@ The 52Pi EP-0099 Relay is a 4-channel I2C-controlled relay HAT that works with L
 
 The relays used are `HK4100F-DC5V-SHG`, and according to the datasheet, they can only handle 3A at 30V, so they are not rated for the current we'll be drawing.
 
-Because of that, we will daisy chain another set of relays that are rated at 10A at 30V. For wiring diagrams, refer to the Notion doc. The relays are controlled via code in the Room app scripts.
+Because of that, we will daisy chain another set of relays that are rated at 10A at 30V. The relays are controlled via code in the Room app scripts.
 
 There is also a convenient `light.py` script which allows for setting a room color directly on the device, e.g. `./light.py white`. Note that you may need to temporarily stop the lighting control script: `sudo systemctl stop light-control`.
 
@@ -180,12 +185,12 @@ ansible-playbook farmer-control.yml
 
 You may need to add `-K` the first time the playbook runs, to supply the sudo password (since by default Ubuntu doesn't allow passwordless sudo).
 
-### Switching game modes
+### Switching modes
 
-If you need to switch from the `leader` app to `countdown` (or vice-versa), run the `switch-game-modes.yml` playbook. For example, if the `leader` app is running, and you would like to switch to `countdown`:
+If you need to switch from the `leader` app to `countdown` (or vice-versa), run the `switch-modes.yml` playbook. For example, if the `leader` app is running, and you would like to switch to `countdown`:
 
 ```
-ansible-playbook switch-game-modes.yml -e game_mode=countdown
+ansible-playbook switch-modes.yml -e challenge_mode=countdown
 ```
 
 ## Critical Test Scenarios
@@ -198,4 +203,4 @@ ansible-playbook switch-game-modes.yml -e game_mode=countdown
 
 GPLv2 or later
 
-Any Mr. Beast graphics or trademarks are all rights reserved and must be removed if redistributing or re-using this software outside of the Mr. Beast organization.
+Any MrBeast graphics or trademarks are all rights reserved and must be removed if redistributing or re-using this software outside of the MrBeast organization.

@@ -115,7 +115,7 @@ cur.execute("INSERT INTO rooms (room_id, time_expired, live) VALUES (?,?,?)", (9
 cur.execute("INSERT INTO rooms (room_id, time_expired, live) VALUES (?,?,?)", (99,1,0))
 cur.execute("INSERT INTO rooms (room_id, time_expired, live) VALUES (?,?,?)", (100,1,0))
 
-# Populate the game state table with values.
+# Populate the state table with values.
 time_now = datetime.utcnow().isoformat(' ', 'milliseconds')
 cur.execute("INSERT INTO countdown_state (last_change, time_seconds) VALUES (?,?)", (time_now, 3540))
 

@@ -22,7 +22,7 @@
   handlers:
     - name: reset environment
       community.docker.docker_compose:
-        project_src: /opt/beast-game
+        project_src: /opt/beast-challenge
         state: present
         build: true
         restarted: true
@@ -58,8 +58,8 @@
 
     - name: Clone project to the server.
       ansible.builtin.git:
-        repo: "https://geerlingguy:{{ github_access_token | urlencode }}@github.com/geerlingguy/beast-game.git"
-        dest: /opt/beast-game
+        repo: "https://geerlingguy:{{ github_access_token | urlencode }}@github.com/geerlingguy/beast-challenge.git"
+        dest: /opt/beast-challenge
       notify: reset environment
       tags: ['app']
 
@@ -71,7 +71,7 @@
 
     - name: Ensure the Docker environment is running.
       community.docker.docker_compose:
-        project_src: /opt/beast-game
+        project_src: /opt/beast-challenge
         state: present
       tags: ['app']
 

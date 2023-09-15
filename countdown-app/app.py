@@ -191,7 +191,7 @@ def test():
     return render_template('test.html', presses=presses, page='test')
 
 
-# Live current game state data.
+# Live current state data.
 @app.route('/live/countdown-state')
 @cross_origin()
 def live_countdown_state():
@@ -370,7 +370,7 @@ def vote():
         data = request.get_json()
         room_id = data['room_id']
 
-        # live_colors will never be enabled for countdown game.
+        # live_colors will never be enabled for countdown challenge.
         response_data = {'live_colors': 0}
 
         # Get the room's info.
