@@ -2,15 +2,13 @@
 
 A control system for the buttons and in-room LEDs in MrBeast's [Ages 1 - 100 Fight For $500,000](https://www.youtube.com/watch?v=FM7Z-Xq8Drc) video.
 
-There is a 'leader' app that runs on a 'farmer' node, which controls the challenge mechanics. It is used by those in control to monitor the current game state (e.g. how many rooms voted for a certain choice), and to configure new rounds.
-
-Then there are small apps that run on distributed computers (one per 'Room') to manage the physical state of the Room lights and accept input from a set of buttons placed inside.
+There's a 'leader' app that runs on a 'farmer' node, which controls the challenge mechanics. It manages state (e.g. how many rooms voted for a certain choice), allows round configuration. Then 'Room' apps running on individual room nodes manage the room's state and transmits button inputs to the leader.
 
 My [behind-the-scenes video about the 1-100 challenge](https://www.youtube.com/watch?v=wsV_C9cMf8A) contains a lot more detail:
 
 <p align="center"><a href="https://www.youtube.com/watch?v=wsV_C9cMf8A"><img alt="Jeff Geerling with a relay board on MrBeast set" src="/resources/jeff-mrbeast-set-relays.jpg" height="auto" width="610"></a></p>
 
-There is also a blog post about the project: [100 SBCs, Python Flask, and two NUCs for MrBeast](https://www.jeffgeerling.com/blog/2023/100-sbcs-python-flask-and-two-nucs-mrbeast).
+There's also a blog post: [100 SBCs, Python Flask, and two NUCs for MrBeast](https://www.jeffgeerling.com/blog/2023/100-sbcs-python-flask-and-two-nucs-mrbeast).
 
 ## Screenshots
 
