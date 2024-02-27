@@ -4,7 +4,7 @@ A control system for the buttons and in-room LEDs in MrBeast's [Ages 1 - 100 Fig
 
 My [behind-the-scenes video about the 1-100 challenge](https://www.youtube.com/watch?v=wsV_C9cMf8A) contains a lot more detail:
 
-TODO: Image linked to video...
+<p align="center"><a href="https://www.youtube.com/watch?v=wsV_C9cMf8A"><img alt="Jeff Geerling with a relay board on MrBeast set" href="/resources/jeff-mrbeast-set-relays.jpg" height="auto" width="610"></a></p>
 
 There is also a blog post about the project: [100 SBCs, Python Flask, and two NUCs for MrBeast](https://www.jeffgeerling.com/blog/2023/100-sbcs-python-flask-and-two-nucs-mrbeast).
 
@@ -204,4 +204,4 @@ ansible-playbook switch-modes.yml -e challenge_mode=countdown
 
 GPLv2 or later
 
-Any MrBeast graphics or trademarks are all rights reserved and must be removed if redistributing or re-using this software outside of the MrBeast organization.
+Any MrBeast trademarks and references are all rights reserved and must be removed if redistributing or re-using this software outside of the MrBeast organization.
