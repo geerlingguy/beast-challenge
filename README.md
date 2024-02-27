@@ -2,10 +2,11 @@
 
 A control system for the buttons and in-room LEDs in MrBeast's [Ages 1 - 100 Fight For $500,000](https://www.youtube.com/watch?v=FM7Z-Xq8Drc) video.
 
-See my video and blog post for more behind-the-scenes details:
+My [behind-the-scenes video about the 1-100 challenge](https://www.youtube.com/watch?v=wsV_C9cMf8A) contains a lot more detail:
 
-  - [How I almost broke MrBeast's 1-100 video](https://www.youtube.com/watch?v=wsV_C9cMf8A)
-  - [100 SBCs, Python Flask, and two NUCs for MrBeast](https://www.jeffgeerling.com/blog/2023/100-sbcs-python-flask-and-two-nucs-mrbeast)
+TODO: Image linked to video...
+
+There is also a blog post about the project: [100 SBCs, Python Flask, and two NUCs for MrBeast](https://www.jeffgeerling.com/blog/2023/100-sbcs-python-flask-and-two-nucs-mrbeast).
 
 ## Screenshots
 
@@ -109,7 +110,7 @@ sudo apt install lxdm vanilla-gnome-desktop firefox
 
 If you get a popup asking you to select a default display manager, choose `gdm3` then continue. See [this post](https://forum.armbian.com/topic/5298-le-potato-general-topics/page/3/#comment-125790) for more info.
 
-> Note: During testing, there could be some things that don't behave as expected. For example, I had a bare Le Potato I was using to demo some button functionality, and it _didn't_ have the relay HAT attached. In that situation, the default setup with 'Live Colors' enabled for a round resulted in an exception, because the Potato couldn't find the I2C relay HAT to control! So... you might have to do a little Python spelunking if you want to do things out of the norm. In my case, I just had to disable 'Live Colors' in that test scenario.
+> Note: During testing, some things need tweaking depending on your setup. For example, one Le Potato I was using to demo some button functionality didn't have the relay HAT attached. The default 'Live Colors' configuration resulted in an exception, because the Potato couldn't find the I2C relay HAT to control! So... you might have to do a little Python spelunking if you want to do things out of the norm. In my case, I just had to disable 'Live Colors' in that test round.
 
 ## Room app
 
@@ -124,14 +125,14 @@ To deploy the app, see the _Automation for Controlling the Potatoes_ section bel
 
 ### 52Pi EP-0099 Relay Considerations
 
-The 52Pi EP-0099 Relay is a 4-channel I2C-controlled relay HAT that works with Le Potato. We bought it for two reasons:
+The [52Pi EP-0099 Relay](https://amzn.to/49wu65O) is a 4-channel I2C-controlled relay HAT that works with Le Potato. We bought it for two reasons:
 
   1. It is easy to install (as a HAT)
   2. It was available on short notice
 
-The relays used are `HK4100F-DC5V-SHG`, and according to the datasheet, they can only handle 3A at 30V, so they are not rated for the current we'll be drawing.
+The relays used are [`HK4100F-DC5V-SHG`](https://www.lcsc.com/product-detail/Power-Relays_Ningbo-Keke-New-Era-Appliance-HK4100F-DC5V-SHG_C12072.html), and according to the datasheet, they can only handle 3A at 30V, so they are not rated for the current we'll be drawing.
 
-Because of that, we will daisy chain another set of relays that are rated at 10A at 30V. The relays are controlled via code in the Room app scripts.
+Because of that, we daisy chained another set of relays rated at 10A at 30V. The relays are controlled via code in the Room app scripts.
 
 There is also a convenient `light.py` script which allows for setting a room color directly on the device, e.g. `./light.py white`. Note that you may need to temporarily stop the lighting control script: `sudo systemctl stop light-control`.
 

@@ -1,22 +1,5 @@
 ---
 services:
-  # Disable leader frontend app for testing (it killed Le Potato).
-  # leader-frontend:
-  #   build:
-  #     context: leader-app-frontend
-  #     args:
-  #       - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
-  #   stop_signal: SIGINT
-  #   restart: always
-  #   volumes:
-  #     - ./leader-app-frontend:/app
-  #     - /app/node_modules
-  #     - /app/.next
-  #   ports:
-  #     - "3000:3000"
-  #   env_file:
-  #     - .env
-
   leader:
     build:
       context: leader-app
