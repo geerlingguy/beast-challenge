@@ -204,6 +204,8 @@ ansible-playbook switch-modes.yml -e challenge_mode=countdown
 
 ## License
 
-GPLv2 or later
+GPLv3 or later (as of version 4.0.0)
+
+All prior versions are not released under an open source license and are provided for historical context only.
 
 Any MrBeast trademarks and references are all rights reserved and must be removed if redistributing or re-using this software outside of the MrBeast organization.
