@@ -12,15 +12,15 @@ There's also a blog post: [100 SBCs, Python Flask, and two NUCs for MrBeast](htt
 
 ## Screenshots
 
-![Tally Page Example](/resources/screenshots/tally-example.png)
-
-![Bar Graph Example](/resources/screenshots/bar-graph-example.png)
-
 ![Overview UI](/resources/screenshots/overview-example.png)
 
 ![Room Votes UI](/resources/screenshots/room-votes-example.png)
 
 ![Room Lights UI](/resources/screenshots/room-lights-example.png)
+
+![Tally Page Example](/resources/screenshots/tally-example.png)
+
+![Bar Graph Example](/resources/screenshots/bar-graph-example.png)
 
 ![Test Mode UI](/resources/screenshots/test-mode-example.png)
 
